@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./src/css/base.css" />
+    <link rel="stylesheet" href="./src/css/logo.css" />
+    <link rel="stylesheet" href="./src/css/top.css" />
+    <link rel="stylesheet" href="./src/css/game.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CountryChain</title>
+    <script type="module" src="./src/ts/main.ts" defer></script>
+    <script type="module" src="./src/ts/logo.ts" defer></script>
+  </head>
+
+  <body>
+    <div class="modal" id="modal-logo">
+      <div class="logo-container">
+        <div class="logo-image-container">
+          <img src="./src/assets/images/logo.svg" class="logo-image">
+        </div>
+        <div class="logo-text-container">
+          <p id="logo-text-top"></p>
+          <p id="logo-text-bottom"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="modal-top"></div>
+
+    <div class="modal" id="modal-settings"></div>
+
+    <div class="modal" id="modal-about"></div>
+
+    <div class="modal" id="modal-game">
+      <header>
+        <div class="title" data-translation="title">国境しりとり</div>
+        <div class="button-container">
+          <button class="about-button">?</button>
+          <!-- topはここにsettingsも入れる -->
+        </div>
+      </header>
+      <div class="game-chat-container">
+        <div class="game-chat-log" id="gameChatLog">
+          <!-- CPU初期メッセージ -->
+        </div>
+
+        <div class="game-input-container">
+          <input type="text" class="game-user-input" id="game-user-input" placeholder="メッセージを入力..." oninput="showSuggestions()" spellcheck="false">
+          <button class="game-send-button" onclick="sendMessage()">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+            </svg>
+          </button>
+
+          <div class="game-suggestions-container" id="game-suggestions-container">
+            <!-- 変換候補 -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
