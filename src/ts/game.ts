@@ -1,5 +1,6 @@
 // game.ts
 import { settingsState } from './modules/userState';
+import { getTranslatedText } from './modules/translation'
 
 interface Country {
   enName: string;
@@ -52,15 +53,18 @@ async function startNewGame() {
 
   const borderData = await loadCountryBorderData();
   if (borderData) {
-    const countryName = (borderData as any)[currentCountry].jaName;
-    addMessage(`ゲームを開始します。最初の国は${countryName}です。`, 'system');
+    const countryData = (borderData as any)[currentCountry];
+    const countryName = settingsState.lang === 'ja' 
+      ? countryData.jaName 
+      : countryData.enName;
+    addMessage('gameStart', [countryName], 'system');
   } else {
     console.error("国境データの読み込みに失敗しました。");
   }
   computerTurn();
 }
 
-// これはゲーム開始ボタンに設定する
+// これはゲーム開始ボタン / restart buttonに設定する
 // 後で書く
 startNewGame();
 
@@ -93,7 +97,7 @@ async function getRandomCountry() {
   return randomCode;
 }
 
-function addMessage(text: string, sender: string) {
+async function addMessage(textKey: string | null, params: string[], sender: string) {
   const chatLog = document.getElementById('game-chat-log') as HTMLElement;
   if (!chatLog) {
     console.error('chat log element not found');
@@ -102,6 +106,12 @@ function addMessage(text: string, sender: string) {
   const messageDiv = document.createElement('div');
   messageDiv.className = `game-message ${sender}-message`;
 
+  let text;
+  if (textKey) {
+    text = await getTranslatedText(textKey, params); // paramsはnullだめ！
+  } else {
+    text = params[0]
+  }
   const contentDiv = document.createElement('div');
   contentDiv.className = 'game-message-content';
   contentDiv.textContent = text;
@@ -131,12 +141,14 @@ async function computerTurn() {
     currentCountry = nextCountry;
     usedCountries.add(currentCountry);
 
-    const countryName = borderData[currentCountry].jaName;
-    addMessage(`コンピュータ: ${countryName}`, 'cpu');
+    const countryName = settingsState.lang === 'ja'
+      ? borderData[currentCountry].jaName
+      : borderData[currentCountry].enName;
+    addMessage('computerTurn', [countryName], 'cpu');
 
     isPlayerTurn = true;
   } else {
-    addMessage('コンピュータが言える国がなくなりました。プレイヤーの勝利です！', 'system');
+    addMessage('gameWin', [], 'system');
   }
 }
 
@@ -151,7 +163,7 @@ async function playerTurn(answer: string) {
   });
 
   if (!answerCode) {
-    addMessage(`${answer}はリストに存在しません。変換候補を使用してもう一度試してください。`, 'system');
+    addMessage('gameNotInList', [answer], 'system');
     return;
   }
 
@@ -163,18 +175,18 @@ async function playerTurn(answer: string) {
   // ここからミス判定
   if (usedCountries.has(answerCode)) {
     mistakes++;
-    addMessage(`${answer}は既に使用されています。`, 'system');
+    addMessage('gameUsed', [answer], 'system');
     if (mistakes >= 2) {
-      addMessage(`2回連続で間違えたためゲームオーバーです！`, 'system');
+      addMessage('gameOver', [], 'system');
       // ゲームオーバー処理
       return;
     }
     return;
   } else if (!countryList[currentCountry].neighbors.includes(answerCode)) {
     mistakes++;
-    addMessage(`${answer}は${currentCountryName}に隣接していません。`, 'system');
+    addMessage('gameNotNeighbor', [answer, currentCountryName], 'system');
     if (mistakes >= 2) {
-      addMessage(`2回連続で間違えたためゲームオーバーです！`, 'system');
+      addMessage('gameOver', [], 'system');
       // ゲームオーバー処理
       return;
     }
@@ -194,7 +206,7 @@ function sendMessage() {
   if (message !== '') {
     message = message[0].toUpperCase() + message.slice(1);
 
-    addMessage(message, 'user');
+    addMessage(null, [message], 'user');
     playerTurn(message);
     userInput.value = '';
     // 変換候補を閉じる
