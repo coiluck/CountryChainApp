@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CountryChain</title>
     <script type="module" src="./src/ts/main.ts" defer></script>
-    <script type="module" src="./src/ts/logo.ts" defer></script>
+    <script type="module" src="./src/ts/logo.ts"></script>
+    <script type="module" src="./src/ts/game.ts" defer></script>
   </head>
 
   <body>
@@ -40,13 +41,13 @@
         </div>
       </header>
       <div class="game-chat-container">
-        <div class="game-chat-log" id="gameChatLog">
+        <div class="game-chat-log" id="game-chat-log">
           <!-- CPU初期メッセージ -->
         </div>
 
         <div class="game-input-container">
-          <input type="text" class="game-user-input" id="game-user-input" placeholder="メッセージを入力..." oninput="showSuggestions()" spellcheck="false">
-          <button class="game-send-button" onclick="sendMessage()">
+          <input type="text" class="game-user-input" id="game-user-input" placeholder="メッセージを入力..." spellcheck="false">
+          <button class="game-send-button" id="game-send-button">
             <svg class="icon" viewBox="0 0 24 24">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
             </svg>

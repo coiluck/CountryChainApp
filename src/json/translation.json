@@ -2,5 +2,21 @@
   "title": {
     "ja": "CountryChain",
     "en": "国境しりとり"
+  },
+  "gameUsed": {
+    "ja": "は既に使用されています。",
+    "en": "is already used."
+  },
+  "gameNotNeighbor": {
+    "ja": "は${currentCountryName}に隣接していません。",
+    "en": "is not a neighbor of ${currentCountryName}."
+  },
+  "gameOver": {
+    "ja": "2回連続で間違えたためゲームオーバーです！",
+    "en": "2 times in a row, the game is over!"
+  },
+  "gameWin": {
+    "ja": "コンピュータが言える国がなくなりました。プレイヤーの勝利です！",
+    "en": "The computer has no more countries to say. Player wins!"
   }
 }
