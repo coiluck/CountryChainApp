@@ -1,5 +1,5 @@
 #modal-top {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   height: 100vh;
   background-color: var(--light-bg);

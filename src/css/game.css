@@ -1,5 +1,5 @@
 #modal-game {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   height: 100svh;
   background-color: var(--light-bg);

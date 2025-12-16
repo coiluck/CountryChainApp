@@ -1,5 +1,6 @@
 // logo.js
 import { changeModal } from './modules/changeModal';
+import { initEarthMap } from './top';
 
 document.addEventListener('DOMContentLoaded', () => {
   changeModal('logo', null, 500);
@@ -31,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalAnimationTime = (textTop.length * animationDelay + 0.2) + (textBottom.length - 1) * animationDelay + 0.6;
     setTimeout(() => {
       changeModal('top', null, 500, true);
+      setTimeout(() => {
+        initEarthMap(); // modalが表示された後に開始しないといけない
+      }, 500);
     }, totalAnimationTime * 1000 + 500); // 500msは待機時間
   }, 500);
 });

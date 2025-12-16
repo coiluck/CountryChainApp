@@ -36,7 +36,7 @@ let isPlayerTurn: boolean = false;
 let mistakes: number = 0;
 let countryCodes: string[] = [];
 
-async function startNewGame() {
+export async function startNewGame() {
   // チャットログを消去
   const chatLog = document.getElementById('game-chat-log') as HTMLElement;
   if (chatLog) {
@@ -63,10 +63,6 @@ async function startNewGame() {
   }
   computerTurn();
 }
-
-// これはゲーム開始ボタン / restart buttonに設定する
-// 後で書く
-startNewGame();
 
 async function makeCountryData() {
   const countryBorder = await loadCountryBorderData();
@@ -343,9 +339,9 @@ async function renderMap(container: HTMLElement, coloredCountries: string[], las
     .attr("stroke", "black")
     .attr("stroke-width", 1)
     .attr("fill", (d: any) => getColor(d.id));
-  
+
   // 履歴にある or 現在の国 or ゲームオーバー国だけをフィルタリング
-  /* const missingTargets = Object.keys(MISSING_COORDS).filter(id => 
+  /* const missingTargets = Object.keys(MISSING_COORDS).filter(id =>
     id === currentCountry || id === lastCountry || coloredCountries.includes(id)
   ); */
   const missingTargets = Object.keys(MISSING_COORDS)

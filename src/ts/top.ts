@@ -17,8 +17,13 @@ document.querySelectorAll('.button-container button').forEach(button => {
   });
 });
 
+import { startNewGame } from './game';
+
 document.getElementById('top-start-button')?.addEventListener('click', () => {
   changeModal('game', null, 500, true);
+  setTimeout(() => {
+    startNewGame(); // modalが表示された後に開始しないといけない
+  }, 500);
 });
 
 
@@ -71,7 +76,7 @@ export const initEarthMap = () => {
     '/low_poly_planet_earth.glb',
     (gltf) => {
       const model = gltf.scene;
-      
+
       // モデルの位置調整
       const box = new THREE.Box3().setFromObject(model);
       const center = box.getCenter(new THREE.Vector3());
@@ -101,7 +106,7 @@ export const initEarthMap = () => {
     if (!container) return;
     const newWidth = container.clientWidth;
     const newHeight = container.clientHeight;
-    
+
     camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);
@@ -116,5 +121,3 @@ export const initEarthMap = () => {
     renderer.dispose();
   };
 };
-
-initEarthMap();
