@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const totalAnimationTime = (textTop.length * animationDelay + 0.2) + (textBottom.length - 1) * animationDelay + 0.6;
     setTimeout(() => {
-      changeModal('game', null, 500, true);
+      changeModal('top', null, 500, true);
     }, totalAnimationTime * 1000 + 500); // 500msは待機時間
   }, 500);
 });

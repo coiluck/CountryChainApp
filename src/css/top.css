@@ -1,3 +1,10 @@
+#modal-top {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--light-bg);
+}
+
 header {
   display: flex;
   flex-direction: row;
@@ -31,8 +38,64 @@ header {
   font-size: 1.2rem;
   font-weight: bold;
   border: none;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 .button-container button:hover {
+  background-color: var(--secondary-color);
+}
+.button-container button.settings-button {
+  mask-image: url('../assets/images/settings.svg');
+  mask-size: cover;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
+.button-container button.achievements-button {
+  mask-image: url('../assets/images/achievement.svg');
+  mask-size: cover;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
+.button-container button.achievements-button:hover {
+  transform: rotate(-15deg);
+}
+.button-container button.settings-button:hover {
+  transform: rotate(30deg);
+}
+
+
+
+.top-main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.top-life-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#top-map-container {
+  flex: 1;
+}
+
+.top-start-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.top-start-container button {
+  width: 70%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  transition: all 0.3s ease;
+}
+.top-start-container button:hover {
   background-color: var(--secondary-color);
 }

@@ -10,6 +10,8 @@
     <title>CountryChain</title>
     <script type="module" src="./src/ts/main.ts" defer></script>
     <script type="module" src="./src/ts/logo.ts"></script>
+    <script type="module" src="./src/ts/top.ts"></script>
+    <script type="module" src="./src/ts/settings.ts"></script>
     <script type="module" src="./src/ts/game.ts" defer></script>
   </head>
 
@@ -26,11 +28,29 @@
       </div>
     </div>
 
-    <div class="modal" id="modal-top"></div>
+    <div class="modal" id="modal-top">
+      <header>
+        <div class="title" data-translation="title">国境しりとり</div>
+        <div class="button-container">
+          <button class="achievements-button"></button>
+          <button class="about-button">?</button>
+          <button class="settings-button"></button>
+        </div>
+      </header>
+      <div class="top-main-container">
+        <div id="top-life-container"></div>
+        <div id="top-map-container"></div>
+        <div class="top-start-container">
+          <button id="top-start-button">Start Game</button>
+        </div>
+      </div>
+    </div>
 
-    <div class="modal" id="modal-settings"></div>
+    <div class="sub-modal" id="modal-achievements"></div>
 
-    <div class="modal" id="modal-about"></div>
+    <div class="sub-modal" id="modal-settings"></div>
+
+    <div class="sub-modal" id="modal-about"></div>
 
     <div class="modal" id="modal-game">
       <header>

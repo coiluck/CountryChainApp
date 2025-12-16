@@ -33,17 +33,15 @@ export function changeModal(modalName: string, scrollContainer: string | null, d
 // 上から重ねるタイプのmodal表示
 export function showModal(modalName: string, scrollContainer: string | null, isFlex: boolean = false) {
   const targetModal = document.getElementById(`modal-${modalName}`);
+  if (!targetModal) return;
 
-  if (targetModal) {
-    if (!isFlex){
-      targetModal.style.display = 'block';
-    } else {
-      targetModal.style.display = 'flex';
-    }
-    targetModal.style.zIndex = '100';
-    targetModal.classList.remove('fade-out');
-    targetModal.classList.add('fade-in');
+  if (!isFlex){
+    targetModal.style.display = 'block';
+  } else {
+    targetModal.style.display = 'flex';
   }
+  targetModal.classList.remove('fade-out');
+  targetModal.classList.add('fade-in');
 
   if (scrollContainer) {
     const container = document.querySelector(scrollContainer) as HTMLElement;
@@ -51,17 +49,27 @@ export function showModal(modalName: string, scrollContainer: string | null, isF
       container.scrollTop = 0;
     }
   }
+
+  const overlay = document.createElement('div');
+  overlay.id = 'sub-modal-overlay';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', () => {
+    closeModal(targetModal);
+  });
 }
-export function closeModal(modalName: string) {
-  const targetModal = document.getElementById(`modal-${modalName}`);
 
-  if (targetModal) {
-    targetModal.classList.remove('fade-in');
-    targetModal.classList.add('fade-out');
-
-    setTimeout(() => {
-      targetModal.style.display = 'none';
-      targetModal.style.zIndex = '0';
-    }, 500);
+function closeModal(targetModal: HTMLElement) {
+  targetModal.classList.remove('fade-in');
+  targetModal.classList.add('fade-out');
+  const overlay = document.getElementById('sub-modal-overlay');
+  if (overlay) {
+    overlay.classList.remove('fade-in');
+    overlay.classList.add('fade-out');
   }
+  setTimeout(() => {
+    targetModal.style.display = 'none';
+    if (overlay) {
+      document.body.removeChild(overlay);
+    }
+  }, 500);
 }

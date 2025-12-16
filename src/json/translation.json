@@ -1,7 +1,11 @@
 {
   "title": {
-    "ja": "CountryChain",
+    "ja": "国境しりとり",
     "en": "CountryChain"
+  },
+  "topStartGame": {
+    "ja": "ゲーム開始",
+    "en": "Start Game"
   },
   "gameStart": {
     "ja": "ゲームを開始します。最初の国は${countryName}です。",
