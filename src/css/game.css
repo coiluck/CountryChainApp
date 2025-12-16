@@ -18,6 +18,8 @@
 }
 .game-chat-log {
   flex: 1;
+  flex-direction: column;
+  gap: 15px;
   padding: 20px;
   font-size: .8rem;
   border-bottom: 1px solid var(--border-color);
@@ -30,7 +32,6 @@
 /* massege */
 .game-message {
   display: flex;
-  margin-bottom: 15px;
   font-size: .9rem;
 }
 .game-message.user-message {
@@ -66,7 +67,10 @@
 }
 
 /* map */
-
+.game-chat-log svg {
+  display: block;
+  margin: 0 auto;
+}
 
 /* input */
 .game-input-container {

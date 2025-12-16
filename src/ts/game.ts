@@ -54,8 +54,8 @@ async function startNewGame() {
   const borderData = await loadCountryBorderData();
   if (borderData) {
     const countryData = (borderData as any)[currentCountry];
-    const countryName = settingsState.lang === 'ja' 
-      ? countryData.jaName 
+    const countryName = settingsState.lang === 'ja'
+      ? countryData.jaName
       : countryData.enName;
     addMessage('gameStart', [countryName], 'system');
   } else {
@@ -145,6 +145,8 @@ async function computerTurn() {
       ? borderData[currentCountry].jaName
       : borderData[currentCountry].enName;
     addMessage('computerTurn', [countryName], 'cpu');
+
+    renderMap(document.getElementById('game-chat-log') as HTMLElement, Array.from(usedCountries), currentCountry);
 
     isPlayerTurn = true;
   } else {
@@ -266,6 +268,89 @@ function showSuggestions() {
   } else {
     // 入力がない
     suggestionsContainer.style.display = 'none';
+  }
+}
+
+import * as d3 from 'd3';
+
+interface GeoJSONData {
+  type: "FeatureCollection";
+  features: any[];
+}
+
+async function renderMap(container: HTMLElement, coloredCountries: string[], lastCountry: string | null) {
+  const data = await loadCountryMapData() as GeoJSONData;
+
+  const width = container.clientWidth || 800;
+  const height = container.clientHeight || 500;
+
+  // 3. SVG要素の作成
+  const svg = d3.select(container)
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .style("background-color", "white")
+    .style("display", "block"); // 余白除去用
+
+  // 4. 投影法の設定（コンテナに合わせて自動調整）
+  const projection = d3.geoMercator()
+    .fitSize([width, height], data);
+
+  const pathGenerator = d3.geoPath().projection(projection);
+
+  const mapGroup = svg.append("g").attr("id", "map-group");
+
+  // 地図の描画と色塗り
+  mapGroup.selectAll("path")
+    .data(data.features)
+    .enter()
+    .append("path")
+    .attr("d", pathGenerator)
+    .attr("id", (d: any) => d.id)
+    .attr("stroke", "black")
+    .attr("stroke-width", 1)
+    .attr("fill", (d: any) => {
+      const id = d.id;
+
+      // ゲーム終了時
+      if (lastCountry !== null) {
+        if (id === lastCountry) return "#FF4444";
+        if (coloredCountries.includes(id)) return "#cccccc";
+        return "white";
+      }
+
+      // ゲーム中
+      if (id === currentCountry) return "#FFD700";
+      if (coloredCountries.includes(id)) return "#87CEEB";
+      return "white";
+    });
+
+  if (settingsState.difficulty === 'easy' && lastCountry !== null) {
+    // zoom設定
+    let transform = d3.zoomIdentity; // デフォルトは1
+    const targetFeature = data.features.find((f: any) => f.id === currentCountry);
+
+    if (targetFeature) {
+      const bounds = pathGenerator.bounds(targetFeature);
+      const dx = bounds[1][0] - bounds[0][0];
+      const dy = bounds[1][1] - bounds[0][1];
+      const x = (bounds[0][0] + bounds[1][0]) / 2;
+      const y = (bounds[0][1] + bounds[1][1]) / 2;
+      const calcedScale = 0.6 / Math.max(dx / width, dy / height);
+      const MAX_ZOOM = 8;
+      const scale = Math.min(calcedScale, MAX_ZOOM);
+      console.log(scale)
+      const translate = [width / 2 - scale * x, height / 2 - scale * y];
+      transform = d3.zoomIdentity
+        .translate(translate[0], translate[1])
+        .scale(scale);
+    }
+    mapGroup.transition().duration(750)
+      .attr("transform", transform.toString());
+
+    mapGroup.selectAll("path")
+      .attr("stroke", "black")
+      .attr("stroke-width", 1 / transform.k);
   }
 }
 
