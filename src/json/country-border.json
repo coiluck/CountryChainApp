@@ -183,7 +183,7 @@
     "enName": "Canada",
     "jaName": "カナダ",
     "jaKana": "かなだ",
-    "neighbors": ["USA"]
+    "neighbors": ["USA", "GRL"]
   },
   "CPV": {
     "enName": "Cape Verde",
@@ -317,12 +317,6 @@
     "jaKana": "せきどうぎにあ",
     "neighbors": ["CMR", "GAB"]
   },
-  "GRL": {
-    "enName": "Greenland",
-    "jaName": "グリーンランド",
-    "jaKana": "ぐりーんらんど",
-    "neighbors": ["CAN"]
-  },
   "ERI": {
     "enName": "Eritrea",
     "jaName": "エリトリア",
@@ -406,6 +400,12 @@
     "jaName": "ギリシャ",
     "jaKana": "ぎりしゃ",
     "neighbors": ["ALB", "MKD", "BGR", "TUR"]
+  },
+  "GRL": {
+    "enName": "Greenland",
+    "jaName": "グリーンランド",
+    "jaKana": "ぐりーんらんど",
+    "neighbors": ["CAN"]
   },
   "GRD": {
     "enName": "Grenada",
@@ -639,7 +639,7 @@
     "enName": "Malaysia",
     "jaName": "マレーシア",
     "jaKana": "まれーしあ",
-    "neighbors": ["THA", "IDN", "BRN"]
+    "neighbors": ["THA", "IDN", "BRN", "SGP"]
   },
   "MDV": {
     "enName": "Maldives",
@@ -951,7 +951,7 @@
     "enName": "Singapore",
     "jaName": "シンガポール",
     "jaKana": "しんがぽーる",
-    "neighbors": []
+    "neighbors": ["MYS"]
   },
   "SVK": {
     "enName": "Slovakia",

@@ -31,7 +31,7 @@ async function loadCountryBorderData() {
 
 // game state
 let currentCountry: string = '';
-let usedCountries = new Set();
+let usedCountries = new Set<string>();
 let isPlayerTurn: boolean = false;
 let mistakes: number = 0;
 let countryCodes: string[] = [];
@@ -114,7 +114,7 @@ async function addMessage(textKey: string | null, params: string[], sender: stri
   }
   const contentDiv = document.createElement('div');
   contentDiv.className = 'game-message-content';
-  contentDiv.textContent = text;
+  contentDiv.textContent = text || '';
 
   messageDiv.appendChild(contentDiv);
   chatLog.appendChild(messageDiv);
@@ -141,12 +141,12 @@ async function computerTurn() {
     currentCountry = nextCountry;
     usedCountries.add(currentCountry);
 
+    await renderMap(document.getElementById('game-chat-log') as HTMLElement, Array.from(usedCountries), currentCountry);
+
     const countryName = settingsState.lang === 'ja'
       ? borderData[currentCountry].jaName
       : borderData[currentCountry].enName;
     addMessage('computerTurn', [countryName], 'cpu');
-
-    renderMap(document.getElementById('game-chat-log') as HTMLElement, Array.from(usedCountries), currentCountry);
 
     isPlayerTurn = true;
   } else {
@@ -199,17 +199,18 @@ async function playerTurn(answer: string) {
   usedCountries.add(answerCode);
   currentCountry = answerCode;
   isPlayerTurn = false;
-  setTimeout(computerTurn, 1000);
+  renderMap(document.getElementById('game-chat-log') as HTMLElement, Array.from(usedCountries), currentCountry);
+  setTimeout(computerTurn, 2000);
 }
 
-function sendMessage() {
+async function sendMessage() {
   const userInput = document.getElementById('game-user-input') as HTMLInputElement;
   let message: string = userInput.value.trim();
   if (message !== '') {
     message = message[0].toUpperCase() + message.slice(1);
 
     addMessage(null, [message], 'user');
-    playerTurn(message);
+    await playerTurn(message);
     userInput.value = '';
     // 変換候補を閉じる
     const suggestions = document.getElementById('game-suggestions-container');
@@ -278,21 +279,53 @@ interface GeoJSONData {
   features: any[];
 }
 
+// borderのほうにあってmapのほうにない国リスト
+const MISSING_COORDS: Record<string, [number, number]> = {
+  "AND": [1.52, 42.50],   // Andorra
+  "ATG": [-61.85, 17.12], // Antigua and Barbuda
+  "BHR": [50.55, 26.06],  // Bahrain
+  "BRB": [-59.54, 13.19], // Barbados
+  "COM": [43.33, -11.64], // Comoros
+  "CPV": [-24.01, 16.00], // Cape Verde
+  "DMA": [-61.37, 15.41], // Dominica
+  "FSM": [158.15, 6.92],  // Micronesia
+  "GRD": [-61.67, 12.11], // Grenada
+  "KIR": [-157.36, 1.87], // Kiribati (Christmas Island付近)
+  "KNA": [-62.78, 17.35], // Saint Kitts and Nevis
+  "LCA": [-60.97, 13.90], // Saint Lucia
+  "LIE": [9.55, 47.16],   // Liechtenstein
+  "MCO": [7.42, 43.73],   // Monaco
+  "MDV": [73.22, 3.20],   // Maldives
+  "MHL": [171.18, 7.13],  // Marshall Islands
+  "MLT": [14.45, 35.93],  // Malta
+  "MUS": [57.55, -20.34], // Mauritius
+  "NRU": [166.93, -0.52], // Nauru
+  "PLW": [134.58, 7.51],  // Palau
+  "SGP": [103.81, 1.35],  // Singapore
+  "SMR": [12.45, 43.94],  // San Marino
+  "STP": [6.61, 0.18],    // Sao Tome and Principe
+  "SYC": [55.49, -4.67],  // Seychelles
+  "TON": [-175.19, -21.17], // Tonga
+  "TUV": [179.14, -8.51], // Tuvalu
+  "VAT": [12.45, 41.90],  // Vatican City
+  "VCT": [-61.22, 13.25], // Saint Vincent and the Grenadines
+  "WSM": [-172.10, -13.75] // Samoa
+};
+
 async function renderMap(container: HTMLElement, coloredCountries: string[], lastCountry: string | null) {
   const data = await loadCountryMapData() as GeoJSONData;
 
-  const width = container.clientWidth || 800;
-  const height = container.clientHeight || 500;
+  const width = (container.clientWidth - 20 * 2) * 0.8 || 800; // 左右のpadding, 0.8はテキトー
+  const height = width * 1 / 2 || 500;
 
-  // 3. SVG要素の作成
+  // SVGの作成
   const svg = d3.select(container)
     .append("svg")
     .attr("width", width)
     .attr("height", height)
     .style("background-color", "white")
-    .style("display", "block"); // 余白除去用
+    .style("display", "block");
 
-  // 4. 投影法の設定（コンテナに合わせて自動調整）
   const projection = d3.geoMercator()
     .fitSize([width, height], data);
 
@@ -309,25 +342,36 @@ async function renderMap(container: HTMLElement, coloredCountries: string[], las
     .attr("id", (d: any) => d.id)
     .attr("stroke", "black")
     .attr("stroke-width", 1)
-    .attr("fill", (d: any) => {
-      const id = d.id;
+    .attr("fill", (d: any) => getColor(d.id));
+  
+  // 履歴にある or 現在の国 or ゲームオーバー国だけをフィルタリング
+  /* const missingTargets = Object.keys(MISSING_COORDS).filter(id => 
+    id === currentCountry || id === lastCountry || coloredCountries.includes(id)
+  ); */
+  const missingTargets = Object.keys(MISSING_COORDS)
 
-      // ゲーム終了時
-      if (lastCountry !== null) {
-        if (id === lastCountry) return "#FF4444";
-        if (coloredCountries.includes(id)) return "#cccccc";
-        return "white";
-      }
+  mapGroup.selectAll("circle.missing-country")
+    .data(missingTargets)
+    .enter()
+    .append("circle")
+    .attr("class", "missing-country")
+    .attr("cx", d => {
+      const coords = MISSING_COORDS[d];
+      return projection(coords)?.[0] || 0;
+    })
+    .attr("cy", d => {
+      const coords = MISSING_COORDS[d];
+      return projection(coords)?.[1] || 0;
+    })
+    .attr("r", 0.3) // 点の国のサイズ, (* 10) pxに拡大
+    .attr("stroke", "black")
+    .attr("stroke-width", 0.1) // 点のまわりの黒
+    .attr("fill", d => getColor(d));
 
-      // ゲーム中
-      if (id === currentCountry) return "#FFD700";
-      if (coloredCountries.includes(id)) return "#87CEEB";
-      return "white";
-    });
-
+  // zoom設定
   if (settingsState.difficulty === 'easy' && lastCountry !== null) {
-    // zoom設定
     let transform = d3.zoomIdentity; // デフォルトは1
+    const MAX_ZOOM = 10;
     const targetFeature = data.features.find((f: any) => f.id === currentCountry);
 
     if (targetFeature) {
@@ -336,14 +380,28 @@ async function renderMap(container: HTMLElement, coloredCountries: string[], las
       const dy = bounds[1][1] - bounds[0][1];
       const x = (bounds[0][0] + bounds[1][0]) / 2;
       const y = (bounds[0][1] + bounds[1][1]) / 2;
+
       const calcedScale = 0.6 / Math.max(dx / width, dy / height);
-      const MAX_ZOOM = 8;
       const scale = Math.min(calcedScale, MAX_ZOOM);
-      console.log(scale)
+      console.log(`拡大率: ${scale}`)
+
       const translate = [width / 2 - scale * x, height / 2 - scale * y];
       transform = d3.zoomIdentity
         .translate(translate[0], translate[1])
         .scale(scale);
+    } else if (MISSING_COORDS[currentCountry]) {
+      const coords = MISSING_COORDS[currentCountry]; // [lon, lat]
+      const projected = projection(coords);          // [x, y]
+
+      if (projected) {
+        const [x, y] = projected;
+        const scale = MAX_ZOOM;
+
+        const translate = [width / 2 - scale * x, height / 2 - scale * y];
+        transform = d3.zoomIdentity
+          .translate(translate[0], translate[1])
+          .scale(scale);
+      }
     }
     mapGroup.transition().duration(750)
       .attr("transform", transform.toString());
@@ -352,6 +410,13 @@ async function renderMap(container: HTMLElement, coloredCountries: string[], las
       .attr("stroke", "black")
       .attr("stroke-width", 1 / transform.k);
   }
+  function getColor(id: string): string {
+    if (id === lastCountry) return "#FF4444"; // 今の国
+    if (coloredCountries.includes(id)) return "#cccccc"; // 履歴
+    return "white";
+  }
+  const chatLog = document.getElementById('game-chat-log') as HTMLElement;
+  chatLog.scrollTop = chatLog.scrollHeight;
 }
 
 document.getElementById('game-user-input')?.addEventListener('input', showSuggestions);
