@@ -13,6 +13,10 @@ document.querySelectorAll('.button-container button').forEach(button => {
       case 'settings-button':
         showModal('settings', null, true);
         break;
+      case 'top-button':
+        changeModal('top', null, 500, true);
+        // animationの停止はうまくいかないからいいや
+        break;
     }
   });
 });
@@ -56,10 +60,10 @@ export const initEarthMap = () => {
   container.appendChild(renderer.domElement);
 
   // 照明
-  const ambientLight = new THREE.AmbientLight(0xffffff, 2.0); // 全体光
+  const ambientLight = new THREE.AmbientLight(0xffffff, 3.0); // 全体光
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5); // 指向性光
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5); // 指向性光
   directionalLight.position.set(5, 3, 5);
   scene.add(directionalLight);
 
@@ -94,9 +98,11 @@ export const initEarthMap = () => {
   );
 
   // アニメーションループ
+  let animationId: number;
+
   const animate = () => {
-    requestAnimationFrame(animate);
-    controls.update(); // damping有効時に必須
+    animationId = requestAnimationFrame(animate);
+    controls.update();
     renderer.render(scene, camera);
   };
   animate();
@@ -115,9 +121,21 @@ export const initEarthMap = () => {
   window.addEventListener('resize', onWindowResize);
 
   // クリーンアップ
+  // うまくいかないからつかわない
+  /*
   return () => {
+    cancelAnimationFrame(animationId);
     window.removeEventListener('resize', onWindowResize);
     container.removeChild(renderer.domElement);
     renderer.dispose();
+    // シーン内のオブジェクトも解放
+    scene.traverse((object) => {
+      if ((object as any).isMesh) {
+        (object as any).geometry.dispose();
+        if ((object as any).material.map) (object as any).material.map.dispose();
+        (object as any).material.dispose();
+      }
+    });
   };
+  */
 };

@@ -61,7 +61,21 @@ header {
 .button-container button.settings-button:hover {
   transform: rotate(30deg);
 }
-
+.button-container button.top-button {
+  all: unset;
+  padding-top: calc((32px - .9rem * 1.6) / 2);
+  padding-bottom: calc((32px - .9rem * 1.6) / 2);
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: .9rem;
+  border-radius: 16px;
+  background-color: var(--primary-color);
+  color: white;
+  transition: all 0.3s ease;
+}
+.button-container button.top-button:hover {
+  background-color: var(--secondary-color);
+}
 
 
 .top-main-container {
