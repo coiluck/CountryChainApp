@@ -245,6 +245,7 @@ function showSuggestions() {
       suggestions.forEach((country: Country) => {
         const item = document.createElement('div');
         item.className = 'game-suggestion-item';
+        item.setAttribute('tabindex', '0');
 
         const isEnglishMatch = country.enName.toLowerCase().includes(inputLower);
         const displayName = isEnglishMatch ? country.enName : country.jaName;
@@ -255,6 +256,12 @@ function showSuggestions() {
           suggestionsContainer.style.display = 'none';
           userInput.focus();  // フォーカスを戻す
         };
+        item.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            item.click();
+          }
+        });
         suggestionsContainer.appendChild(item);
       });
       suggestionsContainer.style.display = 'block';
@@ -417,6 +424,18 @@ async function renderMap(container: HTMLElement, coloredCountries: string[], las
 
 document.getElementById('game-user-input')?.addEventListener('input', showSuggestions);
 document.getElementById('game-user-input')?.addEventListener('keydown', (e) => {
+  const suggestionsContainer = document.getElementById('game-suggestions-container');
+  const isSuggestionsVisible = suggestionsContainer &&
+                               suggestionsContainer.style.display !== 'none' &&
+                               suggestionsContainer.children.length > 0;
+  if (e.key === 'Tab' && isSuggestionsVisible && !e.shiftKey) {
+    e.preventDefault();
+    const firstItem = suggestionsContainer.firstElementChild as HTMLElement;
+    if (firstItem) {
+      firstItem.focus();
+    }
+    return;
+  }
   if (e.key === 'Enter') {
     sendMessage();
   }
