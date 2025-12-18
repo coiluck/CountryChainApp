@@ -12,6 +12,9 @@ document.querySelectorAll('.button-container button').forEach(button => {
         break;
       case 'settings-button':
         showModal('settings', null, true);
+        setTimeout(() => {
+          document.querySelector('.settings-title-container')?.classList.add('active');
+        }, 500);
         break;
       case 'top-button':
         changeModal('top', null, 500, true);

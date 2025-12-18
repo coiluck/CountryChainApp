@@ -58,7 +58,11 @@ export function showModal(modalName: string, scrollContainer: string | null, isF
   });
 }
 
+let isClosing = false;
+
 function closeModal(targetModal: HTMLElement) {
+  if (isClosing) return;
+  isClosing = true;
   targetModal.classList.remove('fade-in');
   targetModal.classList.add('fade-out');
   const overlay = document.getElementById('sub-modal-overlay');
@@ -71,5 +75,10 @@ function closeModal(targetModal: HTMLElement) {
     if (overlay) {
       document.body.removeChild(overlay);
     }
+    const activeElements = document.querySelectorAll('.sub-modal .active');
+    activeElements.forEach(function(element) {
+      (element as HTMLElement).classList.remove('active');
+    });
+    isClosing = false;
   }, 500);
 }
