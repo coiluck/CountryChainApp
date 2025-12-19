@@ -14,6 +14,29 @@
     <script type="module" src="./src/ts/top.ts"></script>
     <script type="module" src="./src/ts/settings.ts"></script>
     <script type="module" src="./src/ts/game.ts" defer></script>
+
+    <style>
+      @font-face {
+        font-family: 'mamelon';
+        src: url('./src/assets/fonts/Mamelon-3.5HiRegular.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'logo-type-gothic';
+        src: url('./src/assets/fonts/LogoTypeGothic.otf') format('opentype');
+      }
+      @font-face {
+        font-family: 'rounded-mplus-1c-regular';
+        src: url('./src/assets/fonts/rounded-mplus-1c-regular.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'tanuki-magic';
+        src: url('./src/assets/fonts/TanukiMagic.ttf') format('truetype');
+      }
+      :root {
+        --font: 'mamelon', sans-serif;
+        --text: #000;
+      }
+    </style>
   </head>
 
   <body>
@@ -66,7 +89,7 @@
             <div class="settings-item-label">
               <span>Font設定</span>
             </div>
-            <div class="settings-item-content"></div>
+            <div class="settings-item-content font"></div>
           </div>
         </div>
 

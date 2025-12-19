@@ -1,5 +1,7 @@
 // userState.ts
 interface SettingsState {
+  level: number;
+  font: string;
   lang: string;
   gameMode: string;
   difficulty: string;
@@ -7,6 +9,8 @@ interface SettingsState {
 }
 
 const initialState: SettingsState = {
+  level: 10,
+  font: "'rounded-mplus-1c-regular', sans-serif",
   lang: 'en',
   gameMode: 'worldMap',
   difficulty: 'easy',

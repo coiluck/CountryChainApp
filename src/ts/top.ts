@@ -1,5 +1,6 @@
 // top.ts
 import { changeModal, showModal} from './modules/changeModal';
+import { setUpSettings } from './settings';
 
 document.querySelectorAll('.button-container button').forEach(button => {
   button.addEventListener('click', () => {
@@ -12,6 +13,7 @@ document.querySelectorAll('.button-container button').forEach(button => {
         break;
       case 'settings-button':
         showModal('settings', null, true);
+        setUpSettings();
         setTimeout(() => {
           document.querySelector('.settings-title-container')?.classList.add('active');
         }, 500);

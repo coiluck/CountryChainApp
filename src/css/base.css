@@ -21,13 +21,14 @@
   padding: 0;
   color: var(--text-color);
   font-weight: normal;
-  font-family: mamelon, sans-serif;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 }
-
+* {
+  font-family: var(--font);
+}
 ul {
   list-style: none;
 }
@@ -36,7 +37,7 @@ button, select {
 }
 
 body {
-  font-family: 'mamelon', sans-serif;
+  font-family: var(--font);
   min-height: 100vh;
   line-height: 1.6;
   text-rendering: optimizeLegibility;
