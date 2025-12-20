@@ -6,9 +6,10 @@ export function setUpSettings() {
   });
   setUpFontSettings();
   setUpLangSettings();
+  setUpMapDisplaySettings();
 }
 
-import { settingsState } from './modules/userState';
+import { settingsState, userData } from './modules/userState';
 
 const fontList = [
   {
@@ -42,7 +43,7 @@ function setUpFontSettings() {
     const radioContainer = document.createElement('div');
     radioContainer.classList.add('radio-group');
     fontList.forEach(font => {
-      const isLocked = font.reqLevel > settingsState.level;
+      const isLocked = font.reqLevel > userData.level;
       const label = document.createElement('label');
       if (isLocked) {
         label.classList.add('locked');
@@ -108,4 +109,27 @@ async function setUpLangSettings() {
       applyTranslationsToDocument();
     });
   });
+}
+
+function setUpMapDisplaySettings() {
+  const mapDisplaySettingsContainer = document.querySelector('.settings-item-content.map-display');
+  if (!mapDisplaySettingsContainer) {
+    return;
+  }
+  const mapDisplayLabel = settingsState.mapDisplay ? 'checked' : '';
+  mapDisplaySettingsContainer.innerHTML = `
+    <div class="settings-map-display-label">Off</div>
+    <label class="switch">
+      <input type="checkbox" id="setting-map-display" ${mapDisplayLabel}>
+      <span class="slider"></span>
+    </label>
+    <div class="settings-map-display-label">On</div>
+  `;
+
+  const mapDisplayCheckbox = mapDisplaySettingsContainer.querySelector<HTMLInputElement>('input[id="setting-map-display"]');
+  if (mapDisplayCheckbox) {
+    mapDisplayCheckbox.addEventListener('change', () => {
+      settingsState.mapDisplay = mapDisplayCheckbox.checked;
+    });
+  }
 }

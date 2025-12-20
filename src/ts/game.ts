@@ -316,6 +316,9 @@ const MISSING_COORDS: Record<string, [number, number]> = {
 };
 
 async function renderMap(container: HTMLElement, coloredCountries: string[], lastCountry: string | null) {
+  if (settingsState.mapDisplay === false) {
+    return;
+  }
   const data = await loadCountryMapData() as GeoJSONData;
 
   const width = (container.clientWidth - 20 * 2) * 0.8 || 800; // 左右のpadding, 0.8はテキトー
@@ -372,7 +375,7 @@ async function renderMap(container: HTMLElement, coloredCountries: string[], las
     .attr("fill", d => getColor(d));
 
   // zoom設定
-  if (settingsState.difficulty === 'easy' && lastCountry !== null) {
+  if (settingsState.mapDisplay === true && lastCountry !== null) {
     let transform = d3.zoomIdentity; // デフォルトは1
     const MAX_ZOOM = 10;
     const targetFeature = data.features.find((f: any) => f.id === currentCountry);

@@ -1,23 +1,32 @@
 // userState.ts
 interface SettingsState {
-  level: number;
   font: string;
   lang: string;
+  seVolume: number;
   gameMode: string;
-  difficulty: string;
-  onlyUnitedNations: boolean;
+  mapDisplay: boolean;
+}
+
+interface userData {
+  level: number;
+  exp: number;
 }
 
 const initialState: SettingsState = {
-  level: 10,
   font: "'rounded-mplus-1c-regular', sans-serif",
   lang: 'en',
-  gameMode: 'worldMap',
-  difficulty: 'easy',
-  onlyUnitedNations: false,
+  seVolume: 0.5,
+  gameMode: 'normal',
+  mapDisplay: true,
 };
 
-export const settingsState = structuredClone(initialState); // 初期化
+const initialUserData: userData = {
+  level: 1,
+  exp: 0,
+};
+
+export const settingsState = structuredClone(initialState);
+export const userData = structuredClone(initialUserData);
 
 export function setSettingsState(newState: Partial<SettingsState>) {
   Object.assign(settingsState, newState);
