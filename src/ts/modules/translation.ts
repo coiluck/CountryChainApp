@@ -41,15 +41,19 @@ export async function getTranslatedText(key: string, params: string[]) {
   return text;
 }
 
-export function applyTranslationsToDocument() {
+export async function applyTranslationsToDocument() {
+  const data = await loadTranslationData();
+  if (!data) return;
   const lang = settingsState.lang as Lang;
   document.documentElement.lang = lang;
 
   const staticNodes = document.querySelectorAll('[data-translation]');
   staticNodes.forEach((el: Element) => {
     const key = el.getAttribute('data-translation');
-    if (key && translationData && translationData[key]) {
-      el.textContent = translationData[key][lang];
+    if (key && data[key]) {
+      el.textContent = data[key][lang] || data[key]['ja'];
+    } else {
+      console.log(`Invalid translation key: ${key}`)
     }
   });
 }

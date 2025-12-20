@@ -5,6 +5,7 @@ export function setUpSettings() {
     content.innerHTML = ''
   });
   setUpFontSettings();
+  setUpLangSettings();
 }
 
 import { settingsState } from './modules/userState';
@@ -76,4 +77,35 @@ function setUpFontSettings() {
       });
     });
   }
+}
+
+import { applyTranslationsToDocument } from './modules/translation';
+
+async function setUpLangSettings() {
+  const langSettingsContainer = document.querySelector('.settings-item-content.lang');
+  if (!langSettingsContainer) {
+    return;
+  }
+  langSettingsContainer.innerHTML = `
+      <div class="settings-lang-item ja">日本語</div>
+      <div class="settings-lang-item en">English</div>
+    `;
+  // 初期選択
+  const initialLang = settingsState.lang as 'ja' | 'en';
+  const initialLangItem = langSettingsContainer.querySelector<HTMLElement>(`.settings-lang-item.${initialLang}`);
+  if (initialLangItem) {
+    initialLangItem.classList.add('selected');
+  }
+  // イベントリスナ
+  const langItems = langSettingsContainer.querySelectorAll<HTMLElement>('.settings-lang-item');
+  langItems.forEach((item: HTMLElement) => {
+    item.addEventListener('click', () => {
+      langItems.forEach((item: HTMLElement) => {
+        item.classList.remove('selected');
+      });
+      item.classList.add('selected');
+      settingsState.lang = item.classList.contains('ja') ? 'ja' : 'en';
+      applyTranslationsToDocument();
+    });
+  });
 }
