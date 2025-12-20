@@ -1,4 +1,6 @@
 // userState.ts
+import { Store } from '@tauri-apps/plugin-store';
+
 interface SettingsState {
   font: string;
   lang: string;
@@ -12,7 +14,7 @@ interface userData {
   exp: number;
 }
 
-const initialState: SettingsState = {
+const initialSettingsState: SettingsState = {
   font: "'rounded-mplus-1c-regular', sans-serif",
   lang: 'en',
   seVolume: 0.5,
@@ -25,9 +27,59 @@ const initialUserData: userData = {
   exp: 0,
 };
 
-export const settingsState = structuredClone(initialState);
-export const userData = structuredClone(initialUserData);
+export const settingsState = structuredClone(initialSettingsState);
+export const userState = structuredClone(initialUserData);
 
-export function setSettingsState(newState: Partial<SettingsState>) {
-  Object.assign(settingsState, newState);
+let settingsStoreCache: Store | null = null;
+let userDataStoreCache: Store | null = null;
+
+async function getSettingsStore(): Promise<Store> {
+  if (!settingsStoreCache) {
+    settingsStoreCache = await Store.load('settings.json');
+
+    // 初期値
+    const existing = await settingsStoreCache.get<SettingsState>('settings');
+    if (!existing) {
+      console.log('初期値を設定');
+      await settingsStoreCache.set('settings', initialSettingsState);
+      await settingsStoreCache.save();
+    }
+  }
+  return settingsStoreCache;
+}
+async function getUserDataStore(): Promise<Store> {
+  if (!userDataStoreCache) {
+    userDataStoreCache = await Store.load('userdata.json');
+
+    // 初期値
+    const existing = await userDataStoreCache.get<userData>('userdata');
+    if (!existing) {
+      await userDataStoreCache.set('userdata', initialUserData);
+      await userDataStoreCache.save();
+    }
+  }
+  return userDataStoreCache;
+}
+
+export async function saveSettingsData() {
+  const store = await getSettingsStore();
+  await store.set('settings', settingsState);
+  await store.save();
+}
+export async function saveUserData() {
+  const store = await getUserDataStore();
+  await store.set('userdata', userState);
+  await store.save();
+}
+
+export async function applyStore() {
+  const settingsStore = await getSettingsStore();
+  console.log('settingsStore', settingsStore);
+  const storedSettings = await settingsStore.get<SettingsState>('settings');
+  console.log('storedSettings', storedSettings);
+  if (storedSettings) Object.assign(settingsState, storedSettings);
+
+  const userStore = await getUserDataStore();
+  const storedUser = await userStore.get<userData>('userdata');
+  if (storedUser) Object.assign(userState, storedUser);
 }

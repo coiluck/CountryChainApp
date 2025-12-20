@@ -9,7 +9,7 @@ export function setUpSettings() {
   setUpMapDisplaySettings();
 }
 
-import { settingsState, userData } from './modules/userState';
+import { settingsState, userState, saveSettingsData } from './modules/userState';
 
 const fontList = [
   {
@@ -43,7 +43,7 @@ function setUpFontSettings() {
     const radioContainer = document.createElement('div');
     radioContainer.classList.add('radio-group');
     fontList.forEach(font => {
-      const isLocked = font.reqLevel > userData.level;
+      const isLocked = font.reqLevel > userState.level;
       const label = document.createElement('label');
       if (isLocked) {
         label.classList.add('locked');
@@ -74,7 +74,7 @@ function setUpFontSettings() {
         settingsState.font = target.value;
         document.documentElement.style.setProperty('--font', target.value);
         // 保存処理
-        // 後で書く
+        saveSettingsData();
       });
     });
   }
@@ -107,6 +107,7 @@ async function setUpLangSettings() {
       item.classList.add('selected');
       settingsState.lang = item.classList.contains('ja') ? 'ja' : 'en';
       applyTranslationsToDocument();
+      saveSettingsData();
     });
   });
 }
@@ -130,6 +131,7 @@ function setUpMapDisplaySettings() {
   if (mapDisplayCheckbox) {
     mapDisplayCheckbox.addEventListener('change', () => {
       settingsState.mapDisplay = mapDisplayCheckbox.checked;
+      saveSettingsData();
     });
   }
 }
