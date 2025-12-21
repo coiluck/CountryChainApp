@@ -3,16 +3,6 @@
   src: url('/src/assets/fonts/Mamelon-3.5HiRegular.woff2') format('woff2');
 }
 
-:root {
-  --primary-color: #ff7f7e;
-  --secondary-color: #ffbe7e;
-  --text-color: #333;
-  --light-bg: #f5f7fa;
-  --border-color: #ccc;
-  --highlight-color: #e6eef8;
-  --meta: #ccc;
-}
-
 *,
 *::before,
 *::after {
@@ -40,6 +30,7 @@ body {
   font-family: var(--font);
   min-height: 100vh;
   line-height: 1.6;
+  background-color: var(--bg);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -56,6 +47,7 @@ body {
   position: absolute;
   inset: 0;
   padding: 20px 15%;
+  background-color: var(--bg);
 }
 @media (max-width: 768px) {
   .modal {
@@ -76,7 +68,7 @@ body {
   transform: translate(-50%, -50%);
   width: 75%;
   height: 75%;
-  background-color: var(--light-bg);
+  background-color: var(--bg-bright);
   border-radius: 20px;
   z-index: 100;
 }
@@ -97,6 +89,7 @@ body {
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
   z-index: 99;
 }
 

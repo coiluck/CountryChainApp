@@ -125,6 +125,67 @@
   }
 }
 
+/* color settings */
+.settings-item-content.color {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 70%;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .settings-item-content.color {
+    width: 90%;
+  }
+}
+@media (max-width: 480px) {
+  .settings-item-content.color {
+    width: 70%;
+  }
+}
+.settings-color-label {
+  font-size: .8rem;
+}
+.settings-color-item-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.settings-color-item {
+  position: relative;
+  width: 100%;
+  max-width: 80px;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.settings-color-item.locked {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.settings-color-item.locked::before {
+  content: '';
+  display: block;
+  width: 50%;
+  height: 50%;
+  mask-image: url('../assets/images/lock.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: #777; /* 暗い色の時しか必要ないため */
+}
+.settings-color-item.locked::after {
+  content: var(--unlock-level);
+  font-size: .8rem;
+  color: #777; /* 暗い色の時しか必要ないため */
+}
+.settings-color-item.selected {
+  border: 2px solid var(--primary-color);
+}
+
 
 /* font settings */
 .radio-group {
@@ -149,7 +210,16 @@
   cursor: not-allowed;
   opacity: 0.5;
 }
-
+.radio-group label.locked .settings-radio-icon {
+  mask-image: url('../assets/images/lock.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: var(--meta);
+}
+.radio-group label.locked .settings-radio-text {
+  opacity: 0.8;
+}
 
 .settings-radio-icon {
   position: relative;
@@ -183,17 +253,11 @@
   transform: translate(-50%, -50%) rotate(45deg) scale(1);
 }
 
-.radio-group input[type="radio"]:disabled + .settings-radio-icon {
-  background-color: #e9ecef;
-  border-color: #dee2e6;
-}
 .settings-radio-text {
   font-size: .9rem;
 }
-
 .locked-text {
   font-size: .8rem;
-  opacity: 0.8;
 }
 
 /* lang settings */
@@ -220,7 +284,8 @@
   text-align: center;
   border: 2px solid transparent;
   border-radius: calc(.8rem * 1.6 + 8px);
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1); /* 後で書く: 色をvarにする */
+  box-shadow:
+    0 2px 4px rgb(from var(--text-color) r g b / 0.1);
   cursor: pointer;
 }
 .settings-lang-item.selected {

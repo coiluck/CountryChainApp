@@ -2,6 +2,7 @@
 import { Store } from '@tauri-apps/plugin-store';
 
 interface SettingsState {
+  bgColor: 'light' | 'dark' | 'midnight';
   font: string;
   lang: string;
   seVolume: number;
@@ -15,6 +16,7 @@ interface userData {
 }
 
 const initialSettingsState: SettingsState = {
+  bgColor: 'light',
   font: "'rounded-mplus-1c-regular', sans-serif",
   lang: 'en',
   seVolume: 0.5,
@@ -23,7 +25,7 @@ const initialSettingsState: SettingsState = {
 };
 
 const initialUserData: userData = {
-  level: 1,
+  level: 10,
   exp: 0,
 };
 
@@ -74,9 +76,7 @@ export async function saveUserData() {
 
 export async function applyStore() {
   const settingsStore = await getSettingsStore();
-  console.log('settingsStore', settingsStore);
   const storedSettings = await settingsStore.get<SettingsState>('settings');
-  console.log('storedSettings', storedSettings);
   if (storedSettings) Object.assign(settingsState, storedSettings);
 
   const userStore = await getUserDataStore();

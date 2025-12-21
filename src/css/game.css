@@ -2,7 +2,7 @@
   /* display: flex; */
   flex-direction: column;
   height: 100svh;
-  background-color: var(--light-bg);
+  background-color: var(--bg);
 }
 
 /* headerはtop.cssに記述 */
@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  background-color: white;
+  background-color: var(--bg-bright);
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -57,7 +57,7 @@
   border-bottom-right-radius: 5px;
 }
 .game-message.cpu-message .game-message-content {
-  background-color: var(--light-bg);
+  background-color: var(--bg);
   border-bottom-left-radius: 5px;
 }
 .game-message.system-message .game-message-content {
@@ -85,6 +85,7 @@
   padding: 12px;
   border: 1px solid var(--border-color);
   border-radius: 24px;
+  background-color: var(--bg-bright);
   outline: none;
 }
 .game-input-container input:focus {
@@ -122,8 +123,9 @@
   bottom: 75px;
   left: 15px;
   right: 69px;
-  background-color: white;
+  background-color: var(--bg-bright);
   border-radius: 10px;
+  border: 1px solid var(--border-color);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 100;
   max-height: 200px;

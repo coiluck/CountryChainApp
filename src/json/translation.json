@@ -15,6 +15,14 @@
     "ja": "色の設定",
     "en": "Color Settings"
   },
+  "settingsColorBgLabel": {
+    "ja": "背景の色",
+    "en": "Background Color"
+  },
+  "settingsColorMainLabel": {
+    "ja": "メインの色",
+    "en": "Main Color"
+  },
   "settingsSubtitleFont": {
     "ja": "フォント設定",
     "en": "Font Settings"

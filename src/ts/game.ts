@@ -329,7 +329,7 @@ async function renderMap(container: HTMLElement, coloredCountries: string[], las
     .append("svg")
     .attr("width", width)
     .attr("height", height)
-    .style("background-color", "white")
+    .style("background-color", "var(--bg-bright)")
     .style("display", "block");
 
   const projection = d3.geoMercator()

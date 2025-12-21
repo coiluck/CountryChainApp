@@ -4,12 +4,104 @@ export function setUpSettings() {
   settingsContent.forEach(content => {
     content.innerHTML = ''
   });
+  setUpColorSettings();
   setUpFontSettings();
   setUpLangSettings();
   setUpMapDisplaySettings();
 }
 
 import { settingsState, userState, saveSettingsData } from './modules/userState';
+
+const bgList = [
+  {
+    name: 'light',
+    textColor: '#333',
+    bgColor: '#e6e8ea',
+    bgBrightColor: '#f5f7fa',
+    borderColor: '#ccc',
+    metaColor: '#ccc',
+    reqLevel: 1
+  },
+  {
+    name: 'dark',
+    textColor: '#fff3f1',
+    bgColor: '#1e1e1e',
+    bgBrightColor: '#2e2e2e',
+    borderColor: '#888',
+    metaColor: '#555',
+    reqLevel: 7
+  },
+  {
+    name: 'midnight',
+    textColor: '#fff3f1',
+    bgColor: '#0a0f1e',
+    bgBrightColor: '#152040',
+    borderColor: '#888',
+    metaColor: '#333',
+    reqLevel: 12
+  }
+];
+
+
+function setUpColorSettings() {
+  const colorSettings = document.querySelector('.settings-item-content.color');
+  if (!colorSettings) {
+    return;
+  }
+  colorSettings.innerHTML = '';
+
+  // ラベル
+  const bgColorLabel = document.createElement('div');
+  bgColorLabel.classList.add('settings-color-label');
+  bgColorLabel.dataset.translation = 'settingsColorBgLabel';
+  bgColorLabel.textContent = '背景の色';
+  colorSettings.appendChild(bgColorLabel);
+  // bg
+  const bgColorContainer = document.createElement('div');
+  bgColorContainer.classList.add('settings-color-item-container');
+  colorSettings.appendChild(bgColorContainer);
+
+  for (const bgData of bgList) {
+    const bgColorItem = document.createElement('div');
+    bgColorItem.classList.add('settings-color-item');
+    bgColorItem.style.backgroundColor = bgData.bgColor;
+    if (bgData.reqLevel > userState.level) {
+      bgColorItem.classList.add('locked');
+      bgColorItem.style.setProperty('--unlock-level', `"Lv.${bgData.reqLevel.toString()}"`);
+    }
+    if (settingsState.bgColor === bgData.name) {
+      bgColorItem.classList.add('selected');
+    }
+    bgColorContainer.appendChild(bgColorItem);
+    bgColorItem.addEventListener('click', () => {
+      if (bgData.reqLevel > userState.level) {
+        return;
+      }
+      bgColorContainer.querySelectorAll('.settings-color-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+      bgColorItem.classList.add('selected');
+      document.documentElement.style.setProperty('--bg', bgData.bgColor);
+      document.documentElement.style.setProperty('--bg-bright', bgData.bgBrightColor);
+      document.documentElement.style.setProperty('--border-color', bgData.borderColor);
+      document.documentElement.style.setProperty('--meta', bgData.metaColor);
+      document.documentElement.style.setProperty('--text-color', bgData.textColor);
+      settingsState.bgColor = bgData.name as 'light' | 'dark' | 'midnight';
+      saveSettingsData();
+    });
+  }
+
+  // ラベル
+  const mainColorLabel = document.createElement('div');
+  mainColorLabel.classList.add('settings-color-label');
+  mainColorLabel.dataset.translation = 'settingsColorMainLabel';
+  mainColorLabel.textContent = 'メインの色';
+  colorSettings.appendChild(mainColorLabel);
+  // main
+  const mainColorContainer = document.createElement('div');
+  mainColorContainer.classList.add('settings-color-item-container');
+  colorSettings.appendChild(mainColorContainer);
+}
 
 const fontList = [
   {
