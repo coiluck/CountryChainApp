@@ -3,6 +3,7 @@ import { Store } from '@tauri-apps/plugin-store';
 
 interface SettingsState {
   bgColor: 'light' | 'dark' | 'midnight';
+  themeColor: 'kokone' | 'summer' | 'autumn' | 'purple' | 'blue' | 'miku';
   font: string;
   lang: string;
   seVolume: number;
@@ -17,6 +18,7 @@ interface userData {
 
 const initialSettingsState: SettingsState = {
   bgColor: 'light',
+  themeColor: 'kokone',
   font: "'rounded-mplus-1c-regular', sans-serif",
   lang: 'en',
   seVolume: 0.5,

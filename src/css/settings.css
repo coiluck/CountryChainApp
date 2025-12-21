@@ -152,6 +152,7 @@
   gap: 10px;
 }
 .settings-color-item {
+  display: flex;
   position: relative;
   width: 100%;
   max-width: 80px;
@@ -159,33 +160,48 @@
   border-radius: 4px;
   border: 2px solid transparent;
   cursor: pointer;
-}
-.settings-color-item.locked {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
 }
 .settings-color-item.locked::before {
   content: '';
-  display: block;
-  width: 50%;
-  height: 50%;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 40%;
   mask-image: url('../assets/images/lock.svg');
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
-  background-color: #777; /* 暗い色の時しか必要ないため */
+  background-color: var(--meta);
+  box-shadow: 0 0 2px rgba(from var(--text-color) r g b / 0.3);
+  z-index: 2;
 }
 .settings-color-item.locked::after {
   content: var(--unlock-level);
-  font-size: .8rem;
-  color: #777; /* 暗い色の時しか必要ないため */
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  color: var(--meta);
+  text-shadow: 0 0 2px rgba(from var(--text-color) r g b / 0.3);
+  z-index: 2;
+  white-space: nowrap;
+}
+.settings-color-item.locked .settings-color-item-block {
+  opacity: 0.7;
+  filter: grayscale(0.3);
 }
 .settings-color-item.selected {
   border: 2px solid var(--primary-color);
 }
 
+.settings-color-item-block {
+  flex: 1;
+  height: 100%;
+}
 
 /* font settings */
 .radio-group {

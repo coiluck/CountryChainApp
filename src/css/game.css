@@ -13,7 +13,7 @@
   flex: 1;
   background-color: var(--bg-bright);
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(from var(--text-color) r g b / 0.1);
   overflow: hidden;
 }
 .game-chat-log {
@@ -45,7 +45,7 @@
   max-width: 70%;
   padding: 10px 15px;
   border-radius: 18px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(from var(--text-color) r g b / 0.1);
   user-select: text;
   -webkit-user-select: text;
   -moz-user-select: text;
@@ -53,7 +53,6 @@
 }
 .game-message.user-message .game-message-content {
   background-color: var(--secondary-color);
-  color: black;
   border-bottom-right-radius: 5px;
 }
 .game-message.cpu-message .game-message-content {
@@ -99,7 +98,7 @@
   height: 44px;
   margin: auto 0 auto 10px;
   background-color: var(--primary-color);
-  color: white;
+  color: var(--theme-contrast-color);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -114,7 +113,7 @@
   height: 24px;
 }
 .icon path {
-  color: white;
+  color: var(--theme-contrast-color);
 }
 
 /* suggestions */
@@ -126,7 +125,7 @@
   background-color: var(--bg-bright);
   border-radius: 10px;
   border: 1px solid var(--border-color);
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px 10px rgba(from var(--text-color) r g b / 0.1);
   z-index: 100;
   max-height: 200px;
   overflow-y: auto;

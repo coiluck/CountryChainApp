@@ -32,7 +32,7 @@ header {
   height: 32px;
   border-radius: 50%;
   background-color: var(--primary-color);
-  color: white;
+  color: var(--theme-contrast-color);
   justify-content: center;
   align-items: center;
   font-size: 1.2rem;
@@ -70,7 +70,7 @@ header {
   font-size: .9rem;
   border-radius: 16px;
   background-color: var(--primary-color);
-  color: white;
+  color: var(--theme-contrast-color);
   transition: all 0.3s ease;
 }
 .button-container button.top-button:hover {
@@ -107,7 +107,7 @@ header {
   border: none;
   border-radius: 10px;
   background-color: var(--primary-color);
-  color: white;
+  color: var(--theme-contrast-color);
   transition: all 0.3s ease;
 }
 .top-start-container button:hover {

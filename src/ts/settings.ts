@@ -42,6 +42,51 @@ const bgList = [
   }
 ];
 
+const themeList = [
+  {
+    name: 'kokone',
+    primaryColor: '#ff7f7e',
+    secondaryColor: '#ffbe7e',
+    themeContrastColor: '#fff',
+    unlockLevel: 1,
+  },
+  {
+    name: 'summer',
+    primaryColor: '#91C6BC',
+    secondaryColor: '#4B9DA9',
+    themeContrastColor: '#F6F3C2',
+    unlockLevel: 3,
+  },
+  {
+    name: 'autumn',
+    primaryColor: '#B4846C',
+    secondaryColor: '#7D5A50',
+    themeContrastColor: '#FCDEC0',
+    unlockLevel: 9,
+  },
+  {
+    name: 'purple',
+    primaryColor: '#92487A',
+    secondaryColor: '#E49BA6',
+    themeContrastColor: '#FFE3E5',
+    unlockLevel: 14,
+  },
+  {
+    name: 'blue',
+    primaryColor: '#3F72AF',
+    secondaryColor: '#DBE2EF',
+    themeContrastColor: '#112D4E',
+    unlockLevel: 16,
+  },
+  {
+    name: 'miku',
+    primaryColor: '#08D9D6',
+    secondaryColor: '#FF2E63',
+    themeContrastColor: '#252A34',
+    unlockLevel: 18,
+  },
+];
+
 
 function setUpColorSettings() {
   const colorSettings = document.querySelector('.settings-item-content.color');
@@ -101,6 +146,60 @@ function setUpColorSettings() {
   const mainColorContainer = document.createElement('div');
   mainColorContainer.classList.add('settings-color-item-container');
   colorSettings.appendChild(mainColorContainer);
+
+  for (const themeData of themeList) {
+    const themeColorItem = document.createElement('div');
+    themeColorItem.classList.add('settings-color-item');
+    // 中に二つの色を入れる
+    const themeFirstColor = document.createElement('div');
+    themeFirstColor.style.backgroundColor = themeData.primaryColor;
+    themeFirstColor.classList.add('settings-color-item-block');
+    themeColorItem.appendChild(themeFirstColor);
+    const themeSecondColor = document.createElement('div');
+    themeSecondColor.style.backgroundColor = themeData.secondaryColor;
+    themeSecondColor.classList.add('settings-color-item-block');
+    themeColorItem.appendChild(themeSecondColor);
+    if (themeData.unlockLevel > userState.level) {
+      themeColorItem.classList.add('locked');
+      themeColorItem.style.setProperty('--unlock-level', `"Lv.${themeData.unlockLevel.toString()}"`);
+    }
+    if (settingsState.themeColor === themeData.name) {
+      themeColorItem.classList.add('selected');
+    }
+    mainColorContainer.appendChild(themeColorItem);
+    themeColorItem.addEventListener('click', () => {
+      if (themeData.unlockLevel > userState.level) {
+        return;
+      }
+      mainColorContainer.querySelectorAll('.settings-color-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+      themeColorItem.classList.add('selected');
+      document.documentElement.style.setProperty('--primary-color', themeData.primaryColor);
+      document.documentElement.style.setProperty('--secondary-color', themeData.secondaryColor);
+      document.documentElement.style.setProperty('--theme-contrast-color', themeData.themeContrastColor);
+      settingsState.themeColor = themeData.name as 'kokone' | 'summer' | 'autumn' | 'purple' | 'blue' | 'miku';
+      saveSettingsData();
+    });
+  }
+}
+
+export function applyTheme() {
+  const currentBg = bgList.find(bg => bg.name === settingsState.bgColor);
+  if (currentBg) {
+    document.documentElement.style.setProperty('--bg', currentBg.bgColor);
+    document.documentElement.style.setProperty('--bg-bright', currentBg.bgBrightColor);
+    document.documentElement.style.setProperty('--border-color', currentBg.borderColor);
+    document.documentElement.style.setProperty('--meta', currentBg.metaColor);
+    document.documentElement.style.setProperty('--text-color', currentBg.textColor);
+  }
+
+  const currentTheme = themeList.find(theme => theme.name === settingsState.themeColor);
+  if (currentTheme) {
+    document.documentElement.style.setProperty('--primary-color', currentTheme.primaryColor);
+    document.documentElement.style.setProperty('--secondary-color', currentTheme.secondaryColor);
+    document.documentElement.style.setProperty('--theme-contrast-color', currentTheme.themeContrastColor);
+  }
 }
 
 const fontList = [
