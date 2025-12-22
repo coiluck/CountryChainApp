@@ -78,6 +78,8 @@ export const initEarthMap = () => {
   controls.dampingFactor = 0.05;
   controls.enablePan = false;
   controls.enableZoom = false;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 1.5;
 
   // モデルのロード
   const loader = new GLTFLoader();
@@ -90,6 +92,10 @@ export const initEarthMap = () => {
       const box = new THREE.Box3().setFromObject(model);
       const center = box.getCenter(new THREE.Vector3());
       model.position.sub(center);
+
+      if (window.innerWidth <= 480) {
+        model.scale.set(0.8, 0.8, 0.8);
+      }
 
       // シーンに追加
       const group = new THREE.Group();

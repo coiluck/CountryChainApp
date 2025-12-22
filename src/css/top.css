@@ -101,6 +101,11 @@ header {
   justify-content: center;
   align-items: center;
 }
+@media (max-width: 480px) {
+  .top-start-container {
+    margin-bottom: 15%;
+  }
+}
 .top-start-container button {
   width: 70%;
   padding: 10px 20px;
