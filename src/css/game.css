@@ -154,3 +154,38 @@
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
+/* input select */
+#game-input-select-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.game-input-select-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  max-width: calc(150px * 3 + 12px * 2 + 30px);
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+}
+
+.game-select-item {
+  padding: 4px 8px;
+  white-space: nowrap;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: .9rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+.game-select-item:hover {
+  background-color: var(--secondary-color);
+}
+.game-select-item:focus {
+  box-sizing: content-box;
+  border: 1px solid var(--primary-color);
+  outline: none;
+}

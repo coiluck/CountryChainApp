@@ -308,6 +308,37 @@
   border: 2px solid var(--primary-color);
 }
 
+/* game mode settings */
+.settings-item-content.game-mode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 70%;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .settings-item-content.game-mode {
+    width: 90%;
+  }
+}
+@media (max-width: 480px) {
+  .settings-item-content.game-mode {
+    width: 70%;
+  }
+}
+
+.settings-game-mode-item {
+  padding: 4px 12px;
+  font-size: .9rem;
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: calc(.8rem * 1.6 + 8px);
+}
+
+.settings-game-mode-item.selected {
+  border: 2px solid var(--primary-color);
+}
+
 /* map display settings */
 .settings-item-content.map-display {
   display: grid;

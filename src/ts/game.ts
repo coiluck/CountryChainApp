@@ -42,11 +42,33 @@ export async function startNewGame() {
   if (chatLog) {
     chatLog.innerHTML = '';
   }
+  const userInput = document.getElementById('game-user-input') as HTMLInputElement;
+  if (userInput) {
+    userInput.value = '';
+  }
+  const inputSelectWrapper = document.getElementById('game-input-select-wrapper') as HTMLElement;
+  if (inputSelectWrapper) {
+    inputSelectWrapper.innerHTML = '';
+  }
   // ゲーム変数の初期化
   usedCountries.clear();
   isPlayerTurn = false;
   mistakes = 0;
   await makeCountryData();
+  // ゲームモードの設定
+  if (settingsState.gameMode === 'normal') {
+    const userInputContainer = document.querySelector('.game-input-container') as HTMLElement;
+    if (userInputContainer) {
+      userInputContainer.style.display = 'flex';
+    }
+    inputSelectWrapper.style.display = 'none';
+  } else if (settingsState.gameMode === 'easy') {
+    const userInputContainer = document.querySelector('.game-input-container') as HTMLElement;
+    if (userInputContainer) {
+      userInputContainer.style.display = 'none';
+    }
+    inputSelectWrapper.style.display = 'flex';
+  }
   // 開始
   currentCountry = await getRandomCountry();
   usedCountries.add(currentCountry);
@@ -71,8 +93,6 @@ async function makeCountryData() {
     return;
   }
   countryCodes = Object.keys(countryBorder);
-  // 除外設定を適用
-  // 後で書く
 }
 
 async function getRandomCountry() {
@@ -145,6 +165,9 @@ async function computerTurn() {
     addMessage('computerTurn', [countryName], 'cpu');
 
     isPlayerTurn = true;
+    if (settingsState.gameMode === 'easy') {
+      showInputSelectForEasyMode();
+    }
   } else {
     addMessage('gameWin', [], 'system');
   }
@@ -274,6 +297,82 @@ function showSuggestions() {
     suggestionsContainer.style.display = 'none';
   }
 }
+
+import { getArea, getRandomCountryFromArea } from './modules/countryAreaData';
+
+async function showInputSelectForEasyMode() {
+  const inputSelectWrapper = document.getElementById('game-input-select-wrapper') as HTMLElement;
+  if (!inputSelectWrapper) {
+    console.error('input select container not found');
+    return;
+  }
+  inputSelectWrapper.innerHTML = '';
+
+  const inputSelectContainer = document.createElement('div');
+  inputSelectContainer.className = 'game-input-select-container';
+  inputSelectWrapper.appendChild(inputSelectContainer);
+
+  const borderData = await loadCountryBorderData() as Record<string, Country>;
+  const suggestionList:string[] = [];
+  // 接している国を一つランダムに抽出
+  const validNeighbors = borderData[currentCountry].neighbors.filter(code => !usedCountries.has(code));
+  if (validNeighbors.length > 0) {
+    const correctCode = validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
+    suggestionList.push(correctCode);
+  }
+  // 同じ地域の国を三つ抽出
+  const area = getArea(currentCountry);
+  if (area) {
+    let count = 0;
+    let safety = 0; // 無限ループ防止
+    while (count < 3 && safety < 50) {
+      const candidate = getRandomCountryFromArea(area);
+      if (candidate && 
+          !suggestionList.includes(candidate) && 
+          !usedCountries.has(candidate) && 
+          candidate !== currentCountry &&
+          borderData[candidate]) {
+        suggestionList.push(candidate);
+        count++;
+      }
+      safety++;
+    }
+  }
+  // ランダムな国を二つ抽出
+  let count = 0;
+  let safety = 0;
+  while (count < 2 && safety < 100) {
+    const randomIndex = Math.floor(Math.random() * countryCodes.length);
+    const candidate = countryCodes[randomIndex];
+    if (candidate && 
+        !suggestionList.includes(candidate) && 
+        !usedCountries.has(candidate) && 
+        candidate !== currentCountry) {
+      suggestionList.push(candidate);
+      count++;
+    }
+    safety++;
+  }
+
+  // リストをシャッフル
+  const shuffledList = suggestionList.sort(() => Math.random() - 0.5);
+
+  for (const country of shuffledList) {
+    const item = document.createElement('div');
+    item.className = 'game-select-item';
+    item.setAttribute('tabindex', '0');
+    const countryName = settingsState.lang === 'ja'
+      ? borderData[country].jaName
+      : borderData[country].enName;
+    item.textContent = countryName;
+    item.addEventListener('click', () => {
+      addMessage(null, [countryName], 'user');
+      playerTurn(countryName);
+    });
+    inputSelectContainer.appendChild(item);
+  }
+}
+
 
 import * as d3 from 'd3';
 

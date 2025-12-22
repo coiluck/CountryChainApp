@@ -7,6 +7,7 @@ export function setUpSettings() {
   setUpColorSettings();
   setUpFontSettings();
   setUpLangSettings();
+  setUpGameModeSettings();
   setUpMapDisplaySettings();
 }
 
@@ -298,6 +299,35 @@ async function setUpLangSettings() {
       item.classList.add('selected');
       settingsState.lang = item.classList.contains('ja') ? 'ja' : 'en';
       applyTranslationsToDocument();
+      saveSettingsData();
+    });
+  });
+}
+
+function setUpGameModeSettings() {
+  const gameModeSettingsContainer = document.querySelector('.settings-item-content.game-mode');
+  if (!gameModeSettingsContainer) {
+    return;
+  }
+  gameModeSettingsContainer.innerHTML = `
+    <div class="settings-game-mode-item easy">Easy</div>
+    <div class="settings-game-mode-item normal">Normal</div>
+  `;
+  // 初期選択
+  const initialGameMode = settingsState.gameMode as 'normal' | 'easy';
+  const initialGameModeItem = gameModeSettingsContainer.querySelector<HTMLElement>(`.settings-game-mode-item.${initialGameMode}`);
+  if (initialGameModeItem) {
+    initialGameModeItem.classList.add('selected');
+  }
+  // イベントリスナ
+  const gameModeItems = gameModeSettingsContainer.querySelectorAll<HTMLElement>('.settings-game-mode-item');
+  gameModeItems.forEach((item: HTMLElement) => {
+    item.addEventListener('click', () => {
+      gameModeItems.forEach((item: HTMLElement) => {
+        item.classList.remove('selected');
+      });
+      item.classList.add('selected');
+      settingsState.gameMode = item.classList.contains('normal') ? 'normal' : 'easy';
       saveSettingsData();
     });
   });
