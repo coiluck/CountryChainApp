@@ -14,6 +14,8 @@ interface SettingsState {
 interface userData {
   level: number;
   exp: number;
+  accomplishedAchievements: number[];
+  gainedAchievements: number[];
 }
 
 const initialSettingsState: SettingsState = {
@@ -29,6 +31,8 @@ const initialSettingsState: SettingsState = {
 const initialUserData: userData = {
   level: 10,
   exp: 0,
+  accomplishedAchievements: [2,4],
+  gainedAchievements: [1],
 };
 
 export const settingsState = structuredClone(initialSettingsState);
