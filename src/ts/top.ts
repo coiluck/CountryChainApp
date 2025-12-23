@@ -1,12 +1,17 @@
 // top.ts
 import { changeModal, showModal} from './modules/changeModal';
 import { setUpSettings } from './settings';
+import { setUpAchievements } from './achievements';
 
 document.querySelectorAll('.button-container button').forEach(button => {
   button.addEventListener('click', () => {
     switch (button.classList.value) {
       case 'achievements-button':
         showModal('achievements', null, true);
+        setUpAchievements();
+        setTimeout(() => {
+          document.querySelector('.achievements-title-container')?.classList.add('active');
+        }, 500);
         break;
       case 'about-button':
         showModal('about', null, true);
@@ -133,7 +138,7 @@ export const initEarthMap = () => {
 
   // クリーンアップ
   // うまくいかないからつかわない
-  /*
+  // 消すのはダメ
   return () => {
     cancelAnimationFrame(animationId);
     window.removeEventListener('resize', onWindowResize);
@@ -148,5 +153,4 @@ export const initEarthMap = () => {
       }
     });
   };
-  */
 };

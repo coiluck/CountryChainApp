@@ -7,6 +7,18 @@
     "ja": "ゲーム開始",
     "en": "Start Game"
   },
+  "achievementsTitle": {
+    "ja": "ミッション",
+    "en": "Missions"
+  },
+  "achievementsPanelDaily": {
+    "ja": "デイリー",
+    "en": "Daily"
+  },
+  "achievementsPanelAchievement": {
+    "ja": "実績",
+    "en": "Achievement"
+  },
   "settingsTitle": {
     "ja": "設定",
     "en": "Settings"

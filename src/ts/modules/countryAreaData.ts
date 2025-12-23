@@ -65,14 +65,14 @@ export function getRandomCountryFromArea(area: string) {
       return null;
   }
 }
-
+/*
 // 実績用
 // 海に接していない国
 const landlockedCountries = [
-  'AFG', 'AND', 'ARM', 'AUT', 'AZE', 'BDI', 'BFA', 'BLR', 'BOL', 'BTN', 
-  'BWA', 'CAF', 'CHE', 'CZE', 'ETH', 'HUN', 'KAZ', 'KGZ', 'LAO', 'LIE', 
-  'LSO', 'LUX', 'MDA', 'MKD', 'MLI', 'MNG', 'MWI', 'NER', 'NPL', 'PRY', 
-  'RWA', 'SMR', 'SRB', 'SSD', 'SVK', 'SWZ', 'TCD', 'TJK', 'TKM', 'UGA', 
+  'AFG', 'AND', 'ARM', 'AUT', 'AZE', 'BDI', 'BFA', 'BLR', 'BOL', 'BTN',
+  'BWA', 'CAF', 'CHE', 'CZE', 'ETH', 'HUN', 'KAZ', 'KGZ', 'LAO', 'LIE',
+  'LSO', 'LUX', 'MDA', 'MKD', 'MLI', 'MNG', 'MWI', 'NER', 'NPL', 'PRY',
+  'RWA', 'SMR', 'SRB', 'SSD', 'SVK', 'SWZ', 'TCD', 'TJK', 'TKM', 'UGA',
   'UZB', 'VAT', 'XKX', 'ZMB', 'ZWE'
 ];
 // 海がなく、完全に1国の中にある国
@@ -81,3 +81,4 @@ const surroundedCountries = [
   'SMR', // サンマリノ
   'VAT'  // バチカン
 ];
+*/
