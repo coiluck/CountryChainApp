@@ -10,9 +10,9 @@ function setUpUser() {
   const level = document.getElementById('achievements-user-level') as HTMLElement;
   level.textContent = userState.level.toString();
   const levelBar = document.querySelector('.achievements-user-level-bar-fill') as HTMLElement;
-  levelBar.style.width = `${userState.exp / userState.level * 100}%`;
+  levelBar.style.width = `${userState.exp % 100}%`;
   const levelText = document.querySelector('.achievements-user-level-text.experience') as HTMLElement;
-  levelText.textContent = `${userState.exp}/100`;
+  levelText.textContent = `${userState.exp % 100}/100`;
 }
 
 function setUpAchievementsDaily() {
@@ -31,7 +31,7 @@ interface AchievementItem {
 }
 async function setUpAchievementsAchievement() {
   const response = await fetch('./src/json/achievement.json');
-  const achievementData = await response.json()  as AchievementItem[];
+  const achievementData = await response.json() as AchievementItem[];
   if (!achievementData) return;
 
   const achievementContainer = document.querySelector('.achievements-tabs-content-item.achievement') as HTMLElement;
@@ -44,10 +44,8 @@ async function setUpAchievementsAchievement() {
 
       // 達成済み && 報酬を受け取っていない
       if (isAccomplished && !isGained) return 0;
-
       // 未達成
       if (!isAccomplished && !isGained) return 1;
-
       // 獲得済み
       return 2;
     };
@@ -58,24 +56,25 @@ async function setUpAchievementsAchievement() {
   for (const achievement of achievementData) {
     const name = settingsState.lang === 'ja' ? achievement.jaName : achievement.enName;
     const description = settingsState.lang === 'ja' ? achievement.jaDescription : achievement.enDescription;
+
+    let buttonHtml = '';
+    if (userState.gainedAchievements.includes(achievement.id)) {
+      // 獲得済み
+      buttonHtml = `<div class="achievement-item-gained">獲得済み</div>`;
+    } else if (userState.accomplishedAchievements.includes(achievement.id)) {
+      // 達成済み && 未獲得
+      buttonHtml = `<div class="achievement-item-accomplished atodetukeru-button">報酬を獲得</div>`;
+    } else {
+      // 未達成
+      buttonHtml = `<div class="achievement-item-exp-text">+${achievement.exp} EXP</div>`;
+    }
+
     const achievementItem = document.createElement('div');
     achievementItem.classList.add('achievement-item');
-
-    let element = document.createElement('div') as HTMLElement;
     if (userState.gainedAchievements.includes(achievement.id)) {
-      // 獲得済み (Gained)
-      achievementItem.classList.add('gained');
-      element.classList.add('achievement-item-gained');
-      element.textContent = `獲得済み`;
-    } else if (userState.accomplishedAchievements.includes(achievement.id)) {
-      // 達成済み (Accomplished / 未受け取り)
-      element.classList.add('achievement-item-accomplished');
-      element.textContent = `報酬を獲得`;
-    } else {
-      // 未達成 (Default)
-      element.classList.add('achievement-item-exp-text');
-      element.textContent = `+${achievement.exp} EXP`;
+      achievementItem.classList.add('gained'); // 獲得済みはうすく表示
     }
+    achievementItem.dataset.id = achievement.id.toString(); // 獲得時のソート用
     achievementItem.innerHTML = `
       <div class="achievement-item-info">
         <div class="achievement-item-icon"></div>
@@ -83,8 +82,7 @@ async function setUpAchievementsAchievement() {
           <div class="achievement-item-name">${name}</div>
           <div class="achievement-item-description">${description}</div>
         </div>
-        ${element.outerHTML}
-      </div>
+        ${buttonHtml} </div>
       <div class="achievement-item-progress">
         <div class="achievement-item-progress-bar">
           <div class="achievement-item-progress-bar-fill" style="width: 20%;"></div>
@@ -92,8 +90,77 @@ async function setUpAchievementsAchievement() {
       </div>
     `;
 
+    const element = achievementItem.querySelector('.atodetukeru-button') as HTMLElement;
+
+    if (element) {
+      element.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        getExp(achievement.exp);
+
+        achievementItem.style.height = '0px';
+        achievementItem.style.paddingTop = '0px';
+        achievementItem.style.paddingBottom = '0px';
+        achievementItem.style.opacity = '0';
+        achievementItem.style.marginTop = '0px';
+        achievementItem.style.marginBottom = '-15px';
+        setTimeout(() => {
+          achievementItem.classList.add('gained');
+          achievementItem.innerHTML = `
+            <div class="achievement-item-info">
+              <div class="achievement-item-icon"></div>
+              <div class="achievement-item-text">
+                <div class="achievement-item-name">${name}</div>
+                <div class="achievement-item-description">${description}</div>
+              </div>
+              <div class="achievement-item-gained">獲得済み</div>
+            </div>
+            <div class="achievement-item-progress">
+              <div class="achievement-item-progress-bar">
+                <div class="achievement-item-progress-bar-fill" style="width: 20%;"></div>
+              </div>
+            </div>
+          `;
+
+          const allItems = achievementContainer.querySelectorAll('.achievement-item') as NodeListOf<HTMLElement>;
+          let targetNode: HTMLElement | null = null;
+          for (const item of allItems) {
+            if (item === achievementItem) continue;
+
+            // 「獲得済み」かつ「IDが自分より大きい」要素の前
+            if (item.classList.contains('gained')) {
+                const currentId = Number(item.dataset.id);
+                if (currentId > achievement.id) {
+                    targetNode = item;
+                    break;
+                }
+            }
+          }
+
+          if (targetNode) {
+            achievementContainer.insertBefore(achievementItem, targetNode);
+          } else {
+            // 見つからない => 自分が一番大きいID or 獲得済みが他にない
+            achievementContainer.appendChild(achievementItem);
+          }
+
+          achievementItem.style.height = '';
+          achievementItem.style.paddingTop = '';
+          achievementItem.style.paddingBottom = '';
+          achievementItem.style.opacity = '';
+          achievementItem.style.marginTop = '';
+          achievementItem.style.marginBottom = '';
+        }, 300);
+      }, { once: true });
+    }
     achievementContainer.appendChild(achievementItem);
   }
+}
+
+function getExp(exp: number) {
+  userState.exp += exp;
+  console.log(userState.exp);
+  setUpUser();
 }
 
 function setUpAchievementsTabs() {
