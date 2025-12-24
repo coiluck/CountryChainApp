@@ -15,7 +15,7 @@ interface TranslationItem {
 let translationData: TranslationData | null = null;
 
 export async function loadTranslationData() {
-  const response = await fetch('./src/json/translation.json');
+  const response = await fetch('/json/translation.json');
   if (!translationData) {
     translationData = await response.json() as TranslationData;
   }

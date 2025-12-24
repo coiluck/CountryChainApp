@@ -12,7 +12,7 @@ interface Country {
 let countryMapData: object | null = null;
 
 async function loadCountryMapData() {
-  const response = await fetch('./src/json/country-map.json');
+  const response = await fetch('/json/country-map.json');
   if (!countryMapData) {
     countryMapData = await response.json();
   }
@@ -22,7 +22,7 @@ async function loadCountryMapData() {
 let countryBorderData: object | null = null;
 
 async function loadCountryBorderData() {
-  const response = await fetch('./src/json/country-border.json');
+  const response = await fetch('/json/country-border.json');
   if (!countryBorderData) {
     countryBorderData = await response.json();
   }
@@ -327,9 +327,9 @@ async function showInputSelectForEasyMode() {
     let safety = 0; // 無限ループ防止
     while (count < 3 && safety < 50) {
       const candidate = getRandomCountryFromArea(area);
-      if (candidate && 
-          !suggestionList.includes(candidate) && 
-          !usedCountries.has(candidate) && 
+      if (candidate &&
+          !suggestionList.includes(candidate) &&
+          !usedCountries.has(candidate) &&
           candidate !== currentCountry &&
           borderData[candidate]) {
         suggestionList.push(candidate);
@@ -344,9 +344,9 @@ async function showInputSelectForEasyMode() {
   while (count < 2 && safety < 100) {
     const randomIndex = Math.floor(Math.random() * countryCodes.length);
     const candidate = countryCodes[randomIndex];
-    if (candidate && 
-        !suggestionList.includes(candidate) && 
-        !usedCountries.has(candidate) && 
+    if (candidate &&
+        !suggestionList.includes(candidate) &&
+        !usedCountries.has(candidate) &&
         candidate !== currentCountry) {
       suggestionList.push(candidate);
       count++;

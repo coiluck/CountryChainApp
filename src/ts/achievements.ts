@@ -30,12 +30,13 @@ interface AchievementItem {
   exp: number;
 }
 async function setUpAchievementsAchievement() {
-  const response = await fetch('./src/json/achievement.json');
+  const response = await fetch('/json/achievement.json');
   const achievementData = await response.json() as AchievementItem[];
   if (!achievementData) return;
 
   const achievementContainer = document.querySelector('.achievements-tabs-content-item.achievement') as HTMLElement;
   achievementContainer.innerHTML = '';
+  achievementContainer.scrollTop = 0;
 
   achievementData.sort((a, b) => {
     const getPriority = (id: number) => {
@@ -156,12 +157,21 @@ async function setUpAchievementsAchievement() {
     achievementContainer.appendChild(achievementItem);
   }
 }
-
 function getExp(exp: number) {
   userState.exp += exp;
-  console.log(userState.exp);
+  let leveledUp = false;
+  while (userState.exp >= 100) {
+    userState.exp -= 100;
+    userState.level++;
+    leveledUp = true;
+  }
+  if (leveledUp) {
+    // 音を鳴らす
+  }
+  // saveUserData();
   setUpUser();
 }
+
 
 function setUpAchievementsTabs() {
   const background = document.querySelector('.achievements-tabs-background') as HTMLElement;
