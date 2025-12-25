@@ -16,6 +16,10 @@ interface userData {
   exp: number;
   accomplishedAchievements: number[];
   gainedAchievements: number[];
+  dailyAchievements: number[];
+  dailyAchievementsAccomplished: number[];
+  dailyAchievementsGained: number[];
+  lastDailyUpdate: number | null;
 }
 
 const initialSettingsState: SettingsState = {
@@ -33,6 +37,10 @@ const initialUserData: userData = {
   exp: 0,
   accomplishedAchievements: [2,4],
   gainedAchievements: [1],
+  dailyAchievements: [],
+  dailyAchievementsAccomplished: [],
+  dailyAchievementsGained: [],
+  lastDailyUpdate: null,
 };
 
 export const settingsState = structuredClone(initialSettingsState);

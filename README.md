@@ -18,4 +18,6 @@
   npm run tauri android build
 # For APK only
   npm run tauri android build -- --apk
+# Debug build
+  npm run tauri android build -- --debug
 ```

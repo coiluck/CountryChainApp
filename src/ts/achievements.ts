@@ -15,8 +15,20 @@ function setUpUser() {
   levelText.textContent = `${userState.exp % 100}/100`;
 }
 
+import { shouldResetDaily } from './modules/missions';
+
 function setUpAchievementsDaily() {
-  // atode
+  const dailyContainer = document.querySelector('.achievements-tabs-content-item.daily') as HTMLElement;
+  if (!dailyContainer) return;
+  dailyContainer.innerHTML = '';
+  dailyContainer.scrollTop = 0;
+
+  // 更新処理
+  const isNeedUpdate = shouldResetDaily();
+  if (isNeedUpdate) {
+    console.log('Reset daily achievements');
+    // userState.lastDailyUpdate = Date.now();
+  }
 }
 
 import { settingsState, userState } from './modules/userState';

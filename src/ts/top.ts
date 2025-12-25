@@ -129,6 +129,8 @@ export const initEarthMap = () => {
     const newWidth = container.clientWidth;
     const newHeight = container.clientHeight;
 
+    if (newWidth === 0 || newHeight === 0) return;
+
     camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);

@@ -261,8 +261,8 @@
   transition: transform 0.2s ease;
 }
 .radio-group input[type="radio"]:checked + .settings-radio-icon {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
 }
 
 .radio-group input[type="radio"]:checked + .settings-radio-icon::after {
@@ -305,7 +305,7 @@
   cursor: pointer;
 }
 .settings-lang-item.selected {
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--secondary-color);
 }
 
 /* game mode settings */
@@ -333,10 +333,14 @@
   text-align: center;
   border: 2px solid transparent;
   border-radius: calc(.8rem * 1.6 + 8px);
+  border-radius: calc(.8rem * 1.6 + 8px);
+  box-shadow:
+    0 2px 4px rgb(from var(--text-color) r g b / 0.1);
+  cursor: pointer;
 }
 
 .settings-game-mode-item.selected {
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--secondary-color);
 }
 
 /* map display settings */
@@ -388,10 +392,10 @@
   transition: .4s;
 }
 input:checked + .slider {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
 }
 input:focus + .slider {
-  box-shadow: 0 0 1px var(--primary-color);
+  box-shadow: 0 0 1px var(--secondary-color);
 }
 input:checked + .slider:before {
   -webkit-transform: translate(1rem, -50%);
