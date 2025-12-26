@@ -1,0 +1,149 @@
+[
+  {
+    "id": 1,
+    "jaDescription": "ゲームを1回プレイする",
+    "enDescription": "Play the game once.",
+    "slot": 1,
+    "exp": 40
+  },
+  {
+    "id": 2,
+    "jaDescription": "Easyモードでゲームを1回プレイする",
+    "enDescription": "Play the game in Easy mode once.",
+    "slot": 1,
+    "exp": 40
+  },
+  {
+    "id": 3,
+    "jaDescription": "Nomalモードでゲームを1回プレイする",
+    "enDescription": "Play the game in Normal mode once.",
+    "slot": 1,
+    "exp": 40
+  },
+  {
+    "id": 4,
+    "jaDescription": "コンピュータに1回勝利する",
+    "enDescription": "Win against the computer once.",
+    "slot": 1,
+    "exp": 40
+  },
+  {
+    "id": 5,
+    "jaDescription": "ミスをせずに10ターン続ける",
+    "enDescription": "Continue for 10 turns without any mistakes.",
+    "slot": 2,
+    "exp": 40
+  },
+  {
+    "id": 6,
+    "jaDescription": "合計で25ターン以上やり取りをする",
+    "enDescription": "Exchange a total of 25 turns or more.",
+    "slot": 2,
+    "exp": 40
+  },
+  {
+    "id": 7,
+    "jaDescription": "アジア・ヨーロッパ・アフリカの国をそれぞれ1つ以上回答する",
+    "enDescription": "Answer at least one country each from Asia, Europe, and Africa.",
+    "slot": 2,
+    "exp": 40
+  },
+  {
+    "id": 8,
+    "jaDescription": "内陸国を合計3回回答する",
+    "enDescription": "Answer landlocked countries a total of 3 times.",
+    "slot": 2,
+    "exp": 40
+  },
+  {
+    "id": 9,
+    "jaDescription": "ヨーロッパの国を5回回答する",
+    "enDescription": "Answer European countries 5 times.",
+    "slot": 2,
+    "exp": 40
+  },
+  {
+    "id": 10,
+    "jaDescription": "アフリカ大陸の国を5回回答する",
+    "enDescription": "Answer African countries 5 times.",
+    "slot": 2,
+    "exp": 40
+  },
+  {
+    "id": 11,
+    "jaDescription": "アジアの国を5回回答する",
+    "enDescription": "Answer Asian countries 5 times.",
+    "slot": 2,
+    "exp": 40
+  },
+  {
+    "id": 12,
+    "jaDescription": "南米の国を5回回答する",
+    "enDescription": "Answer South American countries 5 times.",
+    "slot": 2,
+    "exp": 40
+  },
+  {
+    "id": 13,
+    "jaDescription": "赤道直下の国を言う（CPU、人間のどちらでも可）",
+    "enDescription": "Mention a country on the equator (either you or the CPU).",
+    "slot": 3,
+    "exp": 40
+  },
+  {
+    "id": 14,
+    "jaDescription": "ブラジルを言う（CPU、人間のどちらでも可）",
+    "enDescription": "Mention Brazil (either you or the CPU).",
+    "slot": 3,
+    "exp": 40
+  },
+  {
+    "id": 15,
+    "jaDescription": "中国を言う（CPU、人間のどちらでも可）",
+    "enDescription": "Mention China (either you or the CPU).",
+    "slot": 3,
+    "exp": 40
+  },
+  {
+    "id": 16,
+    "jaDescription": "エジプトを言う（CPU、人間のどちらでも可）",
+    "enDescription": "Mention Egypt (either you or the CPU).",
+    "slot": 3,
+    "exp": 40
+  },
+  {
+    "id": 17,
+    "jaDescription": "フランスを言う（CPU、人間のどちらでも可）",
+    "enDescription": "Mention France (either you or the CPU).",
+    "slot": 3,
+    "exp": 40
+  },
+  {
+    "id": 18,
+    "jaDescription": "ドイツを言う（CPU、人間のどちらでも可）",
+    "enDescription": "Mention Germany (either you or the CPU).",
+    "slot": 3,
+    "exp": 40
+  },
+  {
+    "id": 19,
+    "jaDescription": "ロシアを言う（CPU、人間のどちらでも可）",
+    "enDescription": "Mention Russia (either you or the CPU).",
+    "slot": 3,
+    "exp": 40
+  },
+  {
+    "id": 20,
+    "jaDescription": "サウジアラビアを言う（CPU、人間のどちらでも可）",
+    "enDescription": "Mention Saudi Arabia (either you or the CPU).",
+    "slot": 3,
+    "exp": 40
+  },
+  {
+    "id": 21,
+    "jaDescription": "トルコを言う（CPU、人間のどちらでも可）",
+    "enDescription": "Mention Turkey (either you or the CPU).",
+    "slot": 3,
+    "exp": 40
+  }
+]

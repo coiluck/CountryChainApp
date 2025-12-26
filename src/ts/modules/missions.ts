@@ -30,6 +30,46 @@ export function shouldResetDaily() {
   return lastResetTime.getTime() !== currentResetTime.getTime();
 }
 
-export function decideDailyAchievements() {
-  // 後で書く
+interface DailyAchievement {
+  id: number;
+  jaDescription: string;
+  enDescription: string;
+  slot: number;
+  exp: number;
+}
+
+let dailyAchievementsData: DailyAchievement[] | null = null;
+
+async function loadDailyAchievementsData() {
+  const response = await fetch('/json/daily.json');
+  if (!dailyAchievementsData) {
+    dailyAchievementsData = await response.json();
+  }
+  return dailyAchievementsData;
+}
+
+export async function decideDailyAchievements() {
+  const data = await loadDailyAchievementsData();
+  if (!data) return;
+
+  const slot1data = data.filter(item => item.slot === 1);
+  const slot2data = data.filter(item => item.slot === 2);
+  const slot3data = data.filter(item => item.slot === 3);
+
+  const pickRandom = (array: DailyAchievement[]) => {
+    if (array.length === 0) return null;
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
+  };
+
+  const selectedSlot1 = pickRandom(slot1data);
+  const selectedSlot2 = pickRandom(slot2data);
+  const selectedSlot3 = pickRandom(slot3data);
+
+  if (!selectedSlot1 || !selectedSlot2 || !selectedSlot3) {
+    console.error('Failed to select daily achievements');
+    return null;
+  }
+
+  return [selectedSlot1, selectedSlot2, selectedSlot3];
 }

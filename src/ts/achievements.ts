@@ -15,9 +15,18 @@ function setUpUser() {
   levelText.textContent = `${userState.exp % 100}/100`;
 }
 
-import { shouldResetDaily } from './modules/missions';
+import { shouldResetDaily, decideDailyAchievements } from './modules/missions';
+import { saveUserData } from './modules/userState';
 
-function setUpAchievementsDaily() {
+interface DailyAchievementItem {
+  id: number;
+  jaDescription: string;
+  enDescription: string;
+  slot: number;
+  exp: number;
+}
+
+async function setUpAchievementsDaily() {
   const dailyContainer = document.querySelector('.achievements-tabs-content-item.daily') as HTMLElement;
   if (!dailyContainer) return;
   dailyContainer.innerHTML = '';
@@ -26,8 +35,75 @@ function setUpAchievementsDaily() {
   // 更新処理
   const isNeedUpdate = shouldResetDaily();
   if (isNeedUpdate) {
-    console.log('Reset daily achievements');
-    // userState.lastDailyUpdate = Date.now();
+    userState.lastDailyUpdate = Date.now();
+    const newDailyAchievements = await decideDailyAchievements();
+    if (newDailyAchievements) {
+      userState.dailyAchievements = newDailyAchievements.map((item: any) => item.id);
+      userState.dailyAchievementsAccomplished = [];
+      userState.dailyAchievementsGained = [];
+
+      saveUserData();
+    }
+  }
+
+  const response = await fetch('/json/daily.json');
+  const dailyAchievementsData = await response.json() as DailyAchievementItem[];
+
+  for (const achievementItemId of userState.dailyAchievements) {
+    const achievement = dailyAchievementsData.find((item) => item.id === achievementItemId);
+    if (!achievement) continue;
+
+    const achievementItem = document.createElement('div');
+    achievementItem.classList.add('achievement-item');
+
+    let buttonHtml = '';
+    if (userState.dailyAchievementsAccomplished.includes(achievement.id)) {
+      buttonHtml = `<div class="achievement-item-accomplished atodetukeru-button">報酬を獲得</div>`;
+    } else if (userState.dailyAchievementsGained.includes(achievement.id)) {
+      buttonHtml = `<div class="achievement-item-gained">獲得済み</div>`;
+      achievementItem.classList.add('gained');
+    } else {
+      buttonHtml = `<div class="achievement-item-exp-text">+${achievement.exp} EXP</div>`;
+    }
+    const description = settingsState.lang === 'ja' ? achievement.jaDescription : achievement.enDescription;
+
+    achievementItem.innerHTML = `
+      <div class="achievement-item-info">
+        <div class="achievement-item-icon"></div>
+        <div class="achievement-item-text">
+          <div class="achievement-item-description">${description}</div>
+        </div>
+        ${buttonHtml}
+      </div>
+      <div class="achievement-item-progress">
+        <div class="achievement-item-progress-bar">
+          <div class="achievement-item-progress-bar-fill" style="width: 20%;"></div>
+        </div>
+    `;
+
+    const element = achievementItem.querySelector('.atodetukeru-button') as HTMLElement;
+    if (element) {
+      element.addEventListener('click', (e) => {
+        e.stopPropagation();
+        getExp(achievement.exp);
+        achievementItem.classList.add('gained');
+        achievementItem.innerHTML = `
+          <div class="achievement-item-info">
+            <div class="achievement-item-icon"></div>
+            <div class="achievement-item-text">
+              <div class="achievement-item-description">${description}</div>
+            </div>
+            <div class="achievement-item-gained">獲得済み</div>
+          </div>
+          <div class="achievement-item-progress">
+            <div class="achievement-item-progress-bar">
+              <div class="achievement-item-progress-bar-fill" style="width: 20%;"></div>
+            </div>
+          </div>
+        `;
+      });
+    }
+    dailyContainer.appendChild(achievementItem);
   }
 }
 
@@ -95,7 +171,8 @@ async function setUpAchievementsAchievement() {
           <div class="achievement-item-name">${name}</div>
           <div class="achievement-item-description">${description}</div>
         </div>
-        ${buttonHtml} </div>
+        ${buttonHtml}
+      </div>
       <div class="achievement-item-progress">
         <div class="achievement-item-progress-bar">
           <div class="achievement-item-progress-bar-fill" style="width: 20%;"></div>
