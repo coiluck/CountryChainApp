@@ -118,10 +118,10 @@
 }
 @media (max-width: 480px) {
   .settings-title-container {
-    width: 90%; /* これだけ揃えない */
+    width: 90%;
   }
   .settings-item-label span {
-    width: 70%;
+    width: 90%;
   }
 }
 
@@ -140,7 +140,7 @@
 }
 @media (max-width: 480px) {
   .settings-item-content.color {
-    width: 70%;
+    width: 90%;
   }
 }
 .settings-color-label {
@@ -291,7 +291,7 @@
 }
 @media (max-width: 480px) {
   .settings-item-content.lang {
-    width: 70%;
+    width: 90%;
   }
 }
 .settings-lang-item {
@@ -323,7 +323,7 @@
 }
 @media (max-width: 480px) {
   .settings-item-content.game-mode {
-    width: 70%;
+    width: 90%;
   }
 }
 
