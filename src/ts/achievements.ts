@@ -4,6 +4,7 @@ export function setUpAchievements() {
   setUpUser();
   setUpAchievementsDaily();
   setUpAchievementsAchievement();
+  console.log(userState);
 }
 
 function setUpUser() {
@@ -24,6 +25,7 @@ interface DailyAchievementItem {
   enDescription: string;
   slot: number;
   exp: number;
+  maxProgress: number;
 }
 
 async function setUpAchievementsDaily() {
@@ -66,6 +68,7 @@ async function setUpAchievementsDaily() {
       buttonHtml = `<div class="achievement-item-exp-text">+${achievement.exp} EXP</div>`;
     }
     const description = settingsState.lang === 'ja' ? achievement.jaDescription : achievement.enDescription;
+    const progress = (userState.dailyProgress[achievement.id] || 0) / achievement.maxProgress * 100;
 
     achievementItem.innerHTML = `
       <div class="achievement-item-info">
@@ -77,8 +80,9 @@ async function setUpAchievementsDaily() {
       </div>
       <div class="achievement-item-progress">
         <div class="achievement-item-progress-bar">
-          <div class="achievement-item-progress-bar-fill" style="width: 20%;"></div>
+          <div class="achievement-item-progress-bar-fill" style="width: ${progress}%"></div>
         </div>
+      </div>
     `;
 
     const element = achievementItem.querySelector('.atodetukeru-button') as HTMLElement;
@@ -97,7 +101,7 @@ async function setUpAchievementsDaily() {
           </div>
           <div class="achievement-item-progress">
             <div class="achievement-item-progress-bar">
-              <div class="achievement-item-progress-bar-fill" style="width: 20%;"></div>
+              <div class="achievement-item-progress-bar-fill" style="width: 100%;"></div>
             </div>
           </div>
         `;
@@ -116,6 +120,7 @@ interface AchievementItem {
   jaDescription: string;
   enDescription: string;
   exp: number;
+  maxProgress: number;
 }
 async function setUpAchievementsAchievement() {
   const response = await fetch('/json/achievement.json');
@@ -145,7 +150,7 @@ async function setUpAchievementsAchievement() {
   for (const achievement of achievementData) {
     const name = settingsState.lang === 'ja' ? achievement.jaName : achievement.enName;
     const description = settingsState.lang === 'ja' ? achievement.jaDescription : achievement.enDescription;
-
+    const progress = (userState.achievementProgress[achievement.id] || 0) / achievement.maxProgress * 100;
     let buttonHtml = '';
     if (userState.gainedAchievements.includes(achievement.id)) {
       // 獲得済み
@@ -175,7 +180,7 @@ async function setUpAchievementsAchievement() {
       </div>
       <div class="achievement-item-progress">
         <div class="achievement-item-progress-bar">
-          <div class="achievement-item-progress-bar-fill" style="width: 20%;"></div>
+          <div class="achievement-item-progress-bar-fill" style="width: ${progress}%"></div>
         </div>
       </div>
     `;
@@ -207,7 +212,7 @@ async function setUpAchievementsAchievement() {
             </div>
             <div class="achievement-item-progress">
               <div class="achievement-item-progress-bar">
-                <div class="achievement-item-progress-bar-fill" style="width: 20%;"></div>
+                <div class="achievement-item-progress-bar-fill" style="width: 100%;"></div>
               </div>
             </div>
           `;

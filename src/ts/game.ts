@@ -1,6 +1,7 @@
 // game.ts
 import { settingsState } from './modules/userState';
 import { getTranslatedText } from './modules/translation'
+import { judgeAchievements } from './modules/judgeAchievements';
 
 interface Country {
   enName: string;
@@ -170,6 +171,7 @@ async function computerTurn() {
     }
   } else {
     addMessage('gameWin', [], 'system');
+    finishGame();
   }
 }
 
@@ -199,7 +201,7 @@ async function playerTurn(answer: string) {
     addMessage('gameUsed', [answer], 'system');
     if (mistakes >= 2) {
       addMessage('gameOver', [], 'system');
-      // ゲームオーバー処理
+      finishGame();
       return;
     }
     return;
@@ -208,7 +210,7 @@ async function playerTurn(answer: string) {
     addMessage('gameNotNeighbor', [answer, currentCountryName], 'system');
     if (mistakes >= 2) {
       addMessage('gameOver', [], 'system');
-      // ゲームオーバー処理
+      finishGame();
       return;
     }
     return;
@@ -237,6 +239,16 @@ async function sendMessage() {
       suggestions.style.display = 'none';
     }
   }
+}
+
+function finishGame() {
+  // メッセージは追加済み
+  judgeAchievements(usedCountries, mistakes, false);
+  showPlayAgainButton();
+}
+
+function showPlayAgainButton() {
+  // 後で書く
 }
 
 function showSuggestions() {

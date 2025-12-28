@@ -5,7 +5,9 @@
     "enName": "",
     "jaDescription": "初めてゲームをプレイする",
     "enDescription": "",
-    "exp": 40
+    "exp": 40,
+    "maxProgress": 1,
+    "isCumulative": true
   },
   {
     "id": 2,
@@ -13,7 +15,9 @@
     "enName": "",
     "jaDescription": "累計で10回以上ゲームをプレイする",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 10,
+    "isCumulative": true
   },
   {
     "id": 3,
@@ -21,7 +25,9 @@
     "enName": "",
     "jaDescription": "累計で100回以上ゲームをプレイする",
     "enDescription": "",
-    "exp": 80
+    "exp": 80,
+    "maxProgress": 100,
+    "isCumulative": true
   },
   {
     "id": 4,
@@ -29,7 +35,9 @@
     "enName": "",
     "jaDescription": "初めてゲームに勝利する",
     "enDescription": "",
-    "exp": 40
+    "exp": 40,
+    "maxProgress": 1,
+    "isCumulative": true
   },
   {
     "id": 5,
@@ -37,7 +45,9 @@
     "enName": "",
     "jaDescription": "累計で10回以上ゲームに勝利する",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 10,
+    "isCumulative": true
   },
   {
     "id": 6,
@@ -45,7 +55,9 @@
     "enName": "",
     "jaDescription": "累計で100回以上ゲームに勝利する",
     "enDescription": "",
-    "exp": 80
+    "exp": 80,
+    "maxProgress": 100,
+    "isCumulative": true
   },
   {
     "id": 7,
@@ -53,7 +65,9 @@
     "enName": "",
     "jaDescription": "Normalモードで初めて勝利する",
     "enDescription": "",
-    "exp": 40
+    "exp": 40,
+    "maxProgress": 1,
+    "isCumulative": true
   },
   {
     "id": 8,
@@ -61,7 +75,8 @@
     "enName": "",
     "jaDescription": "10ターン以内にCPUを詰ませて勝利する",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 1
   },
   {
     "id": 9,
@@ -69,7 +84,8 @@
     "enName": "",
     "jaDescription": "一度もミスをせずに勝利する",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 1
   },
   {
     "id": 10,
@@ -77,7 +93,8 @@
     "enName": "",
     "jaDescription": "ミスを2回した状態（あと1回ミスしたらゲームオーバーの状態）で勝利する",
     "enDescription": "",
-    "exp": 40
+    "exp": 40,
+    "maxProgress": 1
   },
   {
     "id": 11,
@@ -85,7 +102,8 @@
     "enName": "",
     "jaDescription": "開始から5ターン以内でゲームオーバーになる",
     "enDescription": "",
-    "exp": 40
+    "exp": 40,
+    "maxProgress": 1
   },
   {
     "id": 12,
@@ -93,7 +111,8 @@
     "enName": "",
     "jaDescription": "CPUと人間で100以上のやり取りをする",
     "enDescription": "",
-    "exp": 80
+    "exp": 80,
+    "maxProgress": 100
   },
   {
     "id": 13,
@@ -101,7 +120,8 @@
     "enName": "",
     "jaDescription": "カナダとグリーンランドを行き来する",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 1
   },
   {
     "id": 14,
@@ -109,15 +129,17 @@
     "enName": "",
     "jaDescription": "1回のゲーム内で「〜スタン」とつく国を3つ以上経由する",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 3
   },
   {
     "id": 15,
     "jaName": "籠の中の鳥",
     "enName": "",
-    "jaDescription": "CPUを「完全に囲まれた国」に誘導して勝利する（例：レソト、サンマリノ、バチカン市国）",
+    "jaDescription": "CPUを「完全に囲まれた国（レソト、サンマリノ、バチカン市国）」に誘導して勝利する",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 1
   },
   {
     "id": 16,
@@ -125,7 +147,8 @@
     "enName": "",
     "jaDescription": "世界の面積トップ5の国（ロシア、カナダ、アメリカ、中国、ブラジル）のうち、3カ国を経由する",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 3
   },
   {
     "id": 17,
@@ -133,22 +156,25 @@
     "enName": "",
     "jaDescription": "「内陸国（海に面していない国）」を5連続でつなげる",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 5
   },
   {
     "id": 18,
     "jaName": "アフリカの星",
     "enName": "",
-    "jaDescription": "アフリカ大陸の国だけで30ターン以上ラリーを続ける",
+    "jaDescription": "アフリカ大陸の国だけで40ターン以上ラリーを続ける",
     "enDescription": "",
-    "exp": 80
+    "exp": 80,
+    "maxProgress": 40
   },
   {
     "id": 19,
     "jaName": "大陸横断",
     "enName": "",
-    "jaDescription": "1回のゲームで3つ以上の大陸（例：アジア→欧州→アフリカ）を経由する",
+    "jaDescription": "1回のゲームで3つ以上の地域（例：アジア→欧州→アフリカ）を経由する",
     "enDescription": "",
-    "exp": 60
+    "exp": 60,
+    "maxProgress": 3
   }
 ]
