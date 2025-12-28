@@ -55,6 +55,7 @@ export async function startNewGame() {
   usedCountries.clear();
   isPlayerTurn = false;
   mistakes = 0;
+  updateLife();
   await makeCountryData();
   // ゲームモードの設定
   if (settingsState.gameMode === 'normal') {
@@ -198,8 +199,9 @@ async function playerTurn(answer: string) {
   // ここからミス判定
   if (usedCountries.has(answerCode)) {
     mistakes++;
+    updateLife();
     addMessage('gameUsed', [answer], 'system');
-    if (mistakes >= 2) {
+    if (mistakes >= 3) {
       addMessage('gameOver', [], 'system');
       finishGame();
       return;
@@ -207,8 +209,9 @@ async function playerTurn(answer: string) {
     return;
   } else if (!countryList[currentCountry].neighbors.includes(answerCode)) {
     mistakes++;
+    updateLife();
     addMessage('gameNotNeighbor', [answer, currentCountryName], 'system');
-    if (mistakes >= 2) {
+    if (mistakes >= 3) {
       addMessage('gameOver', [], 'system');
       finishGame();
       return;
@@ -216,7 +219,6 @@ async function playerTurn(answer: string) {
     return;
   }
   // ここから正解判定
-  mistakes = 0;
   usedCountries.add(answerCode);
   currentCountry = answerCode;
   isPlayerTurn = false;
@@ -238,6 +240,18 @@ async function sendMessage() {
     if (suggestions) {
       suggestions.style.display = 'none';
     }
+  }
+}
+
+function updateLife() {
+  const life = document.getElementById('game-life') as HTMLElement;
+  if (life) {
+    life.textContent = `残りライフ: ${3 - mistakes}`;
+  } else {
+    const lifeDiv = document.createElement('div');
+    lifeDiv.id = 'game-life';
+    lifeDiv.textContent = `残りライフ: ${3 - mistakes}`;
+    document.querySelector('.game-chat-container')?.appendChild(lifeDiv);
   }
 }
 

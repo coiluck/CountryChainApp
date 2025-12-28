@@ -76,8 +76,8 @@
     "en": "${answer} is not in the list. Please use the suggestions and try again."
   },
   "gameOver": {
-    "ja": "2回連続で間違えたためゲームオーバーです！",
-    "en": "Game Over! You made 2 mistakes in a row."
+    "ja": "3回間違えたためゲームオーバーです！",
+    "en": "Game Over! You made 3 mistakes."
   },
   "gameWin": {
     "ja": "コンピュータが言える国がなくなりました。プレイヤーの勝利です！",

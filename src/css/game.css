@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  position: relative;
   background-color: var(--bg-bright);
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(from var(--text-color) r g b / 0.1);
@@ -29,6 +30,26 @@
   -ms-overflow-style: none;
 }
 
+#game-life {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  padding: 8px 0 12px;
+  font-size: .9rem;
+  text-align: center;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--bg-bright) 90%, transparent) 0%,
+    color-mix(in srgb, var(--bg-bright) 81%, transparent) 20%,
+    color-mix(in srgb, var(--bg-bright) 72%, transparent) 35%,
+    color-mix(in srgb, var(--bg-bright) 54%, transparent) 55%,
+    color-mix(in srgb, var(--bg-bright) 36%, transparent) 75%,
+    color-mix(in srgb, var(--bg-bright) 18%, transparent) 90%,
+    transparent 100%
+  );
+}
 
 /* massege */
 .game-message {
