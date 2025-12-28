@@ -2,9 +2,9 @@
   {
     "id": 1,
     "jaName": "パスポート取得",
-    "enName": "",
+    "enName": "Passport Acquired",
     "jaDescription": "初めてゲームをプレイする",
-    "enDescription": "",
+    "enDescription": "Play the game for the first time.",
     "exp": 40,
     "maxProgress": 1,
     "isCumulative": true
@@ -12,9 +12,9 @@
   {
     "id": 2,
     "jaName": "手に馴染むパスポート",
-    "enName": "",
+    "enName": "Well-Used Passport",
     "jaDescription": "累計で10回以上ゲームをプレイする",
-    "enDescription": "",
+    "enDescription": "Play the game a total of 10 times.",
     "exp": 60,
     "maxProgress": 10,
     "isCumulative": true
@@ -22,9 +22,9 @@
   {
     "id": 3,
     "jaName": "使い古されたパスポート",
-    "enName": "",
+    "enName": "Tattered Passport",
     "jaDescription": "累計で100回以上ゲームをプレイする",
-    "enDescription": "",
+    "enDescription": "Play the game a total of 100 times.",
     "exp": 80,
     "maxProgress": 100,
     "isCumulative": true
@@ -32,9 +32,9 @@
   {
     "id": 4,
     "jaName": "地理学者への第一歩",
-    "enName": "",
+    "enName": "First Step to Geography",
     "jaDescription": "初めてゲームに勝利する",
-    "enDescription": "",
+    "enDescription": "Win the game for the first time.",
     "exp": 40,
     "maxProgress": 1,
     "isCumulative": true
@@ -42,9 +42,9 @@
   {
     "id": 5,
     "jaName": "地理学徒",
-    "enName": "",
+    "enName": "Geography Student",
     "jaDescription": "累計で10回以上ゲームに勝利する",
-    "enDescription": "",
+    "enDescription": "Win the game a total of 10 times.",
     "exp": 60,
     "maxProgress": 10,
     "isCumulative": true
@@ -52,19 +52,19 @@
   {
     "id": 6,
     "jaName": "地理学の権威",
-    "enName": "",
+    "enName": "Geography Authority",
     "jaDescription": "累計で100回以上ゲームに勝利する",
-    "enDescription": "",
+    "enDescription": "Win the game a total of 100 times.",
     "exp": 80,
     "maxProgress": 100,
     "isCumulative": true
   },
   {
     "id": 7,
-    "jaName": "キーボード・ウォリアー",
-    "enName": "",
+    "jaName": "キーボード戦士",
+    "enName": "Keyboard Warrior",
     "jaDescription": "Normalモードで初めて勝利する",
-    "enDescription": "",
+    "enDescription": "Win for the first time in Normal Mode.",
     "exp": 40,
     "maxProgress": 1,
     "isCumulative": true
@@ -72,108 +72,108 @@
   {
     "id": 8,
     "jaName": "電光石火",
-    "enName": "",
+    "enName": "Lightning Speed",
     "jaDescription": "10ターン以内にCPUを詰ませて勝利する",
-    "enDescription": "",
+    "enDescription": "Corner the CPU and win within 10 turns.",
     "exp": 60,
     "maxProgress": 1
   },
   {
     "id": 9,
     "jaName": "完全試合",
-    "enName": "",
+    "enName": "Perfect Game",
     "jaDescription": "一度もミスをせずに勝利する",
-    "enDescription": "",
+    "enDescription": "Win without making a single mistake.",
     "exp": 60,
     "maxProgress": 1
   },
   {
     "id": 10,
     "jaName": "九死に一生",
-    "enName": "",
+    "enName": "Narrow Escape",
     "jaDescription": "ミスを2回した状態（あと1回ミスしたらゲームオーバーの状態）で勝利する",
-    "enDescription": "",
+    "enDescription": "Win while having made 2 mistakes (one mistake away from Game Over).",
     "exp": 40,
     "maxProgress": 1
   },
   {
     "id": 11,
     "jaName": "三日天下",
-    "enName": "",
+    "enName": "Short-Lived Reign",
     "jaDescription": "開始から5ターン以内でゲームオーバーになる",
-    "enDescription": "",
+    "enDescription": "Game Over within 5 turns of starting.",
     "exp": 40,
     "maxProgress": 1
   },
   {
     "id": 12,
     "jaName": "負けられない戦い",
-    "enName": "",
+    "enName": "Battle of Attrition",
     "jaDescription": "CPUと人間で100以上のやり取りをする",
-    "enDescription": "",
+    "enDescription": "Exchange 100 or more turns with the CPU.",
     "exp": 80,
     "maxProgress": 100
   },
   {
     "id": 13,
     "jaName": "平和な行き来",
-    "enName": "",
+    "enName": "Peaceful Passage",
     "jaDescription": "カナダとグリーンランドを行き来する",
-    "enDescription": "",
+    "enDescription": "Go back and forth between Canada and Greenland.",
     "exp": 60,
     "maxProgress": 1
   },
   {
     "id": 14,
     "jaName": "スタン・ラリー",
-    "enName": "",
+    "enName": "The Stan Rally",
     "jaDescription": "1回のゲーム内で「〜スタン」とつく国を3つ以上経由する",
-    "enDescription": "",
+    "enDescription": "Go through 3 or more countries ending in \"-stan\" in a single game.",
     "exp": 60,
     "maxProgress": 3
   },
   {
     "id": 15,
     "jaName": "籠の中の鳥",
-    "enName": "",
+    "enName": "Caged Bird",
     "jaDescription": "CPUを「完全に囲まれた国（レソト、サンマリノ、バチカン市国）」に誘導して勝利する",
-    "enDescription": "",
+    "enDescription": "Win by guiding the CPU to an enclave country (Lesotho, San Marino, Vatican City).",
     "exp": 60,
     "maxProgress": 1
   },
   {
     "id": 16,
     "jaName": "巨人の肩の上",
-    "enName": "",
+    "enName": "On the Shoulders of Giants",
     "jaDescription": "世界の面積トップ5の国（ロシア、カナダ、アメリカ、中国、ブラジル）のうち、3カ国を経由する",
-    "enDescription": "",
+    "enDescription": "Go through 3 of the top 5 countries by land area (Russia, Canada, USA, China, Brazil).",
     "exp": 60,
     "maxProgress": 3
   },
   {
     "id": 17,
-    "jaName": "海は見るだけ",
-    "enName": "",
+    "jaName": "乾いた旅路",
+    "enName": "The Dry Route",
     "jaDescription": "「内陸国（海に面していない国）」を5連続でつなげる",
-    "enDescription": "",
+    "enDescription": "Connect 5 landlocked countries in a row.",
     "exp": 60,
     "maxProgress": 5
   },
   {
     "id": 18,
     "jaName": "アフリカの星",
-    "enName": "",
+    "enName": "Star of Africa",
     "jaDescription": "アフリカ大陸の国だけで40ターン以上ラリーを続ける",
-    "enDescription": "",
+    "enDescription": "Continue a rally for 40 turns or more using only African countries.",
     "exp": 80,
     "maxProgress": 40
   },
   {
     "id": 19,
     "jaName": "大陸横断",
-    "enName": "",
-    "jaDescription": "1回のゲームで3つ以上の地域（例：アジア→欧州→アフリカ）を経由する",
-    "enDescription": "",
+    "enName": "Continental Crossing",
+    "jaDescription": "1回のゲームで3つ以上の地域（例：アジア → 欧州 → アフリカ）を経由する",
+    "enDescription": "Go through 3 or more regions (e.g., Asia → Europe → Africa) in a single game.",
     "exp": 60,
     "maxProgress": 3
   }
