@@ -59,6 +59,10 @@
     "ja": "TOPへ戻る",
     "en": "Return to Top"
   },
+  "gameLife": {
+    "ja": "残りライフ: ",
+    "en": "Remaining Life: "
+  },
   "gameStart": {
     "ja": "ゲームを開始します。最初の国は${countryName}です。",
     "en": "Game started. The first country is ${countryName}."

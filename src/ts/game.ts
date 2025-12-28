@@ -243,16 +243,30 @@ async function sendMessage() {
   }
 }
 
-function updateLife() {
-  const life = document.getElementById('game-life') as HTMLElement;
+async function updateLife() {
+  let life = document.getElementById('game-life') as HTMLElement;
   if (life) {
-    life.textContent = `残りライフ: ${3 - mistakes}`;
+    life.textContent = await getTranslatedText('gameLife', []) || '';
   } else {
-    const lifeDiv = document.createElement('div');
-    lifeDiv.id = 'game-life';
-    lifeDiv.textContent = `残りライフ: ${3 - mistakes}`;
-    document.querySelector('.game-chat-container')?.appendChild(lifeDiv);
+    life = document.createElement('div');
+    life.id = 'game-life';
+    life.textContent = await getTranslatedText('gameLife', []) || '';
+    document.querySelector('.game-chat-container')?.appendChild(life);
   }
+
+  const lifeIconContainer = document.createElement('div');
+  lifeIconContainer.className = 'game-life-icon-container';
+  for (let i = 0; i < 3 - mistakes; i++) {
+    const lifeIcon = document.createElement('div');
+    lifeIcon.className = 'game-life-icon';
+    lifeIconContainer.appendChild(lifeIcon)
+  }
+  for (let i = 0; i < mistakes; i++) {
+    const lifeIconLost = document.createElement('div');
+    lifeIconLost.className = 'game-life-icon-lost';
+    lifeIconContainer.appendChild(lifeIconLost)
+  }
+  life.appendChild(lifeIconContainer);
 }
 
 function finishGame() {
