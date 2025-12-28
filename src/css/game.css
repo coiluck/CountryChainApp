@@ -22,7 +22,7 @@
   flex: 1;
   flex-direction: column;
   gap: 15px;
-  padding: 20px;
+  padding: 30px 20px 20px; /* 残りライフ用に上部にスペース */
   font-size: .8rem;
   border-bottom: 1px solid var(--border-color);
   overflow-y: auto;
@@ -236,4 +236,40 @@
   box-sizing: content-box;
   border: 1px solid var(--primary-color);
   outline: none;
+}
+
+/* chat button */
+.game-chat-button-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.game-chat-button {
+  width: 70%;
+  margin: 0 auto;
+  padding: 5px 8px;
+  border-radius: calc(.9rem * 1.6 + 10px);
+  border: none;
+  color: var(--text-color);
+  font-size: .9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+@media (max-width: 480px) {
+  .game-chat-button {
+    width: 80%;
+  }
+}
+.game-chat-button:hover {
+  transform: scale(1.03);
+}
+.game-resurrect-button {
+  background-color: rgba(from var(--secondary-color) r g b / 0.1);
+  border: 1px solid var(--secondary-color);
+}
+.game-play-again-button {
+  background-color: rgba(from var(--primary-color) r g b / 0.1);
+  border: 1px solid var(--primary-color);
 }

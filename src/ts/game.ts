@@ -100,8 +100,8 @@ async function makeCountryData() {
 async function getRandomCountry() {
   const borderData = await loadCountryBorderData() as Record<string, Country>;
 
-  // 除外したい国: イギリス、アイルランド、ハイチ、ドミニカ共和国
-  const excludedSpecificCountries = ['GBR', 'IRL', 'HTI', 'DOM'];
+  // 除外したい国: イギリス、アイルランド、ハイチ、ドミニカ共和国、南アフリカ、イタリア
+  const excludedSpecificCountries = ['GBR', 'IRL', 'HTI', 'DOM', 'ZAF', 'ITA'];
 
   let randomCode: string;
   let country: Country;
@@ -171,7 +171,7 @@ async function computerTurn() {
       showInputSelectForEasyMode();
     }
   } else {
-    addMessage('gameWin', [], 'system');
+    await addMessage('gameWin', [], 'system');
     finishGame();
   }
 }
@@ -200,9 +200,9 @@ async function playerTurn(answer: string) {
   if (usedCountries.has(answerCode)) {
     mistakes++;
     updateLife();
-    addMessage('gameUsed', [answer], 'system');
+    await addMessage('gameUsed', [answer], 'system');
     if (mistakes >= 3) {
-      addMessage('gameOver', [], 'system');
+      await addMessage('gameOver', [], 'system');
       finishGame();
       return;
     }
@@ -210,9 +210,9 @@ async function playerTurn(answer: string) {
   } else if (!countryList[currentCountry].neighbors.includes(answerCode)) {
     mistakes++;
     updateLife();
-    addMessage('gameNotNeighbor', [answer, currentCountryName], 'system');
+    await addMessage('gameNotNeighbor', [answer, currentCountryName], 'system');
     if (mistakes >= 3) {
-      addMessage('gameOver', [], 'system');
+      await addMessage('gameOver', [], 'system');
       finishGame();
       return;
     }
@@ -227,6 +227,8 @@ async function playerTurn(answer: string) {
 }
 
 async function sendMessage() {
+  if (!isPlayerTurn) return;
+  if (mistakes >= 3) return;
   const userInput = document.getElementById('game-user-input') as HTMLInputElement;
   let message: string = userInput.value.trim();
   if (message !== '') {
@@ -275,8 +277,33 @@ function finishGame() {
   showPlayAgainButton();
 }
 
-function showPlayAgainButton() {
-  // 後で書く
+async function showPlayAgainButton() {
+  const chatContainer = document.getElementById('game-chat-log') as HTMLElement;
+  if (!chatContainer) {
+    console.error('chat container not found');
+    return;
+  }
+
+  const chatButtonContainer = document.createElement('div');
+  chatButtonContainer.className = 'game-chat-button-container';
+  chatContainer.appendChild(chatButtonContainer);
+
+  const resurrectButton = document.createElement('button');
+  resurrectButton.className = 'game-resurrect-button game-chat-button fade-in';
+  resurrectButton.textContent = await getTranslatedText('gameResurrect', []) || '';
+  resurrectButton.addEventListener('click', () => {
+    // 後で書く
+  });
+  chatButtonContainer.appendChild(resurrectButton);
+
+  const playAgainButton = document.createElement('button');
+  playAgainButton.className = 'game-play-again-button game-chat-button fade-in';
+  playAgainButton.textContent = await getTranslatedText('gamePlayAgain', []) || '';
+  playAgainButton.addEventListener('click', () => {
+    startNewGame();
+  });
+  chatButtonContainer.appendChild(playAgainButton);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 function showSuggestions() {
@@ -582,4 +609,10 @@ document.getElementById('game-user-input')?.addEventListener('keydown', (e) => {
     sendMessage();
   }
 });
-document.getElementById('game-send-button')?.addEventListener('click', sendMessage);
+document.getElementById('game-send-button')?.addEventListener('click', () => {
+  sendMessage();
+  const userInput = document.getElementById('game-user-input') as HTMLInputElement;
+  if (userInput) {
+    userInput.focus();
+  }
+});

@@ -90,5 +90,13 @@
   "computerTurn": {
     "ja": "コンピュータ: ${countryName}",
     "en": "Computer: ${countryName}"
+  },
+  "gameResurrect": {
+    "ja": "広告を見て復活",
+    "en": "Revive (Watch Ad)"
+  },
+  "gamePlayAgain": {
+    "ja": "もう一度プレイ",
+    "en": "Play Again"
   }
 }
