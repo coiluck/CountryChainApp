@@ -8,12 +8,21 @@ export function setUpAchievements() {
 }
 
 function setUpUser() {
+  const MAX_LEVEL = 25;
+
   const level = document.getElementById('achievements-user-level') as HTMLElement;
-  level.textContent = userState.level.toString();
   const levelBar = document.querySelector('.achievements-user-level-bar-fill') as HTMLElement;
-  levelBar.style.width = `${userState.exp % 100}%`;
   const levelText = document.querySelector('.achievements-user-level-text.experience') as HTMLElement;
-  levelText.textContent = `${userState.exp % 100}/100`;
+
+  if (userState.level > MAX_LEVEL) {
+    level.textContent = MAX_LEVEL.toString() + ` (MAX)`;
+    levelBar.style.width = '100%';
+    levelText.textContent = '100/100';
+  } else {
+    level.textContent = userState.level.toString();
+    levelBar.style.width = `${userState.exp % 100}%`;
+    levelText.textContent = `${userState.exp % 100}/100`;
+  }
 }
 
 import { shouldResetDaily, decideDailyAchievements } from './modules/missions';
@@ -43,8 +52,9 @@ async function setUpAchievementsDaily() {
       userState.dailyAchievements = newDailyAchievements.map((item: any) => item.id);
       userState.dailyAchievementsAccomplished = [];
       userState.dailyAchievementsGained = [];
+      userState.dailyProgress = {};
 
-      saveUserData();
+      await saveUserData();
     }
   }
 
