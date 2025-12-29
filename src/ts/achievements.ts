@@ -4,6 +4,7 @@ export function setUpAchievements() {
   setUpUser();
   setUpAchievementsDaily();
   setUpAchievementsAchievement();
+  console.log(userState);
 }
 
 function setUpUser() {
@@ -223,11 +224,11 @@ async function setUpAchievementsAchievement() {
 
             // 「獲得済み」かつ「IDが自分より大きい」要素の前
             if (item.classList.contains('gained')) {
-                const currentId = Number(item.dataset.id);
-                if (currentId > achievement.id) {
-                  targetNode = item;
-                  break;
-                }
+              const currentId = Number(item.dataset.id);
+              if (currentId > achievement.id) {
+                targetNode = item;
+                break;
+              }
             }
           }
 

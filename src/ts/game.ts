@@ -172,7 +172,7 @@ async function computerTurn() {
     }
   } else {
     await addMessage('gameWin', [], 'system');
-    finishGame();
+    finishGame(true);
   }
 }
 
@@ -203,7 +203,7 @@ async function playerTurn(answer: string) {
     await addMessage('gameUsed', [answer], 'system');
     if (mistakes >= 3) {
       await addMessage('gameOver', [], 'system');
-      finishGame();
+      finishGame(false);
       return;
     }
     return;
@@ -213,7 +213,7 @@ async function playerTurn(answer: string) {
     await addMessage('gameNotNeighbor', [answer, currentCountryName], 'system');
     if (mistakes >= 3) {
       await addMessage('gameOver', [], 'system');
-      finishGame();
+      finishGame(false);
       return;
     }
     return;
@@ -271,9 +271,9 @@ async function updateLife() {
   life.appendChild(lifeIconContainer);
 }
 
-function finishGame() {
+function finishGame(isWin: boolean) {
   // メッセージは追加済み
-  judgeAchievements(usedCountries, mistakes, false);
+  judgeAchievements(usedCountries, mistakes, isWin);
   showPlayAgainButton();
 }
 
@@ -615,4 +615,11 @@ document.getElementById('game-send-button')?.addEventListener('click', () => {
   if (userInput) {
     userInput.focus();
   }
+});
+
+import { changeModal } from './modules/changeModal';
+
+document.querySelector('.button-container .top-button')?.addEventListener('click', () => {
+  changeModal('top', null, 500, true);
+  judgeAchievements(usedCountries, mistakes, false);
 });

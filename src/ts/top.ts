@@ -24,7 +24,7 @@ document.querySelectorAll('.button-container button').forEach(button => {
         }, 500);
         break;
       case 'top-button':
-        changeModal('top', null, 500, true);
+        // changeModal('top', null, 500, true); これはgame.tsで行う
         // animationの停止はうまくいかないからいいや
         break;
     }
