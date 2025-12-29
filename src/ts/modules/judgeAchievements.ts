@@ -1,6 +1,6 @@
 // judgeAchievements.ts
 import { settingsState, userState, saveUserData} from './userState';
-import { landlockedCountries, surroundedCountries, worldTop5Countries, stanCountries, getArea } from './countryAreaData';
+import { landlockedCountries, surroundedCountries, worldTop5Countries, stanCountries, equatorCountries, dailyCountryMissions, getArea } from './countryAreaData';
 
 export async function judgeAchievements(usedCountries: Set<string>, mistakes: number, isWin: boolean) {
   const userCountriesArray = Array.from(usedCountries);
@@ -33,9 +33,8 @@ export async function judgeAchievements(usedCountries: Set<string>, mistakes: nu
       await increaseProgress(11, 1, 'achievement');
     }
   }
-  // 「ミスをせずに10ターン続ける」の実装を後で書く
-
   // 合計ターン
+  await increaseProgress(5, userCountriesArray.length, 'daily');
   await increaseProgress(6, userCountriesArray.length, 'daily');
   await increaseProgress(12, userCountriesArray.length, 'achievement');
 
@@ -105,7 +104,44 @@ export async function judgeAchievements(usedCountries: Set<string>, mistakes: nu
   }
   await increaseProgress(19, continents.size, 'achievement');
 
-  // 地域系
+  // 地域系デイリー
+  let hasAsia = false;
+  let hasEurope = false;
+  let hasAfrica = false;
+  for (const country of userCountriesArray) {
+    const area = getArea(country);
+    if (!area) continue;
+    const continent = continentMap[area];
+
+    if (landlockedCountries.includes(country)) {
+      await increaseProgress(8, 1, 'daily');
+    }
+
+    if (continent === 'Europe') {
+      await increaseProgress(9, 1, 'daily');
+      hasEurope = true;
+    } else if (continent === 'Africa') {
+      await increaseProgress(10, 1, 'daily');
+      hasAfrica = true;
+    } else if (continent === 'Asia') {
+      await increaseProgress(11, 1, 'daily');
+      hasAsia = true;
+    } else if (continent === 'SouthAmerica') {
+      await increaseProgress(12, 1, 'daily');
+    }
+
+    if (equatorCountries.includes(country)) {
+      await increaseProgress(13, 1, 'daily');
+    }
+
+    // 特定の国を言うデイリー
+    const mission = dailyCountryMissions.find(m => m.country === country);
+    if (mission) {
+      await increaseProgress(mission.id, 1, 'daily');
+    }
+  }
+  const trueArray = [hasAsia, hasEurope, hasAfrica].filter(Boolean) as boolean[];
+  await increaseProgress(7, trueArray.length, 'daily');
 
   // 最後に保存
   saveUserData();

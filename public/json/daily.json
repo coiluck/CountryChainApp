@@ -33,24 +33,25 @@
   },
   {
     "id": 5,
-    "jaDescription": "ミスをせずに10ターン続ける",
-    "enDescription": "Continue for 10 turns without any mistakes.",
+    "jaDescription": "1回のゲームで20ターン以上やり取りをする",
+    "enDescription": "Exchange 20 turns or more in a single game.",
     "slot": 2,
     "exp": 40,
-    "maxProgress": 1
+    "maxProgress": 20
   },
   {
     "id": 6,
-    "jaDescription": "合計で25ターン以上やり取りをする",
-    "enDescription": "Exchange a total of 25 turns or more.",
+    "jaDescription": "合計で30ターン以上やり取りをする",
+    "enDescription": "Exchange a total of 30 turns or more.",
     "slot": 2,
     "exp": 40,
-    "maxProgress": 25
+    "maxProgress": 30,
+    "isCumulative": true
   },
   {
     "id": 7,
-    "jaDescription": "アジア・ヨーロッパ・アフリカの国をそれぞれ1つ以上回答する",
-    "enDescription": "Answer at least one country each from Asia, Europe, and Africa.",
+    "jaDescription": "1回のゲームでアジア・ヨーロッパ・アフリカの国をそれぞれ1つ以上回答する",
+    "enDescription": "Answer at least one country each from Asia, Europe, and Africa in a single game.",
     "slot": 2,
     "exp": 40,
     "maxProgress": 3
@@ -61,39 +62,44 @@
     "enDescription": "Answer landlocked countries a total of 3 times.",
     "slot": 2,
     "exp": 40,
-    "maxProgress": 3
+    "maxProgress": 3,
+    "isCumulative": true
   },
   {
     "id": 9,
-    "jaDescription": "ヨーロッパの国を5回回答する",
+    "jaDescription": "ヨーロッパの国を合計5回回答する",
     "enDescription": "Answer European countries 5 times.",
     "slot": 2,
     "exp": 40,
-    "maxProgress": 5
+    "maxProgress": 5,
+    "isCumulative": true
   },
   {
     "id": 10,
-    "jaDescription": "アフリカ大陸の国を5回回答する",
+    "jaDescription": "アフリカ大陸の国を合計5回回答する",
     "enDescription": "Answer African countries 5 times.",
     "slot": 2,
     "exp": 40,
-    "maxProgress": 5
+    "maxProgress": 5,
+    "isCumulative": true
   },
   {
     "id": 11,
-    "jaDescription": "アジアの国を5回回答する",
+    "jaDescription": "アジアの国を合計5回回答する",
     "enDescription": "Answer Asian countries 5 times.",
     "slot": 2,
     "exp": 40,
-    "maxProgress": 5
+    "maxProgress": 5,
+    "isCumulative": true
   },
   {
     "id": 12,
-    "jaDescription": "南米の国を5回回答する",
+    "jaDescription": "南米の国を合計5回回答する",
     "enDescription": "Answer South American countries 5 times.",
     "slot": 2,
     "exp": 40,
-    "maxProgress": 5
+    "maxProgress": 5,
+    "isCumulative": true
   },
   {
     "id": 13,

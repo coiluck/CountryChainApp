@@ -85,3 +85,18 @@ export const surroundedCountries = [
 ];
 export const worldTop5Countries = ['RUS', 'CAN', 'USA', 'CHN', 'BRA'];
 export const stanCountries = ['AFG', 'KAZ', 'KGZ', 'PAK', 'TJK', 'TKM', 'UZB'];
+
+export const equatorCountries = [
+  'ECU', 'COL', 'BRA', 'GAB', 'COG', 'COD', 'UGA', 'KEN', 'SOM', 'MDV', 'IDN', 'KIR', 'STP'
+];
+
+export const dailyCountryMissions: { id: number, country: string }[] = [
+  { id: 14, country: 'BRA' }, // ブラジル
+  { id: 15, country: 'CHN' }, // 中国
+  { id: 16, country: 'EGY' }, // エジプト
+  { id: 17, country: 'FRA' }, // フランス
+  { id: 18, country: 'DEU' }, // ドイツ
+  { id: 19, country: 'RUS' }, // ロシア
+  { id: 20, country: 'SAU' }, // サウジアラビア
+  { id: 21, country: 'TUR' }  // トルコ
+];

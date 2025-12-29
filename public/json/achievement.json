@@ -109,8 +109,8 @@
     "id": 12,
     "jaName": "負けられない戦い",
     "enName": "Battle of Attrition",
-    "jaDescription": "CPUと人間で100以上のやり取りをする",
-    "enDescription": "Exchange 100 or more turns with the CPU.",
+    "jaDescription": "1回のゲーム内でCPUと100以上のやり取りをする",
+    "enDescription": "Exchange 100 or more turns in a single game with the CPU.",
     "exp": 80,
     "maxProgress": 100
   },
@@ -145,8 +145,8 @@
     "id": 16,
     "jaName": "巨人の肩の上",
     "enName": "On the Shoulders of Giants",
-    "jaDescription": "世界の面積トップ5の国（ロシア、カナダ、アメリカ、中国、ブラジル）のうち、3カ国を経由する",
-    "enDescription": "Go through 3 of the top 5 countries by land area (Russia, Canada, USA, China, Brazil).",
+    "jaDescription": "1回のゲームで世界の面積トップ5の国（ロシア、カナダ、アメリカ、中国、ブラジル）のうち、3カ国を経由する",
+    "enDescription": "Go through 3 of the top 5 countries by land area (Russia, Canada, USA, China, Brazil) in a single game.",
     "exp": 60,
     "maxProgress": 3
   },
@@ -154,8 +154,8 @@
     "id": 17,
     "jaName": "乾いた旅路",
     "enName": "The Dry Route",
-    "jaDescription": "「内陸国（海に面していない国）」を5連続でつなげる",
-    "enDescription": "Connect 5 landlocked countries in a row.",
+    "jaDescription": "1回のゲームで「内陸国（海に面していない国）」を5連続でつなげる",
+    "enDescription": "Connect 5 landlocked countries in a row in a single game.",
     "exp": 60,
     "maxProgress": 5
   },

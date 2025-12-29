@@ -4,7 +4,6 @@ export function setUpAchievements() {
   setUpUser();
   setUpAchievementsDaily();
   setUpAchievementsAchievement();
-  console.log(userState);
 }
 
 function setUpUser() {
@@ -226,8 +225,8 @@ async function setUpAchievementsAchievement() {
             if (item.classList.contains('gained')) {
                 const currentId = Number(item.dataset.id);
                 if (currentId > achievement.id) {
-                    targetNode = item;
-                    break;
+                  targetNode = item;
+                  break;
                 }
             }
           }
