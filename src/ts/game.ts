@@ -166,6 +166,20 @@ async function computerTurn() {
       : borderData[currentCountry].enName;
     addMessage('computerTurn', [countryName], 'cpu');
 
+    // プレイヤーの負け判定
+    const playerNeighbors = borderData[currentCountry]?.neighbors || [];
+    const playerValidMoves = playerNeighbors.filter(neighborCode => {
+      const isAllowed = countryCodes.includes(neighborCode);
+      const isUnused = !usedCountries.has(neighborCode);
+      return isAllowed && isUnused;
+    });
+
+    if (playerValidMoves.length === 0) {
+      await addMessage('gameStuck', [], 'system');
+      finishGame(false);
+      return;
+    }
+
     isPlayerTurn = true;
     if (settingsState.gameMode === 'easy') {
       showInputSelectForEasyMode();
@@ -203,7 +217,7 @@ async function playerTurn(answer: string) {
     await addMessage('gameUsed', [answer], 'system');
     if (mistakes >= 3) {
       await addMessage('gameOver', [], 'system');
-      finishGame(false);
+      finishGame(false, true);
       return;
     }
     return;
@@ -213,7 +227,7 @@ async function playerTurn(answer: string) {
     await addMessage('gameNotNeighbor', [answer, currentCountryName], 'system');
     if (mistakes >= 3) {
       await addMessage('gameOver', [], 'system');
-      finishGame(false);
+      finishGame(false, true);
       return;
     }
     return;
@@ -271,13 +285,13 @@ async function updateLife() {
   life.appendChild(lifeIconContainer);
 }
 
-function finishGame(isWin: boolean) {
+function finishGame(isWin: boolean, isShowResurrectButton: boolean = false) {
   // メッセージは追加済み
   judgeAchievements(usedCountries, mistakes, isWin);
-  showPlayAgainButton();
+  showPlayAgainButton(isShowResurrectButton);
 }
 
-async function showPlayAgainButton() {
+async function showPlayAgainButton(isShowResurrectButton: boolean = false) {
   const chatContainer = document.getElementById('game-chat-log') as HTMLElement;
   if (!chatContainer) {
     console.error('chat container not found');
@@ -288,13 +302,15 @@ async function showPlayAgainButton() {
   chatButtonContainer.className = 'game-chat-button-container';
   chatContainer.appendChild(chatButtonContainer);
 
-  const resurrectButton = document.createElement('button');
-  resurrectButton.className = 'game-resurrect-button game-chat-button fade-in';
-  resurrectButton.textContent = await getTranslatedText('gameResurrect', []) || '';
-  resurrectButton.addEventListener('click', () => {
-    // 後で書く
-  });
-  chatButtonContainer.appendChild(resurrectButton);
+  if (isShowResurrectButton) {
+    const resurrectButton = document.createElement('button');
+    resurrectButton.className = 'game-resurrect-button game-chat-button fade-in';
+    resurrectButton.textContent = await getTranslatedText('gameResurrect', []) || '';
+    resurrectButton.addEventListener('click', () => {
+      // 後で書く
+    });
+    chatButtonContainer.appendChild(resurrectButton);
+  }
 
   const playAgainButton = document.createElement('button');
   playAgainButton.className = 'game-play-again-button game-chat-button fade-in';

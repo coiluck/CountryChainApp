@@ -87,6 +87,10 @@
     "ja": "コンピュータが言える国がなくなりました。プレイヤーの勝利です！",
     "en": "The computer has no more countries to say. Player wins!"
   },
+  "gameStuck": {
+    "ja": "プレイヤーが回答可能な国がありません。コンピュータの勝利です！",
+    "en": "Player has no more countries to say. Computer wins!"
+  },
   "computerTurn": {
     "ja": "コンピュータ: ${countryName}",
     "en": "Computer: ${countryName}"

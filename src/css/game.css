@@ -265,11 +265,21 @@
 .game-chat-button:hover {
   transform: scale(1.03);
 }
-.game-resurrect-button {
+.game-chat-button.game-resurrect-button {
   background-color: rgba(from var(--secondary-color) r g b / 0.1);
   border: 1px solid var(--secondary-color);
 }
-.game-play-again-button {
+.game-chat-button.game-play-again-button {
   background-color: rgba(from var(--primary-color) r g b / 0.1);
   border: 1px solid var(--primary-color);
+}
+
+.game-chat-button:only-child {
+  grid-column: 1 / -1;
+  width: calc((70% - 10px) / 2);
+}
+@media (max-width: 480px) {
+  .game-chat-button:only-child {
+    width: calc((80% - 10px) / 2);
+  }
 }
