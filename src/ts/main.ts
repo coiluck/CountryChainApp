@@ -17,4 +17,17 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
   applyTheme();
   await applyTranslationsToDocument();
+
+  showBanner();
 });
+
+import { BannerAd } from "tauri-plugin-admob-api";
+
+const showBanner = async () => {
+  const banner = new BannerAd({
+    adUnitId: "ca-app-pub-3940256099942544/9214589741",
+    position: "top",
+  });
+  await banner.load();
+  await banner.show();
+};
