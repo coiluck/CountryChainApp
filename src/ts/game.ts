@@ -287,6 +287,7 @@ async function updateLife() {
 
 function finishGame(isWin: boolean, isShowResurrectButton: boolean = false) {
   // メッセージは追加済み
+  isPlayerTurn = false;
   judgeAchievements(usedCountries, mistakes, isWin);
   showPlayAgainButton(isShowResurrectButton);
 }
@@ -449,6 +450,7 @@ async function showInputSelectForEasyMode() {
       : borderData[country].enName;
     item.textContent = countryName;
     item.addEventListener('click', () => {
+      if (!isPlayerTurn) return;
       addMessage(null, [countryName], 'user');
       playerTurn(countryName);
     });
