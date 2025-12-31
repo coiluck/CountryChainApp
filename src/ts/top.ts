@@ -2,9 +2,12 @@
 import { changeModal, showModal} from './modules/changeModal';
 import { setUpSettings } from './settings';
 import { setUpAchievements } from './achievements';
+import { audioPlayer } from './modules/audio';
 
 document.querySelectorAll('.button-container button').forEach(button => {
   button.addEventListener('click', () => {
+    audioPlayer.playSE('button');
+
     switch (button.classList.value) {
       case 'achievements-button':
         showModal('achievements', null, true);
@@ -34,6 +37,7 @@ document.querySelectorAll('.button-container button').forEach(button => {
 import { startNewGame } from './game';
 
 document.getElementById('top-start-button')?.addEventListener('click', () => {
+  audioPlayer.playSE('button');
   changeModal('game', null, 500, true);
   setTimeout(() => {
     startNewGame(); // modalが表示された後に開始しないといけない

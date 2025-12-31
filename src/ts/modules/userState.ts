@@ -32,13 +32,13 @@ const initialSettingsState: SettingsState = {
   themeColor: 'kokone',
   font: "'rounded-mplus-1c-regular', sans-serif",
   lang: 'en',
-  seVolume: 0.5,
+  seVolume: 0.8,
   gameMode: 'normal',
   mapDisplay: true,
 };
 
 const initialUserData: userData = {
-  level: 10,
+  level: 1,
   exp: 0,
   accomplishedAchievements: [],
   gainedAchievements: [],

@@ -13,6 +13,7 @@ export function setUpSettings() {
 }
 
 import { settingsState, userState, saveSettingsData } from './modules/userState';
+import { audioPlayer } from './modules/audio';
 
 const bgList = [
   {
@@ -122,8 +123,11 @@ function setUpColorSettings() {
     bgColorContainer.appendChild(bgColorItem);
     bgColorItem.addEventListener('click', () => {
       if (bgData.reqLevel > userState.level) {
+        audioPlayer.playSE('disable');
         return;
       }
+      audioPlayer.playSE('click');
+
       bgColorContainer.querySelectorAll('.settings-color-item').forEach(item => {
         item.classList.remove('selected');
       });
@@ -171,8 +175,10 @@ function setUpColorSettings() {
     mainColorContainer.appendChild(themeColorItem);
     themeColorItem.addEventListener('click', () => {
       if (themeData.unlockLevel > userState.level) {
+        audioPlayer.playSE('disable');
         return;
       }
+      audioPlayer.playSE('click');
       mainColorContainer.querySelectorAll('.settings-color-item').forEach(item => {
         item.classList.remove('selected');
       });
@@ -263,7 +269,11 @@ function setUpFontSettings() {
       }
       radio.addEventListener('change', (event) => {
         const target = event.target as HTMLInputElement;
-        if (target.disabled) return;
+        if (target.disabled) {
+          audioPlayer.playSE('disable');
+          return;
+        }
+        audioPlayer.playSE('click');
         settingsState.font = target.value;
         document.documentElement.style.setProperty('--font', target.value);
         // 保存処理
@@ -294,6 +304,8 @@ async function setUpLangSettings() {
   const langItems = langSettingsContainer.querySelectorAll<HTMLElement>('.settings-lang-item');
   langItems.forEach((item: HTMLElement) => {
     item.addEventListener('click', () => {
+      audioPlayer.playSE('click');
+
       langItems.forEach((item: HTMLElement) => {
         item.classList.remove('selected');
       });
@@ -320,10 +332,15 @@ function setUpSoundEffectSettings() {
     const currentVolume = Math.round(settingsState.seVolume * 100);
     seVolumeInput.value = currentVolume.toString();
     seVolumeLabel.textContent = `${currentVolume}%`;
+    audioPlayer.setSEVolume(settingsState.seVolume);
     seVolumeInput.addEventListener('input', () => {
       const newVal = parseInt(seVolumeInput.value);
       settingsState.seVolume = newVal / 100;
       seVolumeLabel.textContent = `${newVal}%`;
+      audioPlayer.setSEVolume(newVal / 100);
+    });
+    seVolumeInput.addEventListener('change', () => {
+      audioPlayer.playSE('click');
       saveSettingsData();
     });
   }
@@ -348,6 +365,8 @@ function setUpGameModeSettings() {
   const gameModeItems = gameModeSettingsContainer.querySelectorAll<HTMLElement>('.settings-game-mode-item');
   gameModeItems.forEach((item: HTMLElement) => {
     item.addEventListener('click', () => {
+      audioPlayer.playSE('click');
+
       gameModeItems.forEach((item: HTMLElement) => {
         item.classList.remove('selected');
       });
@@ -376,6 +395,7 @@ function setUpMapDisplaySettings() {
   const mapDisplayCheckbox = mapDisplaySettingsContainer.querySelector<HTMLInputElement>('input[id="setting-map-display"]');
   if (mapDisplayCheckbox) {
     mapDisplayCheckbox.addEventListener('change', () => {
+      audioPlayer.playSE('click');
       settingsState.mapDisplay = mapDisplayCheckbox.checked;
       saveSettingsData();
     });

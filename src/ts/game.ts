@@ -2,6 +2,7 @@
 import { settingsState } from './modules/userState';
 import { getTranslatedText } from './modules/translation'
 import { judgeAchievements } from './modules/judgeAchievements';
+import { audioPlayer } from './modules/audio';
 
 interface Country {
   enName: string;
@@ -119,6 +120,7 @@ async function getRandomCountry() {
 
 async function addMessage(textKey: string | null, params: string[], sender: string) {
   const chatLog = document.getElementById('game-chat-log') as HTMLElement;
+  audioPlayer.playSE('chat');
   if (!chatLog) {
     console.error('chat log element not found');
     return;
@@ -161,6 +163,7 @@ async function computerTurn() {
       cpuMistakes++;
 
       if (cpuMistakes >= 3) {
+        audioPlayer.playSE('win');
         addMessage('gameWin', [], 'system');
         finishGame(true);
         return;
@@ -182,6 +185,7 @@ async function computerTurn() {
         );
       }
       if (mistakeCandidates.length === 0) {
+        audioPlayer.playSE('win');
         addMessage('gameWin', [], 'system');
         finishGame(true);
         return;
@@ -228,6 +232,7 @@ async function computerTurn() {
     });
 
     if (playerValidMoves.length === 0) {
+      audioPlayer.playSE('lose');
       await addMessage('gameStuck', [], 'system');
       finishGame(false);
       return;
@@ -238,6 +243,7 @@ async function computerTurn() {
       showInputSelectForEasyMode();
     }
   } else {
+    audioPlayer.playSE('win');
     await addMessage('gameWin', [], 'system');
     finishGame(true);
   }
@@ -269,6 +275,7 @@ async function playerTurn(answer: string) {
     updateLife();
     await addMessage('gameUsed', [answer], 'system');
     if (mistakes >= 3) {
+      audioPlayer.playSE('lose');
       await addMessage('gameOver', [], 'system');
       finishGame(false, true);
       return;
@@ -279,6 +286,7 @@ async function playerTurn(answer: string) {
     updateLife();
     await addMessage('gameNotNeighbor', [answer, currentCountryName], 'system');
     if (mistakes >= 3) {
+      audioPlayer.playSE('lose');
       await addMessage('gameOver', [], 'system');
       finishGame(false, true);
       return;
@@ -412,12 +420,14 @@ function showSuggestions() {
 
         item.textContent = displayName;
         item.onclick = function() {
+          audioPlayer.playSE('click');
           userInput.value = displayName;
           suggestionsContainer.style.display = 'none';
           userInput.focus();  // フォーカスを戻す
         };
         item.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') {
+            audioPlayer.playSE('click');
             e.preventDefault();
             item.click();
           }
