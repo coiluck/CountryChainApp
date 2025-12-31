@@ -7,6 +7,7 @@ export function setUpSettings() {
   setUpColorSettings();
   setUpFontSettings();
   setUpLangSettings();
+  setUpSoundEffectSettings();
   setUpGameModeSettings();
   setUpMapDisplaySettings();
 }
@@ -38,7 +39,7 @@ const bgList = [
     bgColor: '#0a0f1e',
     bgBrightColor: '#152040',
     borderColor: '#888',
-    metaColor: '#333',
+    metaColor: '#444',
     reqLevel: 12
   }
 ];
@@ -53,8 +54,8 @@ const themeList = [
   },
   {
     name: 'summer',
-    primaryColor: '#91C6BC',
-    secondaryColor: '#4B9DA9',
+    primaryColor: '#4B9DA9',
+    secondaryColor: '#a9574b',
     themeContrastColor: '#2e2e2e',
     unlockLevel: 3,
   },
@@ -302,6 +303,30 @@ async function setUpLangSettings() {
       saveSettingsData();
     });
   });
+}
+
+function setUpSoundEffectSettings() {
+  const soundEffectSettingsContainer = document.querySelector('.settings-item-content.se-volume');
+  if (!soundEffectSettingsContainer) {
+    return;
+  }
+  soundEffectSettingsContainer.innerHTML = `
+    <input type="range" min="0" max="100" value="50" step="10" id="setting-se-volume" class="setting-range-slider">
+    <div class="settings-se-volume-label">--%</div>
+  `;
+  const seVolumeInput = soundEffectSettingsContainer.querySelector<HTMLInputElement>('input[id="setting-se-volume"]');
+  const seVolumeLabel = soundEffectSettingsContainer.querySelector<HTMLElement>('.settings-se-volume-label')
+  if (seVolumeInput && seVolumeLabel) {
+    const currentVolume = Math.round(settingsState.seVolume * 100);
+    seVolumeInput.value = currentVolume.toString();
+    seVolumeLabel.textContent = `${currentVolume}%`;
+    seVolumeInput.addEventListener('input', () => {
+      const newVal = parseInt(seVolumeInput.value);
+      settingsState.seVolume = newVal / 100;
+      seVolumeLabel.textContent = `${newVal}%`;
+      saveSettingsData();
+    });
+  }
 }
 
 function setUpGameModeSettings() {

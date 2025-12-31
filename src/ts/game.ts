@@ -478,10 +478,10 @@ async function showInputSelectForEasyMode() {
       safety++;
     }
   }
-  // ランダムな国を二つ抽出
+  // ランダムな国を一つ抽出
   let count = 0;
   let safety = 0;
-  while (count < 2 && safety < 100) {
+  while (count < 1 && safety < 100) {
     const randomIndex = Math.floor(Math.random() * countryCodes.length);
     const candidate = countryCodes[randomIndex];
     if (candidate &&
