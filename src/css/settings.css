@@ -407,7 +407,7 @@ input:checked + .slider:before {
 }
 
 /* se volume settings */
-.settings-item-content.se-volume {
+.settings-item-content.se-volume, .settings-item-content.bgm-volume {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -416,7 +416,7 @@ input:checked + .slider:before {
   margin: 10px auto 0;
 }
 @media (max-width: 768px) {
-  .settings-item-content.se-volume {
+  .settings-item-content.se-volume, .settings-item-content.bgm-volume {
     width: 90%;
   }
 }
@@ -463,6 +463,6 @@ input:checked + .slider:before {
 .setting-range-slider::-moz-range-thumb:hover {
   transform: scale(1.2);
 }
-.settings-se-volume-label {
+.settings-se-volume-label, .settings-bgm-volume-label {
   font-size: .8rem;
 }

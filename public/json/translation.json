@@ -47,6 +47,14 @@
     "ja": "SE音量",
     "en": "SE Volume"
   },
+  "settingsSubtitleBGMVolume": {
+    "ja": "BGM音量",
+    "en": "BGM Volume"
+  },
+  "settingsSubtitleBGM": {
+    "ja": "BGM",
+    "en": "BGM"
+  },
   "settingsSubtitleGameMode": {
     "ja": "ゲームモード",
     "en": "Game Mode"
@@ -54,6 +62,22 @@
   "settingsSubtitleMapDisplay": {
     "ja": "ゲーム中の地図表示",
     "en": "Map Display in Game"
+  },
+  "settingsBGMTitle1": {
+    "ja": "ジャンプ",
+    "en": "Jump"
+  },
+  "settingsBGMTitle2": {
+    "ja": "だらけモードON",
+    "en": "Lazy Mode: ON"
+  },
+  "settingsBGMTitle3": {
+    "ja": "積乱雲と電信柱",
+    "en": "Cumulonimbus"
+  },
+  "settingsBGMTitle4": {
+    "ja": "ときめき",
+    "en": "Heart Flutter"
   },
   "gameTopButton": {
     "ja": "TOPへ戻る",

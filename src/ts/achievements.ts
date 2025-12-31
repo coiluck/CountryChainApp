@@ -8,7 +8,7 @@ export function setUpAchievements() {
 }
 
 function setUpUser() {
-  const MAX_LEVEL = 25;
+  const MAX_LEVEL = 20;
 
   const level = document.getElementById('achievements-user-level') as HTMLElement;
   const levelBar = document.querySelector('.achievements-user-level-bar-fill') as HTMLElement;

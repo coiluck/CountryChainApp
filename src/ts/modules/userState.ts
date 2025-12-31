@@ -7,6 +7,8 @@ interface SettingsState {
   font: string;
   lang: string;
   seVolume: number;
+  bgmVolume: number;
+  bgmId: number;
   gameMode: string;
   mapDisplay: boolean;
 }
@@ -33,6 +35,8 @@ const initialSettingsState: SettingsState = {
   font: "'rounded-mplus-1c-regular', sans-serif",
   lang: 'en',
   seVolume: 0.8,
+  bgmVolume: 0.5,
+  bgmId: 1,
   gameMode: 'normal',
   mapDisplay: true,
 };

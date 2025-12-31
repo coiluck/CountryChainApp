@@ -7,7 +7,9 @@ export function setUpSettings() {
   setUpColorSettings();
   setUpFontSettings();
   setUpLangSettings();
-  setUpSoundEffectSettings();
+  setUpSEVolumeSettings();
+  setUpBGMVolumeSettings();
+  setUpBGMSettings();
   setUpGameModeSettings();
   setUpMapDisplaySettings();
 }
@@ -32,7 +34,7 @@ const bgList = [
     bgBrightColor: '#2e2e2e',
     borderColor: '#888',
     metaColor: '#555',
-    reqLevel: 7
+    reqLevel: 6
   },
   {
     name: 'midnight',
@@ -41,7 +43,7 @@ const bgList = [
     bgBrightColor: '#152040',
     borderColor: '#888',
     metaColor: '#444',
-    reqLevel: 12
+    reqLevel: 13
   }
 ];
 
@@ -58,28 +60,28 @@ const themeList = [
     primaryColor: '#4B9DA9',
     secondaryColor: '#a9574b',
     themeContrastColor: '#2e2e2e',
-    unlockLevel: 3,
+    unlockLevel: 2,
   },
   {
     name: 'autumn',
     primaryColor: '#fc5a03',
     secondaryColor: '#eba12a',
     themeContrastColor: '#FCDEC0',
-    unlockLevel: 9,
+    unlockLevel: 7,
   },
   {
     name: 'purple',
     primaryColor: '#ba5b9b',
     secondaryColor: '#E49BA6',
     themeContrastColor: '#FFE3E5',
-    unlockLevel: 14,
+    unlockLevel: 12,
   },
   {
     name: 'blue',
     primaryColor: '#3F72AF',
     secondaryColor: '#40b37f',
     themeContrastColor: '#112D4E',
-    unlockLevel: 16,
+    unlockLevel: 15,
   },
   {
     name: 'miku',
@@ -90,6 +92,55 @@ const themeList = [
   },
 ];
 
+const fontList = [
+  {
+    name: 'Rounded M+',
+    value: "'rounded-mplus-1c-regular', sans-serif",
+    reqLevel: 1
+  },
+  {
+    name: 'Tanuki Magic',
+    value: "'tanuki-magic', sans-serif",
+    reqLevel: 5
+  },
+  {
+    name: 'Logo Type Gothic',
+    value: "'logo-type-gothic', sans-serif",
+    reqLevel: 10
+  },
+  {
+    name: 'Mamelon',
+    value: "'mamelon', sans-serif",
+    reqLevel: 20
+  },
+];
+
+const bgmList = [
+  {
+    id: 1,
+    title: 'settingsBGMTitle1',
+    file: 'jump.wav',
+    reqLevel: 1
+  },
+  {
+    id: 2,
+    title: 'settingsBGMTitle2',
+    file: 'lazy-mode-on.mp3',
+    reqLevel: 3
+  },
+  {
+    id: 3,
+    title: 'settingsBGMTitle3',
+    file: 'sekiranun.mp3',
+    reqLevel: 9
+  },
+  {
+    id: 4,
+    title: 'settingsBGMTitle4',
+    file: 'tokimeki.mp3',
+    reqLevel: 17
+  }
+]
 
 function setUpColorSettings() {
   const colorSettings = document.querySelector('.settings-item-content.color');
@@ -210,29 +261,6 @@ export function applyTheme() {
   }
 }
 
-const fontList = [
-  {
-    name: 'Rounded M+',
-    value: "'rounded-mplus-1c-regular', sans-serif",
-    reqLevel: 1
-  },
-  {
-    name: 'Tanuki Magic',
-    value: "'tanuki-magic', sans-serif",
-    reqLevel: 5
-  },
-  {
-    name: 'Logo Type Gothic',
-    value: "'logo-type-gothic', sans-serif",
-    reqLevel: 10
-  },
-  {
-    name: 'Mamelon',
-    value: "'mamelon', sans-serif",
-    reqLevel: 20
-  },
-];
-
 function setUpFontSettings() {
   const fontSettings = document.querySelector('.settings-item-content.font') as HTMLElement;
 
@@ -317,7 +345,7 @@ async function setUpLangSettings() {
   });
 }
 
-function setUpSoundEffectSettings() {
+function setUpSEVolumeSettings() {
   const soundEffectSettingsContainer = document.querySelector('.settings-item-content.se-volume');
   if (!soundEffectSettingsContainer) {
     return;
@@ -344,6 +372,45 @@ function setUpSoundEffectSettings() {
       saveSettingsData();
     });
   }
+}
+
+function setUpBGMVolumeSettings() {
+  const bgmVolumeSettingsContainer = document.querySelector('.settings-item-content.bgm-volume');
+  if (!bgmVolumeSettingsContainer) {
+    return;
+  }
+  bgmVolumeSettingsContainer.innerHTML = `
+    <input type="range" min="0" max="100" value="50" step="10" id="setting-bgm-volume" class="setting-range-slider">
+    <div class="settings-bgm-volume-label">--%</div>
+  `;
+  const bgmVolumeInput = bgmVolumeSettingsContainer.querySelector<HTMLInputElement>('input[id="setting-bgm-volume"]');
+  const bgmVolumeLabel = bgmVolumeSettingsContainer.querySelector<HTMLElement>('.settings-bgm-volume-label')
+  if (bgmVolumeInput && bgmVolumeLabel) {
+    const currentVolume = Math.round(settingsState.bgmVolume * 100);
+    bgmVolumeInput.value = currentVolume.toString();
+    bgmVolumeLabel.textContent = `${currentVolume}%`;
+    audioPlayer.setBGMVolume(settingsState.bgmVolume);
+    bgmVolumeInput.addEventListener('input', () => {
+      const newVal = parseInt(bgmVolumeInput.value);
+      settingsState.bgmVolume = newVal / 100;
+      bgmVolumeLabel.textContent = `${newVal}%`;
+      audioPlayer.setBGMVolume(newVal / 100);
+    });
+    bgmVolumeInput.addEventListener('change', () => {
+      // audioPlayer.playSE('click'); bgmの大きさで判断するからいらないか
+      saveSettingsData();
+    });
+  }
+}
+
+function setUpBGMSettings() {
+  const bgmSettingsContainer = document.querySelector('.settings-item-content.bgm');
+  if (!bgmSettingsContainer) {
+    return;
+  }
+  bgmSettingsContainer.innerHTML = `
+    後で書く
+  `;
 }
 
 function setUpGameModeSettings() {
