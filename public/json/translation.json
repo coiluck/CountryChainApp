@@ -91,6 +91,10 @@
     "ja": "コンピュータが言える国がなくなりました。プレイヤーの勝利です！",
     "en": "The computer has no more countries to say. Player wins!"
   },
+  "gameWinByMistake": {
+    "ja": "コンピュータが3回間違えたためプレイヤーの勝利です！",
+    "en": "The computer made 3 mistakes. Player wins!"
+  },
   "gameStuck": {
     "ja": "プレイヤーが回答可能な国がありません。コンピュータの勝利です！",
     "en": "Player has no more countries to say. Computer wins!"

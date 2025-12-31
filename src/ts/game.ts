@@ -156,18 +156,17 @@ async function computerTurn() {
     return isAllowed && isUnused;
   });
 
+  if (neighboringCountries.length === 0) {
+    audioPlayer.playSE('win');
+    await addMessage('gameWin', [], 'system');
+    finishGame(true);
+  }
+
   // easyモードなら一定確率で間違える
   if (settingsState.gameMode === 'easy') {
-    const CPU_MISTAKE_RATE = 0.15;
+    const CPU_MISTAKE_RATE = 0.2;
     if (Math.random() < CPU_MISTAKE_RATE) {
       cpuMistakes++;
-
-      if (cpuMistakes >= 3) {
-        audioPlayer.playSE('win');
-        addMessage('gameWin', [], 'system');
-        finishGame(true);
-        return;
-      }
 
       // 間違える国リスト
       const currentArea = getArea(currentCountry);
@@ -198,17 +197,25 @@ async function computerTurn() {
       const currentCountryName = settingsState.lang === 'ja'
       ? borderData[currentCountry].jaName
       : borderData[currentCountry].enName;
-      addMessage('computerTurn', [countryName], 'cpu');
-      await new Promise<void>(resolve => setTimeout(resolve, 500));
-      addMessage('gameNotNeighbor', [countryName, currentCountryName], 'system');
-      addMessage('gameCPUMistake', [cpuMistakes.toString()], 'system');
+      await addMessage('computerTurn', [countryName], 'cpu');
+      await new Promise<void>(resolve => setTimeout(resolve, 750));
+      await addMessage('gameNotNeighbor', [countryName, currentCountryName], 'system');
+      await addMessage('gameCPUMistake', [cpuMistakes.toString()], 'system');
+
+      if (cpuMistakes >= 3) {
+        audioPlayer.playSE('win');
+        await addMessage('gameWinByMistake', [], 'system');
+        finishGame(true);
+        return;
+      }
+
       await new Promise<void>(resolve => setTimeout(resolve, 1000));
       computerTurn();
       return;
     }
   }
 
-  if (neighboringCountries.length > 0) {
+  if (neighboringCountries.length > 0) { // これは確約されている（elseの処理を前に出したので）
     const nextCountryIndex = Math.floor(Math.random() * neighboringCountries.length);
     const nextCountry = neighboringCountries[nextCountryIndex];
 
@@ -219,7 +226,7 @@ async function computerTurn() {
     const countryName = settingsState.lang === 'ja'
       ? borderData[currentCountry].jaName
       : borderData[currentCountry].enName;
-    addMessage('computerTurn', [countryName], 'cpu');
+    await addMessage('computerTurn', [countryName], 'cpu');
 
     await renderMap(document.getElementById('game-chat-log') as HTMLElement, Array.from(usedCountries), currentCountry);
 
@@ -242,10 +249,6 @@ async function computerTurn() {
     if (settingsState.gameMode === 'easy') {
       showInputSelectForEasyMode();
     }
-  } else {
-    audioPlayer.playSE('win');
-    await addMessage('gameWin', [], 'system');
-    finishGame(true);
   }
 }
 
