@@ -35,6 +35,7 @@ let currentCountry: string = '';
 let usedCountries = new Set<string>();
 let isPlayerTurn: boolean = false;
 let mistakes: number = 0;
+let cpuMistakes: number = 0;
 let countryCodes: string[] = [];
 
 export async function startNewGame() {
@@ -55,6 +56,7 @@ export async function startNewGame() {
   usedCountries.clear();
   isPlayerTurn = false;
   mistakes = 0;
+  cpuMistakes = 0;
   updateLife();
   await makeCountryData();
   // ゲームモードの設定
@@ -151,6 +153,57 @@ async function computerTurn() {
     const isUnused = !usedCountries.has(neighborCode); // 使用されていない
     return isAllowed && isUnused;
   });
+
+  // easyモードなら一定確率で間違える
+  if (settingsState.gameMode === 'easy') {
+    const CPU_MISTAKE_RATE = 0.15;
+    if (Math.random() < CPU_MISTAKE_RATE) {
+      cpuMistakes++;
+
+      if (cpuMistakes >= 3) {
+        addMessage('gameWin', [], 'system');
+        finishGame(true);
+        return;
+      }
+
+      // 間違える国リスト
+      const currentArea = getArea(currentCountry);
+      let mistakeCandidates = countryCodes.filter(code =>
+        getArea(code) === currentArea &&
+        !usedCountries.has(code) &&
+        code !== currentCountry &&
+        !neighboringCountries.includes(code)
+      );
+      if (mistakeCandidates.length === 0) {
+        mistakeCandidates = countryCodes.filter(code =>
+          !usedCountries.has(code) &&
+          code !== currentCountry &&
+          !neighboringCountries.includes(code)
+        );
+      }
+      if (mistakeCandidates.length === 0) {
+        addMessage('gameWin', [], 'system');
+        finishGame(true);
+        return;
+      }
+
+      const wrongCountry = mistakeCandidates[Math.floor(Math.random() * mistakeCandidates.length)];
+      const countryName = settingsState.lang === 'ja'
+      ? borderData[wrongCountry].jaName
+      : borderData[wrongCountry].enName;
+      const currentCountryName = settingsState.lang === 'ja'
+      ? borderData[currentCountry].jaName
+      : borderData[currentCountry].enName;
+      addMessage('computerTurn', [countryName], 'cpu');
+      await new Promise<void>(resolve => setTimeout(resolve, 500));
+      addMessage('gameNotNeighbor', [countryName, currentCountryName], 'system');
+      addMessage('gameCPUMistake', [cpuMistakes.toString()], 'system');
+      await new Promise<void>(resolve => setTimeout(resolve, 1000));
+      computerTurn();
+      return;
+    }
+  }
+
   if (neighboringCountries.length > 0) {
     const nextCountryIndex = Math.floor(Math.random() * neighboringCountries.length);
     const nextCountry = neighboringCountries[nextCountryIndex];
@@ -159,12 +212,12 @@ async function computerTurn() {
     currentCountry = nextCountry;
     usedCountries.add(currentCountry);
 
-    await renderMap(document.getElementById('game-chat-log') as HTMLElement, Array.from(usedCountries), currentCountry);
-
     const countryName = settingsState.lang === 'ja'
       ? borderData[currentCountry].jaName
       : borderData[currentCountry].enName;
     addMessage('computerTurn', [countryName], 'cpu');
+
+    await renderMap(document.getElementById('game-chat-log') as HTMLElement, Array.from(usedCountries), currentCountry);
 
     // プレイヤーの負け判定
     const playerNeighbors = borderData[currentCountry]?.neighbors || [];
@@ -398,11 +451,14 @@ async function showInputSelectForEasyMode() {
 
   const borderData = await loadCountryBorderData() as Record<string, Country>;
   const suggestionList:string[] = [];
-  // 接している国を一つランダムに抽出
+  // 接している国を二つランダムに抽出
   const validNeighbors = borderData[currentCountry].neighbors.filter(code => !usedCountries.has(code));
   if (validNeighbors.length > 0) {
-    const correctCode = validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
-    suggestionList.push(correctCode);
+    const shuffledNeighbors = validNeighbors.sort(() => Math.random() - 0.5);
+    const numToAdd = Math.min(2, shuffledNeighbors.length); // 最大2つ
+    for (let i = 0; i < numToAdd; i++) {
+      suggestionList.push(shuffledNeighbors[i]);
+    }
   }
   // 同じ地域の国を三つ抽出
   const area = getArea(currentCountry);

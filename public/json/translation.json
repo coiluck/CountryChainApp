@@ -79,6 +79,10 @@
     "ja": "${answer}はリストに存在しません。変換候補を使用してもう一度試してください。",
     "en": "${answer} is not in the list. Please use the suggestions and try again."
   },
+  "gameCPUMistake": {
+    "ja": "コンピュータが${mistakeCount}回目の間違いをしました。",
+    "en": "The computer has made the ${mistakeCount}th mistake."
+  },
   "gameOver": {
     "ja": "3回間違えたためゲームオーバーです！",
     "en": "Game Over! You made 3 mistakes."
