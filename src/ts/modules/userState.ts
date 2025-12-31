@@ -23,6 +23,8 @@ interface userData {
   lastDailyUpdate: number | null;
   dailyProgress: Record<number, number>;
   isFirstTime: boolean;
+  stamina: number;
+  lastStaminaUpdate: number;
 }
 
 const initialSettingsState: SettingsState = {
@@ -47,6 +49,8 @@ const initialUserData: userData = {
   lastDailyUpdate: null,
   dailyProgress: {},
   isFirstTime: true,
+  stamina: 3,
+  lastStaminaUpdate: Date.now(),
 };
 
 export const settingsState = structuredClone(initialSettingsState);

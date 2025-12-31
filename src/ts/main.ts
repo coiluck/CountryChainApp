@@ -1,6 +1,7 @@
 import { applyStore, userState, saveUserData, saveSettingsData, settingsState } from "./modules/userState";
 import { applyTranslationsToDocument } from "./modules/translation";
 import { applyTheme } from "./settings";
+import { renderStamina } from "./modules/stamina";
 
 window.addEventListener("DOMContentLoaded", async () => {
   await applyStore();
@@ -19,6 +20,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   await applyTranslationsToDocument();
 
   showBanner();
+  renderStamina();
 });
 
 import { BannerAd } from "tauri-plugin-admob-api";

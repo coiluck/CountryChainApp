@@ -118,3 +118,39 @@ header {
 .top-start-container button:hover {
   background-color: var(--secondary-color);
 }
+
+
+#top-stamina-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+}
+
+.top-stamina-icon-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.top-stamina-icon {
+  width: 24px;
+  height: 24px;
+  background-color: var(--secondary-color);
+}
+.top-stamina-icon-fill {
+  mask-image: url('../assets/images/lightning_fill.svg');
+  mask-size: cover;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
+.top-stamina-icon-line {
+  mask-image: url('../assets/images/lightning_line.svg');
+  mask-size: cover;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
+.top-stamina-text-container {
+  font-size: .9rem;
+  text-align: center;
+}
