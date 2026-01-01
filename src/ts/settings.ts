@@ -119,25 +119,25 @@ const bgmList = [
   {
     id: 1,
     title: 'settingsBGMTitle1',
-    file: 'jump.wav',
+    file: 'jump',
     reqLevel: 1
   },
   {
     id: 2,
     title: 'settingsBGMTitle2',
-    file: 'lazy-mode-on.mp3',
+    file: 'lazy-mode-on',
     reqLevel: 3
   },
   {
     id: 3,
     title: 'settingsBGMTitle3',
-    file: 'sekiranun.mp3',
+    file: 'sekiranun',
     reqLevel: 9
   },
   {
     id: 4,
     title: 'settingsBGMTitle4',
-    file: 'tokimeki.mp3',
+    file: 'tokimeki',
     reqLevel: 17
   }
 ]
@@ -403,14 +403,99 @@ function setUpBGMVolumeSettings() {
   }
 }
 
-function setUpBGMSettings() {
+import { getTranslatedText } from './modules/translation';
+
+async function setUpBGMSettings() {
   const bgmSettingsContainer = document.querySelector('.settings-item-content.bgm');
   if (!bgmSettingsContainer) {
     return;
   }
   bgmSettingsContainer.innerHTML = `
-    後で書く
+    <div class="settings-bgm-button back"></div>
+    <div class="settings-bgm-item-border">
+      <div class="settings-bgm-item-container"></div>
+    </div>
+    <div class="settings-bgm-button next"></div>
   `;
+
+  const backButton = bgmSettingsContainer.querySelector<HTMLElement>('.settings-bgm-button.back');
+  const nextButton = bgmSettingsContainer.querySelector<HTMLElement>('.settings-bgm-button.next');
+  const bgmItemContainer = bgmSettingsContainer.querySelector<HTMLElement>('.settings-bgm-item-container');
+  if (!backButton || !nextButton || !bgmItemContainer) return;
+
+  let currentIndex = bgmList.findIndex(bgm => bgm.id === settingsState.bgmId);
+  if (currentIndex === -1) currentIndex = 0;
+
+  let isAnimating = false;
+
+  const renderItems = async () => {
+    bgmItemContainer.innerHTML = '';
+    const prevIndex = (currentIndex - 1 + bgmList.length) % bgmList.length;
+    const nextIndex = (currentIndex + 1) % bgmList.length;
+    const indices = [prevIndex, currentIndex, nextIndex];
+
+    // 3つの要素を作成
+    for (const index of indices) {
+      const item = document.createElement('div');
+      item.classList.add('settings-bgm-item');
+      const bgmData = bgmList[index];
+      const translateKey = bgmData.title;
+      const translatedText = await getTranslatedText(translateKey, []);
+      item.textContent = translatedText || bgmData.title;
+      if (bgmData.reqLevel > userState.level) {
+        item.classList.add('locked');
+        item.textContent += ` (Lv.${bgmData.reqLevel})`;
+      }
+      bgmItemContainer.appendChild(item);
+    }
+    bgmItemContainer.classList.add('no-transition');
+    bgmItemContainer.style.transform = 'translateX(-100%)';
+    bgmItemContainer.offsetHeight;
+    requestAnimationFrame(() => {
+      bgmItemContainer.classList.remove('no-transition');
+    });
+  };
+
+  // 初期描画
+  await renderItems();
+
+  // 前へ
+  backButton.addEventListener('click', () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    audioPlayer.playSE('click');
+    bgmItemContainer.style.transform = 'translateX(0%)';
+    setTimeout(async () => {
+      currentIndex = (currentIndex - 1 + bgmList.length) % bgmList.length;
+      const targetBGM = bgmList[currentIndex];
+      if (userState.level >= targetBGM.reqLevel) {
+        settingsState.bgmId = targetBGM.id;
+        audioPlayer.playBGM(targetBGM.file);
+        saveSettingsData();
+      }
+      await renderItems();
+      isAnimating = false;
+    }, 500);
+  });
+
+  // 次へ
+  nextButton.addEventListener('click', () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    audioPlayer.playSE('click');
+    bgmItemContainer.style.transform = 'translateX(-200%)';
+    setTimeout(async () => {
+      currentIndex = (currentIndex + 1) % bgmList.length;
+      const targetBGM = bgmList[currentIndex];
+      if (userState.level >= targetBGM.reqLevel) {
+        settingsState.bgmId = targetBGM.id;
+        audioPlayer.playBGM(targetBGM.file);
+        saveSettingsData();
+      }
+      await renderItems();
+      isAnimating = false;
+    }, 500);
+  });
 }
 
 function setUpGameModeSettings() {

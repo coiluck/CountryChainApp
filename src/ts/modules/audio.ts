@@ -41,7 +41,10 @@ class AudioPlayer {
       this.bgmAudio = null;
     }
 
-    const path = `/src/assets/bgm/${bgmFileName}.mp3`;
+    const wavList = ['jump'];
+    const extension = wavList.includes(bgmFileName) ? 'wav' : 'mp3';
+
+    const path = `/src/assets/bgm/${bgmFileName}.${extension}`;
 
     const audio = new Audio(path);
     audio.volume = this.bgmVolume;
