@@ -18,18 +18,20 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
   applyTheme();
   await applyTranslationsToDocument();
-
-  showBanner();
   renderStamina();
 });
 
-import { BannerAd } from "tauri-plugin-admob-api";
+import { showBanner } from "./modules/ads";
+import { bgmList } from "./settings";
+import { audioPlayer } from "./modules/audio";
+import { initEarthMap } from './top';
 
-const showBanner = async () => {
-  const banner = new BannerAd({
-    adUnitId: "ca-app-pub-3940256099942544/9214589741",
-    position: "top",
-  });
-  await banner.load();
-  await banner.show();
-};
+// これはロゴ表示後に呼び出す
+export function setUpMainContent() {
+  showBanner();
+  const bgm = bgmList.find(bgm => bgm.id === settingsState.bgmId);
+  if (bgm) {
+    audioPlayer.playBGM(bgm.file);
+  }
+  initEarthMap();
+}

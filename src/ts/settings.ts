@@ -115,7 +115,7 @@ const fontList = [
   },
 ];
 
-const bgmList = [
+export const bgmList = [
   {
     id: 1,
     title: 'settingsBGMTitle1',
