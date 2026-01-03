@@ -2,7 +2,11 @@
 import { staminaAds, reviveAds } from './ads';
 import { recoverStaminaByAds } from './stamina';
 
-export function showConfirm(message: string, isNeedCancelButton: boolean = false, okEvent: 'stamina' | 'revive' | 'exit' = 'exit') {
+export function showConfirm(
+  message: string,
+  isNeedCancelButton: boolean = false,
+  okEvent: 'stamina' | 'revive' | 'exit' = 'exit'
+) {
   const alreadyConfirm = document.querySelector('.confirm-window');
   if (alreadyConfirm) {
     // alreadyConfirm.remove();
@@ -17,8 +21,10 @@ export function showConfirm(message: string, isNeedCancelButton: boolean = false
       <button class="confirm-window-button ok-button">OK</button>
     </div>
   `;
+
   const okButton = confirm.querySelector('.confirm-window-button.ok-button');
   const cancelButton = confirm.querySelector('.confirm-window-button.cancel-button');
+
   if (okButton) {
     okButton.addEventListener('click', async () => {
       switch (okEvent) {
@@ -37,9 +43,11 @@ export function showConfirm(message: string, isNeedCancelButton: boolean = false
             }
           } catch (error) {
             console.error('広告表示エラー:', error);
+            closeConfirmWindow();
             showConfirm('広告の表示に失敗しました', false, 'exit');
           }
           break;
+
         case 'revive':
           try {
             // 広告を表示
@@ -48,22 +56,25 @@ export function showConfirm(message: string, isNeedCancelButton: boolean = false
             if (rewarded) {
               // 報酬を獲得
               // 復活処理は後で書く
-              showConfirm('復活！', false, 'exit');
+              showConfirm('復活!', false, 'exit');
             } else {
               // 広告を最後まで見なかった、または表示に失敗
               showConfirm('広告が中断されました', false, 'exit');
             }
           } catch (error) {
             console.error('広告表示エラー:', error);
+            closeConfirmWindow();
             showConfirm('広告の表示に失敗しました', false, 'exit');
           }
           break;
+
         case 'exit':
           closeConfirmWindow();
           break;
       }
     });
   }
+
   if (cancelButton) {
     cancelButton.addEventListener('click', () => {
       closeConfirmWindow();

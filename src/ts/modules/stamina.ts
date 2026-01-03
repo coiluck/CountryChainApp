@@ -48,6 +48,8 @@ export function getStaminaInfo() {
 
 let staminaTimerInterval: number | null = null;
 
+import { showConfirm } from './confirm';
+
 export function renderStamina() {
   const container = document.getElementById('top-stamina-container');
   if (!container) return;
@@ -65,6 +67,12 @@ export function renderStamina() {
     recoverStaminaByAds();
   }
   console.log(userState.stamina);
+
+  if (userState.stamina !== MAX_STAMINA) {
+    container.addEventListener('click', () => {
+      showConfirm('広告を見てスタミナを2回復しますか？', true, 'stamina');
+    });
+  }
 
   const iconContainer = document.createElement('div');
   iconContainer.className = 'top-stamina-icon-container';

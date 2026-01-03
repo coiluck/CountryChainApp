@@ -18,29 +18,29 @@ class MainActivity : TauriActivity() {
     controller.hide(WindowInsetsCompat.Type.systemBars())
     controller.systemBarsBehavior =
       WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-    
+
     // キーボード表示時の対応
     setupKeyboardListener()
   }
-  
+
   private fun setupKeyboardListener() {
     val rootView = window.decorView.findViewById<View>(android.R.id.content)
-    
+
     rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
       private var isKeyboardShowing = false
-      
+
       override fun onGlobalLayout() {
         val rect = Rect()
         rootView.getWindowVisibleDisplayFrame(rect)
         val screenHeight = rootView.height
         val keypadHeight = screenHeight - rect.bottom
-        
+
         // キーボードが画面の10%以上を占める場合、表示されていると判定
         val isKeyboardNowShowing = keypadHeight > screenHeight * 0.10
-        
+
         if (isKeyboardNowShowing != isKeyboardShowing) {
           isKeyboardShowing = isKeyboardNowShowing
-          
+
           if (isKeyboardShowing) {
             // キーボードが表示された時
             rootView.setPadding(0, 0, 0, keypadHeight)

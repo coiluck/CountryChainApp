@@ -19,9 +19,10 @@ window.addEventListener("DOMContentLoaded", async () => {
   applyTheme();
   await applyTranslationsToDocument();
   renderStamina();
+  preloadRewardAds();
 });
 
-import { showBanner } from "./modules/ads";
+import { showBanner, preloadRewardAds } from "./modules/ads";
 import { bgmList } from "./settings";
 import { audioPlayer } from "./modules/audio";
 import { initEarthMap } from './top';
@@ -29,6 +30,8 @@ import { initEarthMap } from './top';
 // これはロゴ表示後に呼び出す
 export function setUpMainContent() {
   showBanner();
+  audioPlayer.setBGMVolume(settingsState.bgmVolume);
+  audioPlayer.setSEVolume(settingsState.seVolume);
   const bgm = bgmList.find(bgm => bgm.id === settingsState.bgmId);
   if (bgm) {
     audioPlayer.playBGM(bgm.file);
