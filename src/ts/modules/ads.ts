@@ -8,30 +8,54 @@ const AD_IDS = {
   reward2: import.meta.env.VITE_AD_UNIT_REVIVE,
 } as const;
 
-const AD_TIMEOUT = 30000;
-
+// バナー
 let bannerInstance: BannerAd | null = null;
+let bannerLoaded = false;
 
-export const showBanner = async () => {
+export const loadBanner = async () => {
   try {
-    if (bannerInstance) {
-      await bannerInstance.show();
+    if (bannerInstance && bannerLoaded) {
       return;
     }
+
     bannerInstance = new BannerAd({
       adUnitId: AD_IDS.banner,
       position: "top",
     });
-    await bannerInstance.load();
-    await bannerInstance.show();
 
-    window.dispatchEvent(new Event('resize'));
+    await bannerInstance.load();
+    bannerLoaded = true;
   } catch (error) {
-    console.error("Failed to show banner ad:", error);
+    console.error("Failed to load banner ad:", error);
     bannerInstance = null;
-    throw error;
+    bannerLoaded = false;
   }
 };
+
+export const showBanner = async () => {
+  try {
+    if (!bannerInstance || !bannerLoaded) {
+      await loadBanner();
+    }
+    await bannerInstance!.show();
+  } catch (error) {
+    console.error("Failed to show banner ad:", error);
+  }
+};
+
+export const hideBanner = async () => {
+  try {
+    if (bannerInstance) {
+      await bannerInstance.hide();
+    }
+  } catch (error) {
+    console.error("Failed to hide banner ad:", error);
+  }
+};
+
+
+
+const AD_TIMEOUT = 30000;
 
 interface RewardEvent {
   adId: number;
