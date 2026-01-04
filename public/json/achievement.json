@@ -66,8 +66,7 @@
     "jaDescription": "Normalモードで初めて勝利する",
     "enDescription": "Win for the first time in Normal Mode.",
     "exp": 40,
-    "maxProgress": 1,
-    "isCumulative": true
+    "maxProgress": 1
   },
   {
     "id": 8,

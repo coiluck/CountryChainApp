@@ -1,7 +1,7 @@
 // game.ts
 import { settingsState } from './modules/userState';
 import { getTranslatedText } from './modules/translation'
-import { judgeAchievements } from './modules/judgeAchievements';
+import { judgeAchievements, judgePlayAchievements } from './modules/judgeAchievements';
 import { audioPlayer } from './modules/audio';
 
 interface Country {
@@ -53,6 +53,8 @@ export async function startNewGame() {
   if (inputSelectWrapper) {
     inputSelectWrapper.innerHTML = '';
   }
+  // プレイ実績の判定
+  judgePlayAchievements();
   // ゲーム変数の初期化
   usedCountries.clear();
   isPlayerTurn = false;

@@ -2,6 +2,17 @@
 import { settingsState, userState, saveUserData} from './userState';
 import { landlockedCountries, surroundedCountries, worldTop5Countries, stanCountries, equatorCountries, dailyCountryMissions, getArea } from './countryAreaData';
 
+export async function judgePlayAchievements() {
+  await increaseProgress(1, 1, 'daily');
+  if (settingsState.gameMode === 'easy') {
+    await increaseProgress(2, 1, 'daily');
+  } else if (settingsState.gameMode === 'normal') {
+    await increaseProgress(3, 1, 'daily');
+  }
+  await increaseProgress(1, 1, 'achievement');
+  await increaseProgress(2, 1, 'achievement');
+  await increaseProgress(3, 1, 'achievement');
+}
 export async function judgeAchievements(usedCountries: Set<string>, mistakes: number, isWin: boolean) {
   const userCountriesArray = Array.from(usedCountries);
   // ゲーム終了時・TOPに戻るときに呼ぶ
@@ -201,8 +212,8 @@ async function increaseProgress(achievementId: number, amount: number, target: s
 
   // 達成判定
   if (currentProgress >= maxProgress &&
-     !accomplishedList.includes(achievementId) &&
-     !gainedList.includes(achievementId)
+    !accomplishedList.includes(achievementId) &&
+    !gainedList.includes(achievementId)
   ) {
     accomplishedList.push(achievementId);
   }
