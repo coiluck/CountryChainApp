@@ -1,0 +1,187 @@
+#modal-about {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+
+.about-title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  width: calc(85% + 3px);
+  margin: 0 auto;
+  padding-left: 20px;
+}
+.about-title-container::before {
+  content: '？';
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--theme-contrast-color);
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  opacity: 0;
+}
+.about-title-container::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: width 0.8s ease-out;
+}
+.about-title-text {
+  position: relative;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+.about-title-container.active::before {
+  animation: Bounce 1s both;
+}
+.about-title-container.active::after {
+  width: 100%;
+  transition-delay: 0.5s;
+}
+.about-title-container.active .about-title-text {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+@keyframes Bounce {
+  0% {
+    transform: translateX(60px) translateY(-40px) rotate(360deg);
+    opacity: 0;
+    animation-timing-function: ease-in;
+  }
+  16.66% {
+    transform: translateX(50px) translateY(-37.5px) rotate(300deg);
+    opacity: 0.2;
+    animation-timing-function: linear;
+  }
+  33.33% {
+    transform: translateX(40px) translateY(-30px) rotate(240deg);
+    opacity: 0.4;
+    animation-timing-function: linear;
+  }
+  42% {
+    transform: translateX(30px) translateY(-17.5px) rotate(208deg);
+    opacity: 0.5;
+    animation-timing-function: linear;
+  }
+  52% { /* 接地1回目 */
+    transform: translateX(20px) translateY(0) rotate(172deg);
+    opacity: 0.65;
+    animation-timing-function: linear;
+  }
+
+  67% {
+    transform: translateX(15px) translateY(-22.5px) rotate(118deg);
+    opacity: 0.84;
+    animation-timing-function: linear;
+  }
+  72% {
+    transform: translateX(13px) translateY(-27.3px) rotate(100deg);
+    opacity: 0.9;
+    animation-timing-function: linear;
+  }
+  76% { /* 頂点2つ目 */
+    transform: translateX(10px) translateY(-30px) rotate(86deg);
+    opacity: 0.95;
+    animation-timing-function: linear;
+  }
+
+  80% {
+    transform: translateX(7px) translateY(-27.3px) rotate(72deg);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  85% {
+    transform: translateX(5px) translateY(-22.5px) rotate(54deg);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+}
+.about-container {
+  width: calc(85% + 3px);
+  margin: 0 auto;
+  font-size: .9rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+.about-container h2 {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.about-container h3 {
+  position: relative;
+  width: fit-content;
+  margin-top: 5px;
+  padding-left: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-bottom: 2px solid var(--secondary-color);
+}
+.about-container h3::before {
+  content: '#';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+
+.about-container ul > li {
+  position: relative;
+  padding-left: 10px;
+}
+.about-container ul > li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  position: absolute;
+  top: calc(((0.9rem * 1.6) - 5px) / 2);
+  left: 0;
+}
+.about-container li li::before {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+}

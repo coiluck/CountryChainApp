@@ -1,6 +1,7 @@
 // top.ts
 import { changeModal, showModal} from './modules/changeModal';
 import { setUpSettings } from './settings';
+import { setUpAbout } from './about';
 import { setUpAchievements } from './achievements';
 import { audioPlayer } from './modules/audio';
 
@@ -18,6 +19,10 @@ document.querySelectorAll('.button-container button').forEach(button => {
         break;
       case 'about-button':
         showModal('about', null, true);
+        setUpAbout();
+        setTimeout(() => {
+          document.querySelector('.about-title-container')?.classList.add('active');
+        }, 500);
         break;
       case 'settings-button':
         showModal('settings', null, true);

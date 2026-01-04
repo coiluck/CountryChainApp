@@ -19,6 +19,10 @@
     "ja": "実績",
     "en": "Achievement"
   },
+  "aboutTitle": {
+    "ja": "ゲームのルール",
+    "en": "About"
+  },
   "settingsTitle": {
     "ja": "設定",
     "en": "Settings"
