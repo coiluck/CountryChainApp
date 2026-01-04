@@ -23,7 +23,7 @@ class AudioPlayer {
     const wavList = ['lose', 'win', 'click'];
     const extension = wavList.includes(seFileName) ? 'wav' : 'mp3';
 
-    const path = `/src/assets/se/${seFileName}.${extension}`;
+    const path = `/se/${seFileName}.${extension}`;
 
     const audio = new Audio(path);
     audio.volume = this.seVolume;
@@ -44,7 +44,7 @@ class AudioPlayer {
     const wavList = ['jump'];
     const extension = wavList.includes(bgmFileName) ? 'wav' : 'mp3';
 
-    const path = `/src/assets/bgm/${bgmFileName}.${extension}`;
+    const path = `/bgm/${bgmFileName}.${extension}`;
 
     const audio = new Audio(path);
     audio.volume = this.bgmVolume;
