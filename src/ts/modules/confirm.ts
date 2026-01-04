@@ -1,6 +1,7 @@
 // confirm.ts
 import { staminaAds, reviveAds } from './ads';
 import { recoverStaminaByAds } from './stamina';
+import { audioPlayer } from './audio';
 
 export function showConfirm(
   message: string,
@@ -9,7 +10,7 @@ export function showConfirm(
 ) {
   const alreadyConfirm = document.querySelector('.confirm-window');
   if (alreadyConfirm) {
-    // alreadyConfirm.remove();
+    alreadyConfirm.remove();
   }
 
   const confirm = document.createElement('div');
@@ -27,6 +28,7 @@ export function showConfirm(
 
   if (okButton) {
     okButton.addEventListener('click', async () => {
+      audioPlayer.playSE('click');
       switch (okEvent) {
         case 'stamina':
           try {
@@ -39,7 +41,7 @@ export function showConfirm(
               showConfirm('スタミナが2回復しました', false, 'exit');
             } else {
               // 広告を最後まで見なかった、または表示に失敗
-              showConfirm('広告が中断されました', false, 'exit');
+              showConfirm('リワード広告は未実装です', false, 'exit');
             }
           } catch (error) {
             console.error('広告表示エラー:', error);
@@ -59,7 +61,7 @@ export function showConfirm(
               showConfirm('復活!', false, 'exit');
             } else {
               // 広告を最後まで見なかった、または表示に失敗
-              showConfirm('広告が中断されました', false, 'exit');
+              showConfirm('リワード広告は未実装です', false, 'exit');
             }
           } catch (error) {
             console.error('広告表示エラー:', error);
@@ -77,6 +79,7 @@ export function showConfirm(
 
   if (cancelButton) {
     cancelButton.addEventListener('click', () => {
+      audioPlayer.playSE('click');
       closeConfirmWindow();
     });
   }

@@ -49,6 +49,12 @@ export function getStaminaInfo() {
 let staminaTimerInterval: number | null = null;
 
 import { showConfirm } from './confirm';
+import { audioPlayer } from './audio';
+
+function StaminaClick() {
+  audioPlayer.playSE('button');
+  showConfirm('広告を見てスタミナを2回復しますか？', true, 'stamina');
+}
 
 export function renderStamina() {
   const container = document.getElementById('top-stamina-container');
@@ -59,19 +65,10 @@ export function renderStamina() {
     staminaTimerInterval = null;
   }
 
-  // デバッグ用、後で消す
-  // 後で書く
-  if (userState.stamina === 3) {
-    consumeStamina();
-  } else if (userState.stamina === 0) {
-    recoverStaminaByAds();
-  }
-  console.log(userState.stamina);
-
+  // クリックイベントの追加と削除
+  container.removeEventListener('click', StaminaClick);
   if (userState.stamina !== MAX_STAMINA) {
-    container.addEventListener('click', () => {
-      showConfirm('広告を見てスタミナを2回復しますか？', true, 'stamina');
-    });
+    container.addEventListener('click', StaminaClick);
   }
 
   const iconContainer = document.createElement('div');
@@ -125,8 +122,7 @@ export async function consumeStamina(): Promise<boolean> {
   updateStaminaState();
 
   if (userState.stamina <= 0) {
-    // 広告を見て回復する
-    // 後で書く
+    showConfirm('スタミナが不足しています', false, 'exit');
     return false;
   }
   // スタミナを1消費

@@ -40,9 +40,14 @@ document.querySelectorAll('.button-container button').forEach(button => {
 });
 
 import { startNewGame } from './game';
+import { consumeStamina } from './modules/stamina';
 
-document.getElementById('top-start-button')?.addEventListener('click', () => {
+document.getElementById('top-start-button')?.addEventListener('click', async () => {
   audioPlayer.playSE('button');
+  const isStaminaConsumed = await consumeStamina();
+  if (!isStaminaConsumed) {
+    return;
+  }
   changeModal('game', null, 500, true);
   setTimeout(() => {
     startNewGame(); // modalが表示された後に開始しないといけない

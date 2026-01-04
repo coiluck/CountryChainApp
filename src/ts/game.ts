@@ -3,6 +3,7 @@ import { settingsState } from './modules/userState';
 import { getTranslatedText } from './modules/translation'
 import { judgeAchievements, judgePlayAchievements } from './modules/judgeAchievements';
 import { audioPlayer } from './modules/audio';
+import { consumeStamina } from './modules/stamina';
 
 interface Country {
   enName: string;
@@ -40,6 +41,7 @@ let cpuMistakes: number = 0;
 let countryCodes: string[] = [];
 
 export async function startNewGame() {
+  // スタミナ消費は画面遷移を避けたいからここではやらない
   // チャットログを消去
   const chatLog = document.getElementById('game-chat-log') as HTMLElement;
   if (chatLog) {
@@ -76,7 +78,6 @@ export async function startNewGame() {
     }
     inputSelectWrapper.style.display = 'flex';
   }
-  // 開始
   currentCountry = await getRandomCountry();
   usedCountries.add(currentCountry);
 
@@ -382,7 +383,14 @@ async function showPlayAgainButton(isShowResurrectButton: boolean = false) {
   const playAgainButton = document.createElement('button');
   playAgainButton.className = 'game-play-again-button game-chat-button fade-in';
   playAgainButton.textContent = await getTranslatedText('gamePlayAgain', []) || '';
-  playAgainButton.addEventListener('click', () => {
+  playAgainButton.addEventListener('click', async () => {
+    const isStaminaConsumed = await consumeStamina();
+    if (!isStaminaConsumed) {
+      setTimeout(() => {
+        changeModal('top', null, 500, true);
+      }, 500);
+      return;
+    }
     startNewGame();
   });
   chatButtonContainer.appendChild(playAgainButton);
