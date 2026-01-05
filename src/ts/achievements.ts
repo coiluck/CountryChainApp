@@ -99,7 +99,11 @@ async function setUpAchievementsDaily() {
     if (element) {
       element.addEventListener('click', (e) => {
         e.stopPropagation();
-        getExp(achievement.exp);
+        // 獲得
+        userState.dailyAchievementsGained.push(achievement.id);
+        userState.dailyAchievementsAccomplished = userState.dailyAchievementsAccomplished.filter(id => id !== achievement.id);
+
+        getExp(achievement.exp); // 保存はこの中で行っている
         achievementItem.classList.add('gained');
         achievementItem.innerHTML = `
           <div class="achievement-item-info">
@@ -200,8 +204,11 @@ async function setUpAchievementsAchievement() {
     if (element) {
       element.addEventListener('click', (e) => {
         e.stopPropagation();
+        // 獲得
+        userState.gainedAchievements.push(achievement.id);
+        userState.accomplishedAchievements = userState.accomplishedAchievements.filter(id => id !== achievement.id);
 
-        getExp(achievement.exp);
+        getExp(achievement.exp); // 保存はこの中で行っている
 
         achievementItem.style.height = '0px';
         achievementItem.style.paddingTop = '0px';
@@ -272,7 +279,7 @@ function getExp(exp: number) {
   if (leveledUp) {
     // 音を鳴らす
   }
-  // saveUserData();
+  saveUserData();
   setUpUser();
 }
 
