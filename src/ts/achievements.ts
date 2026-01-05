@@ -4,7 +4,7 @@ export function setUpAchievements() {
   setUpUser();
   setUpAchievementsDaily();
   setUpAchievementsAchievement();
-  console.log(userState);
+  console.log('現在のユーザー状態:', userState);
 }
 
 function setUpUser() {
@@ -27,6 +27,7 @@ function setUpUser() {
 
 import { shouldResetDaily, decideDailyAchievements } from './modules/missions';
 import { saveUserData } from './modules/userState';
+import { getTranslatedText } from './modules/translation';
 
 interface DailyAchievementItem {
   id: number;
@@ -68,11 +69,14 @@ async function setUpAchievementsDaily() {
     const achievementItem = document.createElement('div');
     achievementItem.classList.add('achievement-item');
 
+    let buttonText = '';
     let buttonHtml = '';
     if (userState.dailyAchievementsAccomplished.includes(achievement.id)) {
-      buttonHtml = `<div class="achievement-item-accomplished atodetukeru-button">報酬を獲得</div>`;
+      buttonText = await getTranslatedText('achievementsGetReward', []) || '';
+      buttonHtml = `<div class="achievement-item-accomplished atodetukeru-button">${buttonText}</div>`;
     } else if (userState.dailyAchievementsGained.includes(achievement.id)) {
-      buttonHtml = `<div class="achievement-item-gained">獲得済み</div>`;
+      buttonText = await getTranslatedText('achievementsGained', []) || '';
+      buttonHtml = `<div class="achievement-item-gained">${buttonText}</div>`;
       achievementItem.classList.add('gained');
     } else {
       buttonHtml = `<div class="achievement-item-exp-text">+${achievement.exp} EXP</div>`;
@@ -97,13 +101,15 @@ async function setUpAchievementsDaily() {
 
     const element = achievementItem.querySelector('.atodetukeru-button') as HTMLElement;
     if (element) {
-      element.addEventListener('click', (e) => {
+      element.addEventListener('click', async (e) => {
         e.stopPropagation();
         // 獲得
         userState.dailyAchievementsGained.push(achievement.id);
         userState.dailyAchievementsAccomplished = userState.dailyAchievementsAccomplished.filter(id => id !== achievement.id);
 
         getExp(achievement.exp); // 保存はこの中で行っている
+
+        const gainedText = await getTranslatedText('achievementsGained', []) || '';
         achievementItem.classList.add('gained');
         achievementItem.innerHTML = `
           <div class="achievement-item-info">
@@ -111,7 +117,7 @@ async function setUpAchievementsDaily() {
             <div class="achievement-item-text">
               <div class="achievement-item-description">${description}</div>
             </div>
-            <div class="achievement-item-gained">獲得済み</div>
+            <div class="achievement-item-gained">${gainedText}</div>
           </div>
           <div class="achievement-item-progress">
             <div class="achievement-item-progress-bar">
@@ -165,13 +171,17 @@ async function setUpAchievementsAchievement() {
     const name = settingsState.lang === 'ja' ? achievement.jaName : achievement.enName;
     const description = settingsState.lang === 'ja' ? achievement.jaDescription : achievement.enDescription;
     const progress = (userState.achievementProgress[achievement.id] || 0) / achievement.maxProgress * 100;
+
+    let buttonText = '';
     let buttonHtml = '';
     if (userState.gainedAchievements.includes(achievement.id)) {
       // 獲得済み
-      buttonHtml = `<div class="achievement-item-gained">獲得済み</div>`;
+      buttonText = await getTranslatedText('achievementsGained', []) || '';
+      buttonHtml = `<div class="achievement-item-gained">${buttonText}</div>`;
     } else if (userState.accomplishedAchievements.includes(achievement.id)) {
       // 達成済み && 未獲得
-      buttonHtml = `<div class="achievement-item-accomplished atodetukeru-button">報酬を獲得</div>`;
+      buttonText = await getTranslatedText('achievementsGetReward', []) || '';
+      buttonHtml = `<div class="achievement-item-accomplished atodetukeru-button">${buttonText}</div>`;
     } else {
       // 未達成
       buttonHtml = `<div class="achievement-item-exp-text">+${achievement.exp} EXP</div>`;
@@ -202,7 +212,7 @@ async function setUpAchievementsAchievement() {
     const element = achievementItem.querySelector('.atodetukeru-button') as HTMLElement;
 
     if (element) {
-      element.addEventListener('click', (e) => {
+      element.addEventListener('click', async (e) => {
         e.stopPropagation();
         // 獲得
         userState.gainedAchievements.push(achievement.id);
@@ -210,6 +220,7 @@ async function setUpAchievementsAchievement() {
 
         getExp(achievement.exp); // 保存はこの中で行っている
 
+        const gainedText = await getTranslatedText('achievementsGained', []) || '';
         achievementItem.style.height = '0px';
         achievementItem.style.paddingTop = '0px';
         achievementItem.style.paddingBottom = '0px';
@@ -225,7 +236,7 @@ async function setUpAchievementsAchievement() {
                 <div class="achievement-item-name">${name}</div>
                 <div class="achievement-item-description">${description}</div>
               </div>
-              <div class="achievement-item-gained">獲得済み</div>
+              <div class="achievement-item-gained">${gainedText}</div>
             </div>
             <div class="achievement-item-progress">
               <div class="achievement-item-progress-bar">

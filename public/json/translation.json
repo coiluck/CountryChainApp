@@ -19,6 +19,14 @@
     "ja": "実績",
     "en": "Achievement"
   },
+  "achievementsGetReward": {
+    "ja": "報酬を獲得",
+    "en": "Claim Reward"
+  },
+  "achievementsGained": {
+    "ja": "獲得済み",
+    "en": "Claimed"
+  },
   "aboutTitle": {
     "ja": "ゲームのルール",
     "en": "About"
@@ -138,5 +146,29 @@
   "gamePlayAgain": {
     "ja": "もう一度プレイ",
     "en": "Play Again"
+  },
+  "showAdToRecoverStamina": {
+    "ja": "広告を見てスタミナを2回復しますか？",
+    "en": "Watch an ad to recover 2 Stamina?"
+  },
+  "confirmRecoveredStamina": {
+    "ja": "スタミナが2回復しました",
+    "en": "Recovered 2 Stamina"
+  },
+  "confirmResurrect": {
+    "ja": "復活!",
+    "en": "Revived!"
+  },
+  "confirmFailedToShowAd": {
+    "ja": "広告の表示に失敗しました",
+    "en": "Failed to show ad"
+  },
+  "confirmNotImplementedReward": {
+    "ja": "リワード広告は未実装です",
+    "en": "Reward ads not yet implemented"
+  },
+  "confirmStaminaNotEnough": {
+    "ja": "スタミナが不足しています",
+    "en": "Not enough Stamina"
   }
 }

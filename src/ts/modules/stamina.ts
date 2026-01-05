@@ -50,10 +50,12 @@ let staminaTimerInterval: number | null = null;
 
 import { showConfirm } from './confirm';
 import { audioPlayer } from './audio';
+import { getTranslatedText } from './translation';
 
-function StaminaClick() {
+async function staminaClick() {
   audioPlayer.playSE('button');
-  showConfirm('広告を見てスタミナを2回復しますか？', true, 'stamina');
+  const text = await getTranslatedText('showAdToRecoverStamina', []) || '';
+  showConfirm(text, true, 'stamina');
 }
 
 export function renderStamina() {
@@ -66,9 +68,9 @@ export function renderStamina() {
   }
 
   // クリックイベントの追加と削除
-  container.removeEventListener('click', StaminaClick);
+  container.removeEventListener('click', staminaClick);
   if (userState.stamina !== MAX_STAMINA) {
-    container.addEventListener('click', StaminaClick);
+    container.addEventListener('click', staminaClick);
   }
 
   const iconContainer = document.createElement('div');
@@ -122,7 +124,8 @@ export async function consumeStamina(): Promise<boolean> {
   updateStaminaState();
 
   if (userState.stamina <= 0) {
-    showConfirm('スタミナが不足しています', false, 'exit');
+    const text = await getTranslatedText('confirmStaminaNotEnough', []) || '';
+    showConfirm(text, false, 'exit');
     return false;
   }
   // スタミナを1消費

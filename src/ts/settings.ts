@@ -142,7 +142,7 @@ export const bgmList = [
   }
 ]
 
-function setUpColorSettings() {
+async function setUpColorSettings() {
   const colorSettings = document.querySelector('.settings-item-content.color');
   if (!colorSettings) {
     return;
@@ -153,7 +153,7 @@ function setUpColorSettings() {
   const bgColorLabel = document.createElement('div');
   bgColorLabel.classList.add('settings-color-label');
   bgColorLabel.dataset.translation = 'settingsColorBgLabel';
-  bgColorLabel.textContent = '背景の色';
+  bgColorLabel.textContent = await getTranslatedText('settingsColorBgLabel', []) || '';
   colorSettings.appendChild(bgColorLabel);
   // bg
   const bgColorContainer = document.createElement('div');
@@ -197,7 +197,7 @@ function setUpColorSettings() {
   const mainColorLabel = document.createElement('div');
   mainColorLabel.classList.add('settings-color-label');
   mainColorLabel.dataset.translation = 'settingsColorMainLabel';
-  mainColorLabel.textContent = 'メインの色';
+  mainColorLabel.textContent = await getTranslatedText('settingsColorMainLabel', []) || '';
   colorSettings.appendChild(mainColorLabel);
   // main
   const mainColorContainer = document.createElement('div');

@@ -2,6 +2,7 @@
 import { staminaAds, reviveAds } from './ads';
 import { recoverStaminaByAds } from './stamina';
 import { audioPlayer } from './audio';
+import { getTranslatedText } from './translation';
 
 export function showConfirm(
   message: string,
@@ -38,15 +39,18 @@ export function showConfirm(
             if (rewarded) {
               // 報酬を獲得
               recoverStaminaByAds();
-              showConfirm('スタミナが2回復しました', false, 'exit');
+              const text = await getTranslatedText('confirmRecoveredStamina', []) || '';
+              showConfirm(text, false, 'exit');
             } else {
               // 広告を最後まで見なかった、または表示に失敗
-              showConfirm('リワード広告は未実装です', false, 'exit');
+              const text = await getTranslatedText('confirmNotImplementedReward', []) || '';
+              showConfirm(text, false, 'exit');
             }
           } catch (error) {
             console.error('広告表示エラー:', error);
             closeConfirmWindow();
-            showConfirm('広告の表示に失敗しました', false, 'exit');
+            const text = await getTranslatedText('confirmFailedToShowAd', []) || '';
+            showConfirm(text, false, 'exit');
           }
           break;
 
@@ -58,15 +62,18 @@ export function showConfirm(
             if (rewarded) {
               // 報酬を獲得
               // 復活処理は後で書く
-              showConfirm('復活!', false, 'exit');
+              const text = await getTranslatedText('confirmResurrect', []) || '';
+              showConfirm(text, false, 'exit');
             } else {
               // 広告を最後まで見なかった、または表示に失敗
-              showConfirm('リワード広告は未実装です', false, 'exit');
+              const text = await getTranslatedText('confirmNotImplementedReward', []) || '';
+              showConfirm(text, false, 'exit');
             }
           } catch (error) {
             console.error('広告表示エラー:', error);
             closeConfirmWindow();
-            showConfirm('広告の表示に失敗しました', false, 'exit');
+            const text = await getTranslatedText('confirmFailedToShowAd', []) || '';
+            showConfirm(text, false, 'exit');
           }
           break;
 
