@@ -107,7 +107,9 @@ async function getRandomCountry() {
   const borderData = await loadCountryBorderData() as Record<string, Country>;
 
   // 除外したい国: イギリス、アイルランド、ハイチ、ドミニカ共和国、南アフリカ、イタリア
-  const excludedSpecificCountries = ['GBR', 'IRL', 'HTI', 'DOM', 'ZAF', 'ITA'];
+  const excludedSpecificCountries = ['GBR', 'IRL', 'HTI', 'DOM', 'ZAF', 'ITA',
+    'FRA', 'IDN', 'PRK', 'MYS', 'ESP', 'DEU', 'SEN', 'CAN', 'SAU'
+  ]; // フランス、インドネシア、北朝鮮、マレーシア、スペイン、ドイツ、セネガル、カナダ、サウジアラビア
 
   let randomCode: string;
   let country: Country;
@@ -359,6 +361,8 @@ function finishGame(isWin: boolean, isShowResurrectButton: boolean = false) {
   showPlayAgainButton(isShowResurrectButton);
 }
 
+import { showConfirm } from './modules/confirm';
+
 async function showPlayAgainButton(isShowResurrectButton: boolean = false) {
   const chatContainer = document.getElementById('game-chat-log') as HTMLElement;
   if (!chatContainer) {
@@ -374,8 +378,9 @@ async function showPlayAgainButton(isShowResurrectButton: boolean = false) {
     const resurrectButton = document.createElement('button');
     resurrectButton.className = 'game-resurrect-button game-chat-button fade-in';
     resurrectButton.textContent = await getTranslatedText('gameResurrect', []) || '';
-    resurrectButton.addEventListener('click', () => {
-      // 後で書く
+    resurrectButton.addEventListener('click', async () => {
+      const text = await getTranslatedText('gameResurrectByAds', []) || '';
+      showConfirm(text, true, 'revive');
     });
     chatButtonContainer.appendChild(resurrectButton);
   }

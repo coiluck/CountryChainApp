@@ -143,6 +143,10 @@
     "ja": "広告を見て復活",
     "en": "Revive (Watch Ad)"
   },
+  "gameResurrectByAds": {
+    "ja": "広告を見て復活しますか",
+    "en": "Watch an ad to revive?"
+  },
   "gamePlayAgain": {
     "ja": "もう一度プレイ",
     "en": "Play Again"
