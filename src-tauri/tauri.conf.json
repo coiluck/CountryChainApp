@@ -13,9 +13,9 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "countrychain_app",
+        "title": "国境しりとり",
         "width": 800,
-        "height": 600
+        "height": 500
       }
     ],
     "security": {
@@ -30,7 +30,7 @@
       "icons/128x128.png",
       "icons/128x128@2x.png",
       "icons/icon.icns",
-      "icons/icon.ico"
+      "icons/favicon.ico"
     ]
   }
 }

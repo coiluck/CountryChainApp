@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="300"
+   height="300"
+   viewBox="-150 -150 300 300"
+   version="1.1"
+   xmlns="http://www.w3.org/2000/svg">
+  
+<defs>
+    <path id="rounded-hex"
+      d="M 5,-42 
+         L 34,-25 
+         Q 39,-22.5 39,-17 
+         L 39,17 
+         Q 39,22.5 34,25 
+         L 5,42 
+         Q 0,45 -5,42 
+         L -34,25 
+         Q -39,22.5 -39,17 
+         L -39,-17 
+         Q -39,-22.5 -34,-25 
+         L -5,-42 
+         Q 0,-45 5,-42 
+         Z" />
+  </defs>
+
+  <rect x="-150" y="-150" width="300" height="300" fill="white" fill-opacity="0" />
+
+  <use href="#rounded-hex" x="-78" y="0"
+       style="fill:none; stroke:black; stroke-width:3; stroke-linejoin:round;" />
+
+  <use href="#rounded-hex" x="0" y="0"
+       style="fill:#ff7f7e; fill-opacity:0.4; stroke:black; stroke-width:3; stroke-linejoin:round;" />
+
+  <use href="#rounded-hex" x="78" y="0"
+       style="fill:#ff7f7e; fill-opacity:1; stroke:black; stroke-width:3; stroke-linejoin:round;" />
+  
+  <g id="layer1">
+     <line x1="-78" y1="0" x2="78" y2="0" stroke="black" stroke-width="2" />
+     <circle cx="-78" cy="0" r="4" fill="black" />
+     <circle cx="0" cy="0" r="4" fill="black" />
+     <circle cx="78" cy="0" r="4" fill="black" />
+  </g>
+</svg>
